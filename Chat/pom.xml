@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>es.uc3m.tiw</groupId>
-	<artifactId>Catalog</artifactId>
+	<artifactId>Chat</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Catalog</name>
+	<name>Chat</name>
 	<description>Demo project for Spring Boot</description>
 
 	<parent>
