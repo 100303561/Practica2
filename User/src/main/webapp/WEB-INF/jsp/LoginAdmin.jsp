@@ -38,12 +38,13 @@
 						class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-offset-0 col-lg-4">
 						<div class="jumbotron jumbotron-mod-1 text-center text-md-left">
 							<h1>
-								Login
+								Login Administrador
 								<!-- Rd Mailform result field-->
 							</h1>
 							<div class="rd-mailform-validate"></div>
 							<!-- RD Mailform-->
-							<form data-form-type="contact" method="post" action="login"
+							<form data-form-type="contact" method="post"
+								action="loginAdmin"
 								class="rd-mailform rd-mailform-mod-1">
 								<%
 									if (request.getAttribute("com") == com) {
@@ -53,16 +54,13 @@
 								<%
 									}
 								%>
-								<input type="hidden" name="action" value="login"> <input
+								<input type="hidden" name="action" value="loginAdmin"> <input
 									type="text" name="email" placeholder="Username or e-mail">
 								<input type="password" name="password" placeholder="Password">
 								<input type="submit" class="btn btn-primary btn-md"
 									value="Login">
 							</form>
-							<p>
-								Si no estás registrado pulsa <a href="Register.jsp"><font
-									color="white">aquí</font></a>
-							</p>
+							
 							<div class="btn-group-mod-2">
 								<a href="#" class="btn btn-sm btn-info"><span
 									class="fa-facebook"></span></a><a href="#"
@@ -84,7 +82,7 @@
 						<a href="#" class="brand-name">Compra<br> <span>Venta</span></a>
 					</div>
 
-					<br> <a href="LoginAdmin.jsp" class="fa-user">Administrador</a>
+					<br> <a href="Login.jsp" class="fa-user">Usuario</a>
 
 
 

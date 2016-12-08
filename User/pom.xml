@@ -7,6 +7,7 @@
 	<artifactId>User</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
+	
 
 	<name>User</name>
 	<description>It is a client</description>
