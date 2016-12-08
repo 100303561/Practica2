@@ -28,7 +28,7 @@ public class User implements Serializable {
 	
 	
 	@Id
-	@GeneratedValue
+//	@GeneratedValue
 	@Column(name="id")
 	private int id;
 	

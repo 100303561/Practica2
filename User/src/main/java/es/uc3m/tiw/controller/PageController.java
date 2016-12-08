@@ -39,7 +39,7 @@ public class PageController {
 	@RequestMapping("/")
 	public String main(Model model) {
 		model.addAttribute(new Operands(4, 0));
-		return "LoginAdmin";
+		return "ModifyUser";
 	}
 
 	// Registrar usuario
@@ -64,8 +64,28 @@ public class PageController {
 			}
 		}
 		// Si el ususario no existe o las contraseñas son distintas redirigimos
-				// a Login
+		// a Login
 		return "Login";
+	}
+
+	// Modificar Usuario
+	@RequestMapping(value = "/modifyUser", method = RequestMethod.POST)
+	public String modifyUser(Model model, @ModelAttribute User user) {
+		System.out.println("Usuario: " + user);
+		User u = userDAO.findByEmail(user.getEmail());
+		System.out.println(u);
+		// Si existe el usuario cambiamos sus atributos
+		if (u != null) {
+			// Asignamos el id al nuevo ususario
+			user.setId(u.getId());
+			System.out.println("Usuario con nuevo id: " + user);
+			// Borramos el usuario anterior
+			userDAO.delete(u);
+			// Insertamos el nuevo ususario
+			userDAO.save(user);
+		}
+		// Redirigir a Index
+		return "index";
 	}
 
 	// Login Admin
@@ -92,6 +112,21 @@ public class PageController {
 	public List<User> usuarios() {
 		System.out.println("Buscar a todos los usuarios");
 		return userDAO.findAll();
+	}
+
+	// Eliminar Usuario
+	@RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+	public String deleteUser(Model model, @RequestParam("idUser") String idUser) {
+		System.out.println(idUser);
+		User u = userDAO.findOne(Integer.parseInt(idUser));
+		System.out.println(u);
+
+		if (u != null) {
+			// Borramos el usuario
+			userDAO.delete(u);
+		}
+		// Redirigir a Index
+		return "index";
 	}
 
 	// Several parameters can be joined into a ModelAttribute

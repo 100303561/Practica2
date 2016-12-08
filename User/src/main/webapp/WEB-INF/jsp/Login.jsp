@@ -43,8 +43,7 @@
 							</h1>
 							<div class="rd-mailform-validate"></div>
 							<!-- RD Mailform-->
-							<form data-form-type="contact" method="post"
-								action="login"
+							<form data-form-type="contact" method="post" action="login"
 								class="rd-mailform rd-mailform-mod-1">
 								<%
 									if (request.getAttribute("com") == com) {
@@ -54,8 +53,8 @@
 								<%
 									}
 								%>
-								<input type="hidden" name="action" value="login">
-								<input type="text" name="email" placeholder="Username or e-mail">
+								<input type="hidden" name="action" value="login"> <input
+									type="text" name="email" placeholder="Username or e-mail">
 								<input type="password" name="password" placeholder="Password">
 								<input type="submit" class="btn btn-primary btn-md"
 									value="Login">
@@ -100,6 +99,6 @@
 			</div>
 		</footer>
 	</div>
-	
+
 </body>
 </html>
