@@ -1,22 +1,14 @@
 package es.uc3m.tiw.controller;
 
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
-import com.mysql.fabric.xmlrpc.Client;
 
 import es.uc3m.tiw.domains.Mensaje;
 import es.uc3m.tiw.domains.MensajesDAO;
@@ -26,15 +18,28 @@ import es.uc3m.tiw.domains.MensajesDAO;
 public class ControllerChat {
 	
 	@Autowired
-	MensajesDAO userDAO;
+	MensajesDAO MensajesDAO;
 	
-	@Autowired
+	
 	RestTemplate restTemplate;
 	
-	@RequestMapping (value="/messages", method = RequestMethod.GET)
-	public List<Mensaje> usuarios(){
+	@RequestMapping (value="/mensajes", method = RequestMethod.GET)
+	public List<Mensaje> mensajes(){
 		System.out.println("Buscar todos los IDs usuarios que han mandado un mensaje a mi persona");
-		return MensajesDAO.findAll();
+		return MensajesDAO.findAll() ;
+	}
+	
+	@RequestMapping (value="/mensajes/{idemisor}/{iddestinatario}/{mensaje}", method = RequestMethod.GET)
+	public Mensaje EnvioMensaje(@PathVariable("idemisor") int idemisor, 
+			@PathVariable("iddestinatario") int iddestinatario,
+			@PathVariable("mensaje") String mensaje){
+		System.out.println("Enviar el siguiente mensaje "+ mensaje);
+		
+		Mensaje mensajeSend= new Mensaje();
+		mensajeSend.setIdemisor(idemisor);
+		mensajeSend.setIddestinatario(iddestinatario);
+		mensajeSend.setMensaje(mensaje);
+		return MensajesDAO.save(mensajeSend) ;
 	}
 	
 	
@@ -44,20 +49,24 @@ public class ControllerChat {
 		System.out.println("Almacenar un mensaje en la BD");
 		return MensajesDAO.save(mensaje);
 	}
+}
 	
+	/*
 	@RequestMapping (value="messages/{idemisor}/{iddestintario}", method = RequestMethod.GET)
 	public MensajesDAO findMensajes(@PathVariable("idemisor" Integer idemisor) @PathVariable("iddestinatario" Integer iddestinatario)){
 		System.out.println("Buscar mensajes de un usuario concreto, mediante su ID");
 		return MensajesDAO.findMensajes(idemisor,iddestinatario);
 	}
+	*/
 	
-	@RequestMapping (value="usersCount", method = RequestMethod.GET)
+	/*
+	@RequestMapping (value="/usersCount", method = RequestMethod.GET)
 	public Count cantidad(){
 		System.out.println("Cantidad de elementos");
 		return new Count(MensajesDAO.count());
 	}
 	
-
+	*/
 
 // ASI COGEMOS POR POST LOS ELEMENTOS QUE TENEMOS EN EL JSP O EN LOS HTML. 
 //SE IMPLEMENTA EN EL CONTROLLER PRINCIPAL DEL PROYECTO WEB DINAMICO
@@ -76,7 +85,7 @@ public class ControllerChat {
 						.queryParam("operand1", operands.getOperand1())
 						.queryParam("operand2", operands.getOperand2());
 				Result result=	webResource.request().accept("application/json").get(Result.class);
-				*/
+				
 				
 				// REST Client using POST Verb and JSON
 				Client client = ClientBuilder.newClient();
@@ -90,13 +99,13 @@ public class ControllerChat {
 						.path(request.getParameter("operand1"))
 						.path(request.getParameter("operand2"));
 				Result result=	webResource.request().accept("application/json").get(Result.class);
-				*/
+				
 				
 				
 				request.setAttribute("result", result);
 				
 				
-				
+				*/
 				
 				
 				

@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 
 
 public interface MensajesDAO extends CrudRepository <Mensaje, Integer> {
-	@Query
+	
 //	public List<Mensaje> findById (int iddestinatario);
-	public List<Mensaje> findAll();
-	public List<Mensaje> findMensajes(int idemisor, int iddestinatario);
+	public  List<Mensaje> findAll();
+//	public List<Mensaje> findMensajes(int idemisor, int iddestinatario);
 }
