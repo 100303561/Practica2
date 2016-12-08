@@ -1,77 +1,79 @@
 package es.uc3m.tiw.domains;
 
+
 import java.io.Serializable;
+import java.util.List;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import javax.persistence.*;
 
-@EntityScan
+@Table(name="messages")
+@Entity
 public class Mensaje implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	@NumeroMensaje
+	
+	@Id 
 	@GeneratedValue
-	@Colum(name="numeroMensaje")
+	@Column(name="idmenssage")
 	
-	private int NumeroMensaje;
-	private int IDRemitente;
-	private int IDDEstinatario;
-	private String Mensaje;
+	private int idmessage;
+	private int idemisor;
+	private int iddestinatario;
+	private String mensaje;
 	
 	
-	public int getIDRemitente() {
-		return IDRemitente;
+	public int getIdmessage() {
+		return idmessage;
 	}
 
 
-	public void setIDRemitente(int iDRemitente) {
-		IDRemitente = iDRemitente;
+	public void setIdmessage(int idmessage) {
+		this.idmessage = idmessage;
 	}
 
 
-	public int getIDDEstinatario() {
-		return IDDEstinatario;
+	public int getIdemisor() {
+		return idemisor;
 	}
 
 
-	public void setIDDEstinatario(int iDDEstinatario) {
-		IDDEstinatario = iDDEstinatario;
+	public void setIdemisor(int idemisor) {
+		this.idemisor = idemisor;
+	}
+
+
+	public int getIddestinatario() {
+		return iddestinatario;
+	}
+
+
+	public void setIddestinatario(int iddestinatario) {
+		this.iddestinatario = iddestinatario;
 	}
 
 
 	public String getMensaje() {
-		return Mensaje;
+		return mensaje;
 	}
 
 
 	public void setMensaje(String mensaje) {
-		Mensaje = mensaje;
+		this.mensaje = mensaje;
 	}
 
 
-	public int getNumeroMensaje() {
-		return numeroMensaje;
-	}
-
-
-	public void setNumeroMensaje(int numeroMensaje) {
-		this.numeroMensaje = numeroMensaje;
+	public Mensaje(int idmessage, int idemisor, int iddestinatario, String mensaje) {
+		super();
+		this.idmessage = idmessage;
+		this.idemisor = idemisor;
+		this.iddestinatario = iddestinatario;
+		this.mensaje = mensaje;
 	}
 
 
 	public Mensaje() {
 		super();
-		
+		// TODO Auto-generated constructor stub
 	}
-
-
-	public Mensaje(int numeroMensaje, int iDRemitente, int iDDEstinatario, String mensaje) {
-		super();
-		this.numeroMensaje = numeroMensaje;
-		IDRemitente = iDRemitente;
-		IDDEstinatario = iDDEstinatario;
-		Mensaje = mensaje;
-	}
-
-
 	
 }

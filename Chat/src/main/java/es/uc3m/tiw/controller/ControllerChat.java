@@ -1,51 +1,61 @@
 package es.uc3m.tiw.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import com.mysql.fabric.xmlrpc.Client;
 
 import es.uc3m.tiw.domains.Mensaje;
-import es.uc3m.tiw.domains.UserDAO;
+import es.uc3m.tiw.domains.MensajesDAO;
 
 @RestController
 @CrossOrigin
 public class ControllerChat {
 	
 	@Autowired
-	UserDAO userDAO;
+	MensajesDAO userDAO;
+	
+	@Autowired
+	RestTemplate restTemplate;
 	
 	@RequestMapping (value="mensssages", method = RequestMethod.GET)
-	public List<User> usuarios(){
-		System.out.println("Buscar todos los IDs usuarios que han mandado un mensaje");
-		return userDAO.findAll();
+	public List<Mensaje> usuarios(){
+		System.out.println("Buscar todos los IDs usuarios que han mandado un mensaje a mi persona");
+		return MensajesDAO.findAll();
 	}
 	
 	@RequestMapping (value="messages/{mensaje}", method = RequestMethod.POST)
 	public Mensaje enviar(@RequestBody Mensaje mensaje){
 		System.out.println("Almacenar un mensaje en la BD");
-		return userDAO.save(mensaje);
+		return MensajesDAO.save(mensaje);
 	}
 	
 	@RequestMapping (value="messagesSearch", method = RequestMethod.GET)
-	public User findOne(@PathVariable("id" Integer id)){
+	public MensajesDAO findOne(@PathVariable("id" Integer id)){
 		System.out.println("Buscar mensajes de un usuario concreto, mediante su ID");
-		return userDao.findOne(id);
+		return MensajesDAO.findOne(id);
 	}
 	
 	@RequestMapping (value="usersCount", method = RequestMethod.GET)
 	public Count cantidad(){
 		System.out.println("Cantidad de elementos");
-		return new Count(userDAO.count());
+		return new Count(MensajesDAO.count());
 	}
 	
-}
+
 
 // ASI COGEMOS POR POST LOS ELEMENTOS QUE TENEMOS EN EL JSP O EN LOS HTML. 
 //SE IMPLEMENTA EN EL CONTROLLER PRINCIPAL DEL PROYECTO WEB DINAMICO
