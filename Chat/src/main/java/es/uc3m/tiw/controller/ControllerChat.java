@@ -46,7 +46,7 @@ public class ControllerChat {
 	}
 	
 	@RequestMapping (value="messages/{idemisor}/{iddestintario}", method = RequestMethod.GET)
-	public MensajesDAO findMensajes(@PathVariable("idemisor" Integer id) @PathVariable("iddestinatario" Integer id)){
+	public MensajesDAO findMensajes(@PathVariable("idemisor" Integer idemisor) @PathVariable("iddestinatario" Integer iddestinatario)){
 		System.out.println("Buscar mensajes de un usuario concreto, mediante su ID");
 		return MensajesDAO.findMensajes(idemisor,iddestinatario);
 	}
