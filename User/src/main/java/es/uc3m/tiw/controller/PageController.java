@@ -30,11 +30,11 @@ public class PageController {
 	@Autowired
 	RestTemplate restTemplate;
 	
+	//Pagina Inicial (Login)
 	@RequestMapping("/")
-	public String main(Model model){
-		
+	public String main(Model model){	
 		model.addAttribute(new Operands(4,0));
-		return "Register";
+		return "Login";
 	}
 	
 
@@ -43,6 +43,20 @@ public class PageController {
 	public String registrar(Model model, @ModelAttribute User user){
 		System.out.println("Usuario: "+user);
 		userDAO.save(user);
+		return "Login";
+	}
+	
+	//Login
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public String login(Model model, @ModelAttribute User user){
+		System.out.println("Usuario: "+user);
+		User u = userDAO.findByEmail(user.getEmail());
+		//Si las contraseñas son iguales permitimos loguearse
+		if(u.getPassword().equals(user.getPassword())){
+			System.out.println("Bienvenido");
+			return "index";
+		}
+		//Si las contraseñas son distintas redirigimos a Login
 		return "Login";
 	}
 	
