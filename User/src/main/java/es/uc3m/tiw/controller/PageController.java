@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,7 +40,7 @@ public class PageController {
 	@RequestMapping("/")
 	public String main(Model model) {
 		model.addAttribute(new Operands(4, 0));
-		return "ModifyUser";
+		return "LoginAdmin";
 	}
 
 	// Registrar usuario
@@ -98,7 +99,14 @@ public class PageController {
 			// Si las contraseñas son iguales permitimos loguearse
 			if (u.getPassword().equals(user.getPassword())) {
 				System.out.println("Bienvenido");
-				return "index";
+				//Consultamos la lista de usuarios
+				List<User> lista = userDAO.findAll();
+				System.out.println("Lista: "+lista.toString());
+				//Guardamos la lista de usuarios como atributos
+				model.addAttribute("lista", lista);
+				//model.addAttribute(lista);
+			    //Redirigir a jsp
+				return "AdminUsers";
 			}
 
 		}
