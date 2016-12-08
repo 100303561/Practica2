@@ -31,22 +31,24 @@ public class ControllerChat {
 	@Autowired
 	RestTemplate restTemplate;
 	
-	@RequestMapping (value="mensssages", method = RequestMethod.GET)
+	@RequestMapping (value="/messages", method = RequestMethod.GET)
 	public List<Mensaje> usuarios(){
 		System.out.println("Buscar todos los IDs usuarios que han mandado un mensaje a mi persona");
 		return MensajesDAO.findAll();
 	}
 	
-	@RequestMapping (value="messages/{mensaje}", method = RequestMethod.POST)
+	
+	
+	@RequestMapping (value="/messages", method = RequestMethod.POST)
 	public Mensaje enviar(@RequestBody Mensaje mensaje){
 		System.out.println("Almacenar un mensaje en la BD");
 		return MensajesDAO.save(mensaje);
 	}
 	
-	@RequestMapping (value="messagesSearch", method = RequestMethod.GET)
-	public MensajesDAO findOne(@PathVariable("id" Integer id)){
+	@RequestMapping (value="messages/{idemisor}/{iddestintario}", method = RequestMethod.GET)
+	public MensajesDAO findMensajes(@PathVariable("idemisor" Integer id) @PathVariable("iddestinatario" Integer id)){
 		System.out.println("Buscar mensajes de un usuario concreto, mediante su ID");
-		return MensajesDAO.findOne(id);
+		return MensajesDAO.findMensajes(idemisor,iddestinatario);
 	}
 	
 	@RequestMapping (value="usersCount", method = RequestMethod.GET)
