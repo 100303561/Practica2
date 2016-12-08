@@ -20,7 +20,7 @@ import javax.persistence.*;
 
 
 //"select Email, Password from tiw.User where Email = '" + email + "' and Password = '" + password + "'");
-@Table(name="User")
+//@Table(name="User")
 @Entity
 public class User implements Serializable {
 

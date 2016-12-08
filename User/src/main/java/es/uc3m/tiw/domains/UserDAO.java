@@ -9,12 +9,15 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserDAO  extends CrudRepository<User, Integer> {
 
-	 // los métodos findOne, save... ya viene por herencia
 	
-	  public List<User> findByName(String name);
 	  
 	  //Encontrar usuario por email
 	  public User findByEmail (String email);
+	  
+	  
+	  // los métodos findOne, save... ya viene por herencia
+		
+	  public List<User> findByName(String name);
 	  
 	 // Si hubiera una relación entre usuario y direcciones también es posible 
 	  // buscar usuarios con el nombre de la calle de la otra tabla
