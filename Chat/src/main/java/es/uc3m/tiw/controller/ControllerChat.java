@@ -28,6 +28,7 @@ public class ControllerChat {
 		System.out.println("Buscar todos los IDs usuarios que han mandado un mensaje a mi persona");
 		return MensajesDAO.findAll() ;
 	}
+	/*
 	
 	@RequestMapping (value="/mensajes/{idemisor}/{iddestinatario}/{mensaje}", method = RequestMethod.GET)
 	public Mensaje EnvioMensaje(@PathVariable("idemisor") int idemisor, 
@@ -42,12 +43,20 @@ public class ControllerChat {
 		return MensajesDAO.save(mensajeSend) ;
 	}
 	
-	
+	*/
 	
 	@RequestMapping (value="/messages", method = RequestMethod.POST)
-	public Mensaje enviar(@RequestBody Mensaje mensaje){
+	public Mensaje enviar(@RequestBody String mensaje, @RequestBody  int idemisor,@RequestBody  int iddestinatario){
 		System.out.println("Almacenar un mensaje en la BD");
-		return MensajesDAO.save(mensaje);
+		
+		Mensaje mensajeSend = new Mensaje();
+		mensajeSend.setIddestinatario(iddestinatario);
+		mensajeSend.setIdemisor(idemisor);
+		mensajeSend.setMensaje(mensaje);
+		
+	
+		
+		return MensajesDAO.save(mensajeSend);
 	}
 }
 	
