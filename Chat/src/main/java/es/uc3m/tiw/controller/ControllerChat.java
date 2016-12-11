@@ -46,16 +46,14 @@ public class ControllerChat {
 	*/
 	
 	@RequestMapping (value="/messages", method = RequestMethod.POST)
-	public Mensaje enviar(@RequestBody String mensaje, @RequestBody  int idemisor,@RequestBody  int iddestinatario){
+	public Mensaje enviar(@RequestBody String mensaje,  int idemisor,   int iddestinatario){
 		System.out.println("Almacenar un mensaje en la BD");
 		
 		Mensaje mensajeSend = new Mensaje();
-		mensajeSend.setIddestinatario(iddestinatario);
-		mensajeSend.setIdemisor(idemisor);
 		mensajeSend.setMensaje(mensaje);
-		
-	
-		
+		mensajeSend.setIdemisor(idemisor);
+		mensajeSend.setIddestinatario(iddestinatario);
+
 		return MensajesDAO.save(mensajeSend);
 	}
 }
