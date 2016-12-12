@@ -14,6 +14,9 @@ public interface UserDAO  extends CrudRepository<User, Integer> {
 	  //Encontrar usuario por email
 	  public User findByEmail (String email);
 	  
+	  //Encontrar al ususario por email y password
+	  public User findByEmailAndPassword(String email, String password);
+
 	  
 	  // los métodos findOne, save... ya viene por herencia
 		
