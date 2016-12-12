@@ -50,25 +50,32 @@ public class PageController {
 	}
 
 	// Login
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public User login(@RequestBody User user) {
-		System.out.println("El usuario que llega al microservicio: " + user);
-		User u = new User();
-		u = userDAO.findByEmail(user.getEmail());
-		System.out.println("El usuario encontrado: "+u);
-		// Si existe el usuario comprobaremos su contraseña
-		if (u != null) {
-			// Si las contraseñas son iguales permitimos loguearse
-			if (u.getPassword().equals(user.getPassword())) {
-				System.out.println("Bienvenido");
-				return u;
-			}
-		}
-		// Si el ususario no existe o las contraseñas son distintas redirigimos
-		// a Login
-		System.out.println("El ususario no se encuentra en la bbdd");
-		return user;
-	}
+	@RequestMapping(value="login", method=RequestMethod.POST)
+    public User login(@RequestBody User u){
+        System.out.println("Haciendo Login ");
+        return userDAO.findByEmailAndPassword(u.getEmail(), u.getPassword());
+    }
+	
+	
+//	@RequestMapping(value = "/login", method = RequestMethod.POST)
+//	public User login(@RequestBody User user) {
+//		System.out.println("El usuario que llega al microservicio: " + user);
+//		User u = new User();
+//		u = userDAO.findByEmail(user.getEmail());
+//		System.out.println("El usuario encontrado: "+u);
+//		// Si existe el usuario comprobaremos su contraseña
+//		if (u != null) {
+//			// Si las contraseñas son iguales permitimos loguearse
+//			if (u.getPassword().equals(user.getPassword())) {
+//				System.out.println("Bienvenido");
+//				return u;
+//			}
+//		}
+//		// Si el ususario no existe o las contraseñas son distintas redirigimos
+//		// a Login
+//		System.out.println("El ususario no se encuentra en la bbdd");
+//		return user;
+//	}
 
 	// Modificar Usuario(debe ser update)
 	@RequestMapping(value = "/modifyUser", method = RequestMethod.POST)
