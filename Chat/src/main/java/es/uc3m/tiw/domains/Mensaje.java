@@ -14,9 +14,9 @@ public class Mensaje implements Serializable{
 	
 	@Id 
 	@GeneratedValue
-	@Column(name="idmenssage")
-	
+	@Column(name="idmessage")
 	private int idmessage;
+	
 	private int idemisor;
 	private int iddestinatario;
 	private String mensaje;

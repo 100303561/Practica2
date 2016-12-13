@@ -40,7 +40,7 @@
 						name="nombre" align="center">
 						<font size=4><input type="text" name="mensaje"
 							placeholder="Escribe tu mensaje..." style="width: 350px;"></font> <input
-							type="hidden" name="ejecutar" value="EnviarMensaje"> <input
+							type="hidden" name="action" value="enviarMensaje"> <input
 							type="hidden" name="idDestinatario"
 							value="<%=request.getParameter("idUserChat")%>">
 						<div style="padding: 5px;">

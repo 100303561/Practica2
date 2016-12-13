@@ -3,12 +3,9 @@ package servlet;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -64,6 +61,7 @@ public class ControllerServlet extends HttpServlet {
 			throws ServletException, IOException {
 		IAction act = null;
 		String action = request.getParameter("action");
+		String operacion;
 		System.out.println(action);
 
 		// Solo para probar funcionalidad
@@ -73,7 +71,8 @@ public class ControllerServlet extends HttpServlet {
 		User u = new User();
 		User a = new User();
 		User u1 = new User();
-
+		Mensaje mensajeSend = new Mensaje();
+		
 		HttpSession misession = (HttpSession) request.getSession();
 		RequestDispatcher miR;
 
@@ -289,30 +288,30 @@ public class ControllerServlet extends HttpServlet {
 				break;
 				
 				
-			case "enviarmensajechat":
+			case "enviarMensaje":
 				
-				
+				operacion= "messages";
 				if(request.getParameter("destinoAdmin")!= null){
 					String mensaje	=  request.getParameter("mensaje");				
-					int idemisor= u.getId();
-					int iddestinatario = Integer.parseInt(request.getParameter("destinoAdmin"));
+					int idemisor= (((User) misession.getAttribute("usuario")).getId());
+					int iddestinatario = Integer.parseInt(request.getParameter("idDestinatario"));
 					
-					Mensaje mensajeSend = new ObjetoMensaje();
-					mensajeSend.setiDestinatario(iddestinatario);
-					mensajeSend.setEmisor(idemisor);
+					
+					mensajeSend.setIddestinatario(iddestinatario);
+					mensajeSend.setIdemisor(idemisor);
 					mensajeSend.setMensaje(mensaje);
 					
 					
 					
 					// REST Client using POST Verb and JSON
-					webResource = client.target("http://localhost:8030").path(action);
+					webResource = client.target("http://localhost:8030").path(operacion);
 					webResource.request("application/json").accept("application/json")
-					.post(Entity.entity(mensajeSend, MediaType.APPLICATION_JSON,Mensaje.class));
+					.post(Entity.entity(mensajeSend, MediaType.APPLICATION_JSON),Mensaje.class);
 							
 							
 					System.out.println("Se ha enviado el mensaje al usuario: " + iddestinatario);
 
-					// Redireccionamos a la pagina de Login
+					// Redireccionamos a la pagina de chat para seguir hablando
 					miR = request.getRequestDispatcher("Chat.jsp");
 
 					miR.forward(request, response);
@@ -320,54 +319,34 @@ public class ControllerServlet extends HttpServlet {
 					
 				}
 				
-				else{
-				 String mensaje = request.getParameter("mensaje");
-				 int idemisor= u.getId();
-				 
-				 /*
-				 //conocer destino de chata traves del producto anunciado
-				 EntityManagerFactory emf = Persistence.createEntityManagerFactory("Ejemplo");
-				 ProductManager pr = new ProductManager(emf);
-				 int iddestinatario= pr.getOwnerbyID(((Product) misession.getAttribute("productShow")).getID());
-			*/
-				 //PRUEBA DE DESTINATARIO (HAY QUE COGERLO DEL PRODUCTO)
-				 int iddestinatario=2;
-				 
-				 ObjetoMensaje mensajeSend = new ObjetoMensaje();
-					mensajeSend.setDestinatario(iddestinatario);
-					mensajeSend.setEmisor(idemisor);
-					mensajeSend.setMensaje(mensaje);
-
-				// REST Client using POST Verb and JSON
-				webResource = client.target("http://localhost:8030").path(action);
-				webResource.request("application/json").accept("application/json")
-					.post(Entity.entity(u, MediaType.APPLICATION_JSON,mensajeSend));
-						
-				System.out.println("Se ha enviado el mensaje al usuario: " + iddestinatario);
-
-				// Redireccionamos a la pagina de Login
-				miR = request.getRequestDispatcher("Chat.jsp");
-
-				miR.forward(request, response);
-				break;}
 				
-				case "verConversaciones":
+				
+				case "LeerChat":
 					
-					//comprobacion de admin
+					operacion="messages";
+					
+					List<Mensaje> resultado;
+					//comprobacion de admin o ususario normal
 					User usuario = (User) misession.getAttribute("usuario");
-					int iddestinatario= usuario.getId();	
-
+					int idPropio= usuario.getId();	
+					int idAjeno=Integer.parseInt(request.getParameter("idUserChat"));
+					
 						// REST Client using GET Verb and Path Variable
 						client = ClientBuilder.newClient();
-						WebTarget webResource = client.target("http://localhost:8081").path(iddestinatario)
-								.path("iddestinatario");
-						Result result=	webResource.request().accept("application/json").get(Integer.class);
-								
+						webResource = client.target("http://localhost:8030").path(operacion)
+								.path("idPropio")
+								.path("idAjeno");
+						
+						Mensaje[] lista= webResource.request().accept("application/json").get(Mensaje[].class);
+							
+						resultado= Arrays.asList(lista);
+						
+						request.setAttribute("mensajes", resultado);
 								
 						System.out.println("Se muestran los mensajes recibidos para el usuario: " + usuario.getName());
 
 						// Redireccionamos a la pagina de Login
-						miR = request.getRequestDispatcher("chatsAbiertosAdmin.jsp");
+						miR = request.getRequestDispatcher("ChatPrivado.jsp");
 
 						miR.forward(request, response);
 						break;

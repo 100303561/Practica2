@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import es.uc3m.tiw.domains.Mensaje;
 import es.uc3m.tiw.domains.MensajesDAO;
-import es.uc3m.tiw.domains.ObjetoMensaje;
+
 
 @RestController
 @CrossOrigin
@@ -24,11 +24,7 @@ public class ControllerChat {
 	
 	RestTemplate restTemplate;
 	
-	@RequestMapping (value="/mensajes", method = RequestMethod.GET)
-	public List<Mensaje> mensajes(){
-		System.out.println("Buscar todos los IDs usuarios que han mandado un mensaje a mi persona");
-		return MensajesDAO.findAll() ;
-	}
+	
 	
 	/*
 	@RequestMapping (value="/mensajes", method = RequestMethod.GET)
@@ -54,25 +50,27 @@ public class ControllerChat {
 	*/
 
 	@RequestMapping (value="/messages", method = RequestMethod.POST)
-	public Mensaje enviarMensaje(@RequestBody  ObjetoMensaje mensaje){
+	public Mensaje enviarMensaje(@RequestBody  Mensaje mensaje){
 		System.out.println("Almacenar mensaje en la BD");
-		
-		
-		Mensaje mensajeSend = new Mensaje();
-		mensajeSend.setIddestinatario(mensaje.getDestinatario());
-		mensajeSend.setIdemisor(mensaje.getEmisor());
-		mensajeSend.setMensaje(mensaje.getMensaje());
-		
-		return MensajesDAO.save(mensajeSend);
+	
+		return MensajesDAO.save(mensaje);
 	}
 
 	
-@RequestMapping (value="/messages/{iddestinatario}", method = RequestMethod.GET)
-public List<Mensaje> leerMensajes( @PathVariable ("iddestinatario") Integer iddestinatario){
-	System.out.println("Buscar mensaje en la BD de un usario concreto");
+@RequestMapping (value="/messages/{idPropio}/{idAjeno}", method = RequestMethod.GET)
+public List<Mensaje> leerMensajes( @PathVariable ("idPropio") int idPropio,
+		@PathVariable ("idAjeno") int idAjeno){
+	System.out.println("Buscar mensaje en la BD que me envian");
 	
+	/*
+	List<Mensaje> conversacion = MensajesDAO.mensajesRecibidos(idPropio, idAjeno);
+		conversacion.addAll(MensajesDAO.mensajesEnviados(idPropio, idAjeno));
+	 */
+//	 MensajesDAO.findAllOrderByidmessage(conversacion);
 	
-	return MensajesDAO.findMensajesByiddestinatario(iddestinatario);
+	List<Mensaje> conversacion=MensajesDAO.mensajesERordenados(idPropio,idAjeno);
+	
+	return conversacion;
 }
 
 @RequestMapping (value="/messagesDistinct/{iddestinatario}", method = RequestMethod.GET)
