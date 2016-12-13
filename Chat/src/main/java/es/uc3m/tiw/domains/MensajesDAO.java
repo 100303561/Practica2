@@ -21,14 +21,18 @@ public interface MensajesDAO extends CrudRepository <Mensaje, Integer> {
 	//Filtrar mensajes que envio a un destinatario
 	@Query("select m from Mensaje m where (m.idemisor = :idPropio and m.iddestinatario = :idAjeno)")
 	public List<Mensaje> mensajesEnviados(@Param ("idPropio") int idPropio, @Param ("idAjeno") int idAjeno);
-	
-	@Query("select m,idmessage from ((select m from Mensaje m where ((m.idemisor = :idAjeno and m.iddestinatario = :idPropio) as A) "union (select m from Mensaje m where (m.idemisor = :idPropio and m.iddestinatario = :idAjeno)) as B)"
-			+ "order by idmessage")
-	public List<Mensaje> mensajesERordenados(@Param ("idPropio")int idPropio,@Param ("idAjeno")int idAjeno);
+	/*
+	@Query("((select m1 from Mensaje m1 where (m1.idemisor = :idAjeno and m1.iddestinatario = :idPropio)) as A)"
+			+"((select m2 from Mensaje m2 where (m2.idemisor = :idPropio and m2.iddestinatario = :idAjeno)) as B)"
+			+ */
+			@Query("(select m from Mensaje m where (m.idemisor = :idAjeno and m.iddestinatario = :idPropio)) "
+					+ "union "
+					+ "(select m from Mensaje m where (m.idemisor = :idPropio and m.iddestinatario = :idAjeno)) ")
+	public List<Mensaje> ordenados(@Param ("idPropio") int idPropio, @Param ("idAjeno") int idAjeno);
 	
 	
 	//Distinct
-	@Query("select idemisor from Mensaje m where m.iddestinatario = :iddestinatario group by m.idemisor")
+	@Query("select m,idemisor from Mensaje m where m.iddestinatario = :iddestinatario group by m.idemisor")
 	public List<Mensaje> findCustom(@Param ("iddestinatario") int iddestinatario);
 
 

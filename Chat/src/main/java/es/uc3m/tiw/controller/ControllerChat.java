@@ -68,7 +68,7 @@ public List<Mensaje> leerMensajes( @PathVariable ("idPropio") int idPropio,
 	 */
 //	 MensajesDAO.findAllOrderByidmessage(conversacion);
 	
-	List<Mensaje> conversacion=MensajesDAO.mensajesERordenados(idPropio,idAjeno);
+		List<Mensaje> conversacion =MensajesDAO.ordenados(idPropio,idAjeno);
 	
 	return conversacion;
 }
