@@ -149,7 +149,7 @@
 				</div>
 			</div>
 
-			<form action="/Practica-Tiw/ControllerServlet" method="post"
+			<form action="ControllerServlet" method="post"
 				name="formadmin" align="center">
 				<h5>Insertar id para modificar Usuario</h5>
 				<input type="number" size="2" name="id" placeholder="Id user"> <input
@@ -157,7 +157,7 @@
 					type="submit" value="Modificar Usuario" />
 			</form>
 
-			<form action="/Practica-Tiw/ControllerServlet" method="post"
+			<form action="ControllerServlet" method="post"
 				name="formadmin" align="center">
 				<h5>Insertar id para ver Productos de un Usuario</h5>
 				<input type="number" size="2" name="id" placeholder="Id user">
@@ -165,7 +165,7 @@
 				<input type="submit" value="Ver Productos" />
 			</form>
 			<form data-form-type="contact" method="post"
-								action="/Practica-Tiw/ControllerServlet"
+								action="ControllerServlet"
 								class="rd-mailform rd-mailform-mod-1">
 			<input type="hidden" name="action" value="reload">
 			<input type="submit" class="btn btn-primary btn-md"
@@ -181,7 +181,7 @@
 						<a href="#" class="brand-name">Compra<br> <span>Venta!</span></a>
 					</div>
 					<form name="do" method="post"
-										action="/Practica-Tiw/ControllerServlet">
+										action="ControllerServlet">
 										<input type="hidden" name="action" value="logout"> <a
 											href="javascript:document.do.submit()" class="fa-sign-in ">LogOut</a>
 									</form>

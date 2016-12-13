@@ -36,7 +36,7 @@
 
 				<center>
 
-					<form action="/Practica-Tiw/ServletChat" method="post"
+					<form action="ControllerServlet" method="post"
 						name="nombre" align="center">
 						<font size=4><input type="text" name="mensaje"
 							placeholder="Escribe tu mensaje..." style="width: 350px;"></font> <input

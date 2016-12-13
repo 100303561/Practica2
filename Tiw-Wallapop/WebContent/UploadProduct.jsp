@@ -63,7 +63,7 @@
 
 
 				<hr>
-				<form class="inset-6" action="/Practica-Tiw/ControllerServlet"
+				<form class="inset-6" action="ControllerServlet"
 					method="post" enctype="multipart/form-data">
 
 					<div class="col-sm-6">

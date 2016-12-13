@@ -44,7 +44,7 @@
 							<div class="rd-mailform-validate"></div>
 							<!-- RD Mailform-->
 							<form data-form-type="contact" method="post"
-								action="/Practica-Tiw/ControllerServlet"
+								action="ControllerServlet"
 								class="rd-mailform rd-mailform-mod-1">
 								<%
 									if (request.getAttribute("com") == com) {

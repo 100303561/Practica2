@@ -89,7 +89,7 @@
 
 
 							<form data-form-type="contact" method="post"
-								action="/Practica-Tiw/ControllerServlet" class="rd-mailform"
+								action="ControllerServlet" class="rd-mailform"
 								onsubmit="return ConfirmModify()">
 
 								<input type="hidden" name="action" value="modifyUser">
@@ -125,7 +125,7 @@
 
 
 							<!-- <form data-form-type="contact" method="post"
-								action="/Practica-Tiw/ControllerServlet"
+								action="ControllerServlet"
 								class="rd-mailform rd-mailform-mod-1">
 								<input type="hidden" name="action" value="login">
 								<input type="text" name="email" placeholder="Username or e-mail">
@@ -138,7 +138,7 @@
 
 
 						</div>
-						<form method="post" action="/Practica-Tiw/ControllerServlet"
+						<form method="post" action="ControllerServlet"
 							name="borrar" onsubmit="return ConfirmDelete()">
 							<input type="hidden" class="btn btn-primary btn-sm btn-shadow-1"
 								name="action" value="deleteUser"> <input type="submit"

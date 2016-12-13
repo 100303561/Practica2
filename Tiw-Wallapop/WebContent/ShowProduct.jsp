@@ -155,7 +155,7 @@
 				</div>
 			</div>
 
-			<form action="/Practica-Tiw/ControllerServlet" method="post" name="formadmin" align="center">
+			<form action="ControllerServlet" method="post" name="formadmin" align="center">
 				<h5>
 					Insertar id para modificar producto</h5> 
 					<input type="hidden" name="action" value="modifyProduct">
