@@ -63,7 +63,7 @@
 						</div>
 						<center>
 
-							<form action="/Practica-Tiw/ServletChat" method="post"
+							<form action="ControllerServlet" method="post"
 								name="formadmin" align="center">
 								<font size=4><input type="text" name="mensaje" placeholder="Respuesta..." style="width: 350px;"></font>
 								<input type="hidden" name="ejecutar" value="Responder">

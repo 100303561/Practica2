@@ -98,14 +98,14 @@
 
 
 								<li><form name="do1" method="post"
-										action="/Practica-Tiw/ControllerServlet">
+										action="ControllerServlet">
 										<input type="hidden" name="action" value="showProduct">
 										<a href="javascript:document.do1.submit()"
 											class="fa-newspaper-o ">Mis Anuncios</a>
 									</form></li>
 								<li>
 									<form name="do" method="post"
-										action="/Practica-Tiw/ControllerServlet">
+										action="ControllerServlet">
 										<input type="hidden" name="action" value="logout"> <a
 											href="javascript:document.do.submit()" class="fa-sign-in ">LogOut</a>
 									</form>
@@ -175,7 +175,7 @@
 					<div class="search-form-wrap bg-white container-shadow">
 
 						<h3>Encuentra lo que necesites aqui</h3>
-						<form action="/Practica-Tiw/ControllerServlet" method="post"
+						<form action="ControllerServlet" method="post"
 							name="search-form" class="form-variant-1">
 							<input type="hidden" name="action" value="index"> <label
 								for="keyword">Introduzca su busqueda aqui</label> <input
@@ -225,7 +225,7 @@
 				<div class="shell">
 					<h2>Catalogo</h2>
 					<form data-form-type="contact" method="post"
-								action="/Practica-Tiw/ControllerServlet">
+								action="ControllerServlet">
 			<input type="hidden" name="action" value="reloadCatalogo"> <input type="submit" class="btn btn-sm btn-transparent"
 							value="Actualizar catalogo">
 					</form>
@@ -245,7 +245,7 @@
 							<div class="category">
 								<img src="Image.jsp?imgID=<%=lista.get(i).getID()%>" alt=""
 									width="370" height="250" />
-								<form action="/Practica-Tiw/ControllerServlet" name="form"
+								<form action="ControllerServlet" name="form"
 									method="post">
 									<input type="hidden" name="action" value="product"> <input
 										type="hidden" name="id" value="<%=lista.get(i).getID()%>">

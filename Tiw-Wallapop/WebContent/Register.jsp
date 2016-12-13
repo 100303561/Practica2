@@ -125,7 +125,7 @@
 								<div class="rd-mailform-validate"></div>
 								<!-- RD Mailform-->
 								<form data-form-type="contact" name="formulario"
-									action="/Practica-Tiw/ControllerServlet" method="post"
+									action="ControllerServlet" method="post"
 									class="rd-mailform rd-mailform-mod-1"
 									onsubmit="return comprobar()">
 									<input type="text" name="name" placeholder="Nombre" required>

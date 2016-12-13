@@ -5,7 +5,7 @@
 <html>
 
 <body>
-<form name="nombre" method="post" action="/Practica-Tiw/ServletChat">
+<form name="nombre" method="post" action="ControllerServlet">
 
 <ul id="chatsActivos">
   <div id="chatsActivos" class="nav__notification">
@@ -17,26 +17,26 @@
 
 <% while (request.getParameter("listaEmisores")!=null) { %>
 <h1> <%=request.getParameter("listaEmisores").toString()%> </h1>
-<form action="/Practica-Tiw/ServletChat"name="nombre" method="post" >
+<form action="ControllerServlet"name="nombre" method="post" >
 <input type="hidden" name="ejecutar" value="LeerChat">
 <input type="hidden" name="id" value=<%=request.getParameter("listaEmisores")%>> 
 <input type="submit" value="Entrar al chat" > 
 <% } %>
 </form>
 
-<form action="/Practica-Tiw/ServletChat"name="nombre" method="post" >
+<form action="ControllerServlet"name="nombre" method="post" >
 <input type="submit" value="Leer Mensajes"> 
 <input type="hidden" name="ejecutar" value="LeerChat">   
 <input type="hidden" name="id" value=<%=request.getAttribute("listaEmisores")%>></input>
 </form>
 
 <!--  
-<form action="/Practica-Tiw/ServletChat" method="post" nombre="nombre">
+<form action="ControllerServlet" method="post" nombre="nombre">
 <input type="submit" value="Actualizar"> <----- pulsa para Actualizar chats</input>
 <input type="hidden" value="MostrarConversaciones" name="ejecutar">
 </form>-->
 
-<form action="/Practica-Tiw/ServletChat" method="post" nombre="EnviarMensajeAdmin">
+<form action="ControllerServlet" method="post" nombre="EnviarMensajeAdmin">
 <input type="input" name="IDConversacionAdmin" placeholder="ID...">
 <input type="input" name="MensajeConversacionAdmin" placeholder="Mensaje...">
 <input type="hidden" value="EnviarMensajeAdmin" name="ejecutar">
@@ -44,7 +44,7 @@
 </form>
 
 
-<form action="/Practica-Tiw/ServletChat" name="nombre" method="post" >
+<form action="ControllerServlet" name="nombre" method="post" >
 <input type="hidden" name="ejecutar" value="Pagina Inicio">
 <input type="submit" value="VOLVER A INICIO" > 
 </form>

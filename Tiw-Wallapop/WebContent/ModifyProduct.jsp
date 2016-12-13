@@ -78,7 +78,7 @@
 							<div class="rd-mailform-validate"></div>
 							<!-- RD Mailform-->
 							<form data-form-type="contact" method="post"
-								action="/Practica-Tiw/ControllerServlet" class="rd-mailform">
+								action="ControllerServlet" class="rd-mailform">
 								<div class="row">
 									<div class="col-sm-6">
 										<input type="hidden" name="action" value="updateProduct">
@@ -111,7 +111,7 @@
 									value="Modificar-producto">
 							</form>
 						</div>
-						<form method="post" action="/Practica-Tiw/ControllerServlet"
+						<form method="post" action="ControllerServlet"
 							name="borrar" onsubmit="return ConfirmDelete()">
 							<input type="hidden" name="action" value="deleteProduct">
 
