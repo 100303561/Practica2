@@ -58,5 +58,6 @@
 			<attribute name="maven.scope" value="compile"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/home/tiw/Downloads/javax.persistence.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
