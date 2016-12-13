@@ -28,6 +28,7 @@ import clases.Product;
 import acciones.*;
 import es.uc3m.tiw.domains.*;
 import jhc.controller.ProductManager;
+import jms.ObjetoMensaje;
 
 /**
  * Servlet implementation class ControllerServlet
@@ -76,11 +77,13 @@ public class ControllerServlet extends HttpServlet {
 		HttpSession misession = (HttpSession) request.getSession();
 		RequestDispatcher miR;
 
-		Client client = ClientBuilder.newClient();
+		Client client =  ClientBuilder.newClient();
 		WebTarget webResource;
 
 		if (action != null) {
 			switch (action) {
+			
+			
 			case "login":
 
 				u.setEmail(request.getParameter("email"));
@@ -288,22 +291,58 @@ public class ControllerServlet extends HttpServlet {
 				
 			case "enviarmensajechat":
 				
+				
+				if(request.getParameter("destinoAdmin")!= null){
+					String mensaje	=  request.getParameter("mensaje");				
+					int idemisor= u.getId();
+					int iddestinatario = Integer.parseInt(request.getParameter("destinoAdmin"));
+					
+					ObjetoMensaje mensajeSend = new ObjetoMensaje();
+					mensajeSend.setDestinatario(iddestinatario);
+					mensajeSend.setEmisor(idemisor);
+					mensajeSend.setMensaje(mensaje);
+					
+					
+					
+					// REST Client using POST Verb and JSON
+					webResource = client.target("http://localhost:8030").path(action);
+					webResource.request("application/json").accept("application/json")
+					.post(ObjetoMensaje.class,mensajeSend);
+							
+							
+					System.out.println("Se ha enviado el mensaje al usuario: " + iddestinatario);
+
+					// Redireccionamos a la pagina de Login
+					miR = request.getRequestDispatcher("chatsAbiertosAdmin.jsp");
+
+					miR.forward(request, response);
+					break;
+					
+				}
+				
+				else{
 				 String mensaje = request.getParameter("mensaje");
 				 int idemisor= u.getId();
 				 
+				 /*
+				 //conocer destino de chata traves del producto anunciado
 				 EntityManagerFactory emf = Persistence.createEntityManagerFactory("Ejemplo");
 				 ProductManager pr = new ProductManager(emf);
-				 int iddestinatario= pr.getOwnerbyID(((Product) sesion.getAttribute("productShow")).getID());;
-				
-				
+				 int iddestinatario= pr.getOwnerbyID(((Product) misession.getAttribute("productShow")).getID());
+			*/
+				 //PRUEBA DE DESTINATARIO (HAY QUE COGERLO DEL PRODUCTO)
+				 int iddestinatario=2;
+				 
+				 ObjetoMensaje mensajeSend = new ObjetoMensaje();
+					mensajeSend.setDestinatario(iddestinatario);
+					mensajeSend.setEmisor(idemisor);
+					mensajeSend.setMensaje(mensaje);
 
 				// REST Client using POST Verb and JSON
-				webResource = client.target("http://localhost:8020").path(action);
+				webResource = client.target("http://localhost:8030").path(action);
 				webResource.request("application/json").accept("application/json")
-						.post(Entity.entity(u, MediaType.APPLICATION_JSON), mensaje);
-						.post(Entity.entity(u, MediaType.APPLICATION_JSON), idemisor);
-						.post(Entity.entity(u, MediaType.APPLICATION_JSON), iddestinatario);
-
+					.post(ObjetoMensaje.class,mensajeSend);
+						
 				System.out.println("Se ha enviado el mensaje al usuario: " + iddestinatario);
 
 				// Redireccionamos a la pagina de Login
@@ -311,6 +350,7 @@ public class ControllerServlet extends HttpServlet {
 
 				miR.forward(request, response);
 				break;
+				}
 			}
 
 		}

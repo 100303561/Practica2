@@ -20,8 +20,10 @@ public class Mensaje implements Serializable{
 	private int idemisor;
 	private int iddestinatario;
 	private String mensaje;
-	
-	
+	/*
+	@ManyToOne (cascade= CascadeType.ALL)
+	@JoinColumn(name= "idemisor")
+	*/
 	public int getIdmessage() {
 		return idmessage;
 	}

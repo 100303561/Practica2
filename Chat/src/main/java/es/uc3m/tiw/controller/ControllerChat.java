@@ -12,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import es.uc3m.tiw.domains.Mensaje;
 import es.uc3m.tiw.domains.MensajesDAO;
+import es.uc3m.tiw.domains.ObjetoMensaje;
 
 @RestController
 @CrossOrigin
@@ -25,6 +26,13 @@ public class ControllerChat {
 	
 	@RequestMapping (value="/mensajes", method = RequestMethod.GET)
 	public List<Mensaje> mensajes(){
+		System.out.println("Buscar todos los IDs usuarios que han mandado un mensaje a mi persona");
+		return MensajesDAO.findAll() ;
+	}
+	
+	/*
+	@RequestMapping (value="/mensajes", method = RequestMethod.GET)
+	public List<Mensaje> mensajes3(){
 		System.out.println("Buscar todos los IDs usuarios que han mandado un mensaje a mi persona");
 		return MensajesDAO.findAll() ;
 	}
@@ -44,20 +52,37 @@ public class ControllerChat {
 	}
 	
 	*/
-	
+
 	@RequestMapping (value="/messages", method = RequestMethod.POST)
-	public Mensaje enviar(@RequestBody String mensaje,  int idemisor,   int iddestinatario){
-		System.out.println("Almacenar un mensaje en la BD");
+	public Mensaje enviarMensaje(@RequestBody  ObjetoMensaje mensaje){
+		System.out.println("Almacenar mensaje en la BD");
+		
 		
 		Mensaje mensajeSend = new Mensaje();
-		mensajeSend.setMensaje(mensaje);
-		mensajeSend.setIdemisor(idemisor);
-		mensajeSend.setIddestinatario(iddestinatario);
-
+		mensajeSend.setIddestinatario(mensaje.getDestinatario());
+		mensajeSend.setIdemisor(mensaje.getEmisor());
+		mensajeSend.setMensaje(mensaje.getMensaje());
+		
 		return MensajesDAO.save(mensajeSend);
 	}
-}
+
 	
+@RequestMapping (value="/messages/{iddestinatario}", method = RequestMethod.GET)
+public List<Mensaje> leerMensajes( @PathVariable ("iddestinatario") Integer iddestinatario){
+	System.out.println("Buscar mensaje en la BD de un usario concreto");
+	
+	
+	return MensajesDAO.findMensajesByiddestinatario(iddestinatario);
+}
+
+@RequestMapping (value="/messagesDistinct/{iddestinatario}", method = RequestMethod.GET)
+public List<Mensaje> verConversaciones(@PathVariable ("iddestinatario") Integer iddestinatario){
+	System.out.println("Buscar mensajes recibidos de diferentes usuarios en la BD");
+	
+	
+	return MensajesDAO.findCustom(iddestinatario);
+}
+}
 	/*
 	@RequestMapping (value="messages/{idemisor}/{iddestintario}", method = RequestMethod.GET)
 	public MensajesDAO findMensajes(@PathVariable("idemisor" Integer idemisor) @PathVariable("iddestinatario" Integer iddestinatario)){
