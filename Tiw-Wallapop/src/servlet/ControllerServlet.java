@@ -297,8 +297,8 @@ public class ControllerServlet extends HttpServlet {
 					int idemisor= u.getId();
 					int iddestinatario = Integer.parseInt(request.getParameter("destinoAdmin"));
 					
-					ObjetoMensaje mensajeSend = new ObjetoMensaje();
-					mensajeSend.setDestinatario(iddestinatario);
+					Mensaje mensajeSend = new ObjetoMensaje();
+					mensajeSend.setiDestinatario(iddestinatario);
 					mensajeSend.setEmisor(idemisor);
 					mensajeSend.setMensaje(mensaje);
 					
@@ -307,13 +307,13 @@ public class ControllerServlet extends HttpServlet {
 					// REST Client using POST Verb and JSON
 					webResource = client.target("http://localhost:8030").path(action);
 					webResource.request("application/json").accept("application/json")
-					.post(ObjetoMensaje.class,mensajeSend);
+					.post(Entity.entity(mensajeSend, MediaType.APPLICATION_JSON,Mensaje.class));
 							
 							
 					System.out.println("Se ha enviado el mensaje al usuario: " + iddestinatario);
 
 					// Redireccionamos a la pagina de Login
-					miR = request.getRequestDispatcher("chatsAbiertosAdmin.jsp");
+					miR = request.getRequestDispatcher("Chat.jsp");
 
 					miR.forward(request, response);
 					break;
@@ -341,16 +341,45 @@ public class ControllerServlet extends HttpServlet {
 				// REST Client using POST Verb and JSON
 				webResource = client.target("http://localhost:8030").path(action);
 				webResource.request("application/json").accept("application/json")
-					.post(ObjetoMensaje.class,mensajeSend);
+					.post(Entity.entity(u, MediaType.APPLICATION_JSON,mensajeSend));
 						
 				System.out.println("Se ha enviado el mensaje al usuario: " + iddestinatario);
 
 				// Redireccionamos a la pagina de Login
-				miR = request.getRequestDispatcher("chatsAbiertos.jsp");
+				miR = request.getRequestDispatcher("Chat.jsp");
 
 				miR.forward(request, response);
-				break;
+				break;}
+				
+				case "verConversaciones":
+					
+					//comprobacion de admin
+					User usuario = (User) misession.getAttribute("usuario");
+					int iddestinatario= usuario.getId();	
+
+						// REST Client using GET Verb and Path Variable
+						client = ClientBuilder.newClient();
+						WebTarget webResource = client.target("http://localhost:8081").path(iddestinatario)
+								.path("iddestinatario");
+						Result result=	webResource.request().accept("application/json").get(Integer.class);
+								
+								
+						System.out.println("Se muestran los mensajes recibidos para el usuario: " + usuario.getName());
+
+						// Redireccionamos a la pagina de Login
+						miR = request.getRequestDispatcher("chatsAbiertosAdmin.jsp");
+
+						miR.forward(request, response);
+						break;
+						
+					
+					
+					
 				}
+				
+				
+				
+				
 			}
 
 		}
