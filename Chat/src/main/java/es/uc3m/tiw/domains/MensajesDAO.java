@@ -24,10 +24,13 @@ public interface MensajesDAO extends CrudRepository <Mensaje, Integer> {
 	
 	
 	
-	//Distinct
-	@Query("select m,idemisor from Mensaje m where m.iddestinatario = :iddestinatario group by m.idemisor")
-	public List<Mensaje> findCustom(@Param ("iddestinatario") int iddestinatario);
+	//DistinctRecibo
+	@Query("select m,idemisor from Mensaje m where m.iddestinatario = :idPropio group by m.idemisor")
+	public List<Mensaje> findCustomRecibido(@Param ("idPropio") int idPropio);
 
+	//DistinctEnvio
+	@Query("select m,idemisor from Mensaje m where m.idemisor = :idPropio group by m.iddestinatario")
+	public List<Mensaje> findCustomEnviado(@Param ("idPropio") int idPropio);
 
 /*
 @Query("select distinct idemisor from Mensaje mensajes where mensajes.iddestinatario=:iddestinatiario order by idmessage desc")

@@ -60,7 +60,7 @@ public class ControllerChat {
 @RequestMapping (value="/messages/{idPropio}/{idAjeno}", method = RequestMethod.GET)
 public List<Mensaje> leerMensajes( @PathVariable ("idPropio") int idPropio,
 		@PathVariable ("idAjeno") int idAjeno){
-	System.out.println("Buscar mensaje en la BD que me envian");
+	System.out.println("Buscar mensaje en la BD que me envian y ordenarlos");
 	
 	
 	List<Mensaje> conversacionR = MensajesDAO.mensajesRecibidos(idPropio, idAjeno);
@@ -95,12 +95,16 @@ public List<Mensaje> leerMensajes( @PathVariable ("idPropio") int idPropio,
 	return conversacionOrdenada;
 }
 
-@RequestMapping (value="/messagesDistinct/{iddestinatario}", method = RequestMethod.GET)
-public List<Mensaje> verConversaciones(@PathVariable ("iddestinatario") Integer iddestinatario){
+@RequestMapping (value="/messagesDistinct/{idPropio}", method = RequestMethod.GET)
+public List<Mensaje> verConversaciones(@PathVariable ("idPropio") int idPropio){
 	System.out.println("Buscar mensajes recibidos de diferentes usuarios en la BD");
 	
+	List<Mensaje> DistinctEnviados = MensajesDAO.findCustomEnviado(idPropio);
+	List<Mensaje> DistinctRecibidos = MensajesDAO.findCustomRecibido(idPropio);
+	List<Mensaje> conversacionesActivas = DistinctEnviados;
+	DistinctEnviados.addAll(DistinctRecibidos);
 	
-	return MensajesDAO.findCustom(iddestinatario);
+	return conversacionesActivas;
 }
 }
 	/*
