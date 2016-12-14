@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.persistence.*;
 
-@Table(name="Mensajes")
 @Entity
 public class Mensaje implements Serializable{
 	
@@ -16,14 +15,10 @@ public class Mensaje implements Serializable{
 	@GeneratedValue
 	@Column(name="idmessage")
 	private int idmessage;
-	
 	private int idemisor;
 	private int iddestinatario;
 	private String mensaje;
-	/*
-	@ManyToOne (cascade= CascadeType.ALL)
-	@JoinColumn(name= "idemisor")
-	*/
+	
 	public int getIdmessage() {
 		return idmessage;
 	}

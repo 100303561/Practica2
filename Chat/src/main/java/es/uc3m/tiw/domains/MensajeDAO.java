@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 
-public interface MensajesDAO extends CrudRepository <Mensaje, Integer> {
+public interface MensajeDAO extends CrudRepository <Mensaje, Integer> {
 	
 //	public List<Mensaje> findById (int iddestinatario);
 	public  List<Mensaje> findAll();
