@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import es.uc3m.tiw.domains.Mensaje;
-import es.uc3m.tiw.domains.MensajeDAO;
+import es.uc3m.tiw.domains.*;
 
 @RestController
 @CrossOrigin
@@ -19,6 +18,9 @@ public class ControllerChat {
 
 	@Autowired
 	MensajeDAO MensajesDAO;
+	
+	@Autowired
+	UserDAO userDAO;
 
 	RestTemplate restTemplate;
 
@@ -38,8 +40,9 @@ public class ControllerChat {
 		List<Mensaje> conversacionR = MensajesDAO.mensajesRecibidos(idPropio, idAjeno);
 		List<Mensaje> conversacionE = MensajesDAO.mensajesEnviados(idPropio, idAjeno);
 
-		List<Mensaje> conversacionOrdenada = MensajesDAO.mensajesRecibidos(idPropio, idAjeno);
-		conversacionOrdenada.clear();
+		//MensajesDAO.mensajesRecibidos(idPropio, idAjeno)
+		List<Mensaje> conversacionOrdenada = new ArrayList <Mensaje>();
+		//conversacionOrdenada.clear();
 
 		while (!conversacionR.isEmpty() || !conversacionE.isEmpty()) {
 		
@@ -76,13 +79,56 @@ public class ControllerChat {
 
 	//Mostrar usuarios con los que he conversado.
 	@RequestMapping(value = "/messages/{idPropio}", method = RequestMethod.GET)
-	public List<Mensaje> verConversaciones(@PathVariable("idPropio") int idPropio) {
+	public List<User> verConversaciones(@PathVariable("idPropio") int idPropio) {
 		System.out.println("Buscar mensajes recibidos de diferentes usuarios en la BD");
 
-		List<Mensaje> DistinctEnviados = MensajesDAO.findCustomEnviado(idPropio);
-		List<Mensaje> DistinctRecibidos = MensajesDAO.findCustomRecibido(idPropio);
-		List<Mensaje> conversacionesActivas = DistinctEnviados;
-		DistinctEnviados.addAll(DistinctRecibidos);
+		
+		
+		//Obtener lista donde yo soy emisor
+		List<Integer> DistinctEnviados = MensajesDAO.findCustomEnviado(idPropio);
+		
+		System.out.println(DistinctEnviados.size());
+		
+		//En una lista de int voy añadiendo todos los id con lo que he hablado
+		List<Integer> aux = new ArrayList<Integer>();
+		
+		while (!DistinctEnviados.isEmpty()){
+			aux.add((DistinctEnviados.get(0)));
+			DistinctEnviados.remove(0);
+		}
+		
+		
+		
+		//Obtener lista donde yo soy destinatario
+		List<Integer> DistinctRecibidos = MensajesDAO.findCustomRecibido(idPropio);
+		boolean b = false;
+		
+		while (!DistinctRecibidos.isEmpty()){
+			for (int i = 0; i < aux.size(); i++) {
+				//Si encuentro el valor en mi array auxliar borro el valor de la lista de recibidos
+				if(aux.get(i)==(DistinctRecibidos.get(0))){
+					DistinctRecibidos.remove(0);
+					b = true;
+					break;
+				}
+			}
+			if(b==false){
+				aux.add((DistinctRecibidos.get(0)));
+				DistinctRecibidos.remove(0);
+			}
+			
+			
+		}
+		//Lista aux con distintos id
+		
+		List<User> conversacionesActivas = new ArrayList<User> ();
+		
+		
+		while(!aux.isEmpty()){
+			//Coger un id, buscar usuario y guardarlo en una lista para devolverlo
+			conversacionesActivas.add(userDAO.findOne(aux.get(0)));
+			aux.remove(0);
+		}
 
 		return conversacionesActivas;
 	}
