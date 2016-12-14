@@ -62,15 +62,37 @@ public List<Mensaje> leerMensajes( @PathVariable ("idPropio") int idPropio,
 		@PathVariable ("idAjeno") int idAjeno){
 	System.out.println("Buscar mensaje en la BD que me envian");
 	
-	/*
-	List<Mensaje> conversacion = MensajesDAO.mensajesRecibidos(idPropio, idAjeno);
-		conversacion.addAll(MensajesDAO.mensajesEnviados(idPropio, idAjeno));
-	 */
-//	 MensajesDAO.findAllOrderByidmessage(conversacion);
 	
-		List<Mensaje> conversacion =MensajesDAO.ordenados(idPropio,idAjeno);
+	List<Mensaje> conversacionR = MensajesDAO.mensajesRecibidos(idPropio, idAjeno);
+	List<Mensaje> conversacionE =MensajesDAO.mensajesEnviados(idPropio, idAjeno);
+	List<Mensaje> conversacionOrdenada= null;
 	
-	return conversacion;
+	while(!conversacionR.isEmpty() && !conversacionE.isEmpty()){
+		
+		if(conversacionR.get(0).getIdmessage()< conversacionE.get(0).getIdmessage()){
+			conversacionOrdenada.add(conversacionR.get(0));
+			conversacionR.remove(0);
+		}
+		
+		if(conversacionE.get(0).getIdmessage()< conversacionR.get(0).getIdmessage()){
+			conversacionOrdenada.add(conversacionE.get(0));
+			conversacionE.remove(0);
+		}
+		
+		if(conversacionE.isEmpty()){
+			conversacionOrdenada.addAll(conversacionR);
+			conversacionE.removeAll(conversacionR);
+		}
+		
+		if(conversacionR.isEmpty()){
+			conversacionOrdenada.addAll(conversacionE);
+			conversacionE.removeAll(conversacionE);
+		}
+	}
+	
+		
+	
+	return conversacionOrdenada;
 }
 
 @RequestMapping (value="/messagesDistinct/{iddestinatario}", method = RequestMethod.GET)
