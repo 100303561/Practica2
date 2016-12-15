@@ -90,9 +90,13 @@
 								align="center">
 								<font size=4><input type="text" name="mensaje"
 									placeholder="Respuesta..." style="width: 350px;"></font> <input
-									type="hidden" name="action" value="Responder"> <input
+									type="hidden" name="action" value="enviarMensaje"> <input
 									type="hidden" name="idDestinatario"
 									value="<%=request.getParameter("idUserChat")%>">
+									
+									
+									
+									
 								<div style="padding: 5px;">
 									<input type="submit" class="btn btn-success btn-lg"
 										value="Responder" />

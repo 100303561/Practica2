@@ -75,6 +75,9 @@ public class ControllerServlet extends HttpServlet {
 		int idPropio;
 		int idAjeno;
 		Mensaje mensajeSend = new Mensaje();
+		Mensaje[] listaMensaje=null;
+		User[] listaUser = null;
+		List<Mensaje> resultado;
 
 		HttpSession misession = (HttpSession) request.getSession();
 		RequestDispatcher miR;
@@ -125,7 +128,7 @@ public class ControllerServlet extends HttpServlet {
 						operacion = "users";
 						client = ClientBuilder.newClient();
 						webResource = client.target("http://localhost:8010").path(operacion);
-						User[] lista = webResource.request().accept("application/json").get(User[].class);
+						listaUser = webResource.request().accept("application/json").get(User[].class);
 
 						// webresource =
 						// client.target("http://localhost:8010").path("users");
@@ -135,7 +138,7 @@ public class ControllerServlet extends HttpServlet {
 						// .post(entity.entity(u, mediatype.application_json),
 						// user[].class);
 
-						List<User> lista2 = Arrays.asList(lista);
+						List<User> lista2 = Arrays.asList(listaUser);
 						// Pasar atributo por request
 						misession.setAttribute("lista", lista2);
 
@@ -288,10 +291,10 @@ public class ControllerServlet extends HttpServlet {
 					// Guardar lista de ususarios(LLamar a microservicio
 					// lista de ususarios)
 					webResource = client.target("http://localhost:8010").path("listaUser");
-					User[] lista = null;
-					lista = webResource.request("application/json").accept("application/json")
+					listaUser = null;
+					listaUser = webResource.request("application/json").accept("application/json")
 							.post(Entity.entity(u, MediaType.APPLICATION_JSON), User[].class);
-					List<User> lista2 = Arrays.asList(lista);
+					List<User> lista2 = Arrays.asList(listaUser);
 					// Pasar atributo por request
 					misession.setAttribute("lista", lista2);
 
@@ -324,7 +327,7 @@ public class ControllerServlet extends HttpServlet {
 			case "enviarMensaje":
 					
 					operacion= "messages";
-					if(request.getParameter("destinoAdmin")!= null){
+					
 						String mensaje	=  request.getParameter("mensaje");				
 						int idemisor= (((User) misession.getAttribute("usuario")).getId());
 						int iddestinatario = Integer.parseInt(request.getParameter("idDestinatario"));
@@ -340,17 +343,30 @@ public class ControllerServlet extends HttpServlet {
 						webResource = client.target("http://localhost:8030").path(operacion);
 						webResource.request("application/json").accept("application/json")
 						.post(Entity.entity(mensajeSend, MediaType.APPLICATION_JSON),Mensaje.class);
+						
+						//Consulto de nuevo la conversacion
+						client = ClientBuilder.newClient();
+						webResource = client.target("http://localhost:8030").path(operacion)
+								.path(String.valueOf(idemisor))
+								.path(String.valueOf(iddestinatario));
+						
+						listaMensaje= webResource.request().accept("application/json").get(Mensaje[].class);
+							
+						resultado= Arrays.asList(listaMensaje);
+						
+						request.setAttribute("mensajes", resultado);
+						request.setAttribute("idUserChat", iddestinatario);
 								
 								
 						System.out.println("Se ha enviado el mensaje al usuario: " + iddestinatario);
 
 						// Redireccionamos a la pagina de chat para seguir hablando
-						miR = request.getRequestDispatcher("Chat.jsp");
+						miR = request.getRequestDispatcher("ChatPrivado.jsp");
 
 						miR.forward(request, response);
 						break;
 						
-					}
+					
 					
 					
 					
@@ -358,7 +374,7 @@ public class ControllerServlet extends HttpServlet {
 						
 						operacion="messages";
 						User usuario= (User) misession.getAttribute("usuario");
-						List<Mensaje> resultado;
+						
 						
 						 idPropio= usuario.getId();	
 						 idAjeno=Integer.parseInt(request.getParameter("idUserChat"));
@@ -369,9 +385,9 @@ public class ControllerServlet extends HttpServlet {
 									.path(String.valueOf(idPropio))
 									.path(String.valueOf(idAjeno));
 							
-							Mensaje[] lista= webResource.request().accept("application/json").get(Mensaje[].class);
+							listaMensaje= webResource.request().accept("application/json").get(Mensaje[].class);
 								
-							resultado= Arrays.asList(lista);
+							resultado= Arrays.asList(listaMensaje);
 							
 							request.setAttribute("mensajes", resultado);
 									
