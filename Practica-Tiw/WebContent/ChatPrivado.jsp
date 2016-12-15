@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
+<%@page import="es.uc3m.tiw.domains.*"%>
 <!DOCTYPE html>
 <head>
 <meta charset="utf-8">
@@ -31,27 +32,49 @@
 							<div class="col-md-12" style="border: 2px, white;">
 
 								<font size=3><div class="panel panel-danger"
-										style="max-height: 200px; height: 200px;">
-										<div class="panel-body"
-											style="max-height: 200px; height: 200px;">
+										style="height: auto;">
+										<div class="panel-body" style="height: auto;">
 
 											<%
-												List<String> lista = (List<String>) request.getAttribute("mensajes");
-
-												ArrayList<String> colaMensajes = new ArrayList<String>();
+												List<Mensaje> lista = (List<Mensaje>) request.getAttribute("mensajes");
+												User u = (User) session.getAttribute("usuario");
 
 												if (request.getAttribute("mensajes") != null) {
-													lista = (List<String>) request.getAttribute("mensajes");
+
 													for (int i = 0; i < lista.size(); i++) {
+
+														if (u.getId() == (lista.get(i)).getIdemisor()) {
 											%>
 
+											<style>
+.enviado{
+	color: green;
+	text-align: right;
+}
+</style>
+<p class="enviado"><%=(lista.get(i)).getMensaje()%></p1>
+											<%
+												} else {
+											%>
 
-
-											<p><%=lista.get(i)%></p>
-
+											<style>
+.recibido{
+	color: blue;
+	text-align: left;
+}
+</style><p class="recibido"><%=(lista.get(i)).getMensaje()%></p2>
 
 											<%
 												}
+											%>
+
+											<%-- <p><%=(lista.get(i)).getMensaje()%></p> --%>
+
+
+
+											<%
+													}
+												
 											%>
 
 
@@ -63,14 +86,17 @@
 						</div>
 						<center>
 
-							<form action="/Practica-Tiw/ServletChat" method="post"
-								name="formadmin" align="center">
-								<font size=4><input type="text" name="mensaje" placeholder="Respuesta..." style="width: 350px;"></font>
-								<input type="hidden" name="ejecutar" value="Responder">
-								<input type="hidden" name="idDestinatario"
-									value="<%=request.getParameter("idUserChat")%>"> 
-									<div style="padding: 5px;"><input
-									type="submit" class="btn btn-success btn-lg" value="Responder" /></div>
+							<form action="ControllerServlet" method="post" name="formadmin"
+								align="center">
+								<font size=4><input type="text" name="mensaje"
+									placeholder="Respuesta..." style="width: 350px;"></font> <input
+									type="hidden" name="action" value="Responder"> <input
+									type="hidden" name="idDestinatario"
+									value="<%=request.getParameter("idUserChat")%>">
+								<div style="padding: 5px;">
+									<input type="submit" class="btn btn-success btn-lg"
+										value="Responder" />
+								</div>
 							</form>
 
 							<%

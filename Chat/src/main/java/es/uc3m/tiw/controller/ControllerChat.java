@@ -51,9 +51,7 @@ public class ControllerChat {
 				if ((conversacionR.get(0)).getIdmessage() < (conversacionE.get(0)).getIdmessage()) {
 					conversacionOrdenada.add(conversacionR.get(0));
 					conversacionR.remove(0);
-				}
-
-				if ((conversacionE.get(0)).getIdmessage() < (conversacionR.get(0)).getIdmessage()) {
+				}else{
 					conversacionOrdenada.add(conversacionE.get(0));
 					conversacionE.remove(0);
 				}
@@ -72,9 +70,6 @@ public class ControllerChat {
 
 		System.out.println("Hemos ordenado bien");
 		
-		while(!conversacionOrdenada.isEmpty()){
-		System.out.println((conversacionOrdenada.get(0)).getMensaje());
-		conversacionOrdenada.remove(0);}
 
 		return conversacionOrdenada;
 

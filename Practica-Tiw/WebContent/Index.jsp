@@ -86,8 +86,8 @@
 							<!-- RD Navbar Nav-->
 							<ul class="rd-navbar-nav">
 								<li><form name="do3" method="post"
-										action="/Practica-Tiw/ServletChat">
-										<input type="hidden" name="ejecutar" value="MostrarConversaciones"> <a
+										action="ControllerServlet">
+										<input type="hidden" name="action" value="mostrarConversaciones"> <a
 											href="javascript:document.do3.submit()" class="fa-comments ">Chat</a>
 									</form></li>
 

@@ -72,6 +72,8 @@ public class ControllerServlet extends HttpServlet {
 		User u = new User();
 		User a = new User();
 		User u1 = new User();
+		int idPropio;
+		int idAjeno;
 		Mensaje mensajeSend = new Mensaje();
 
 		HttpSession misession = (HttpSession) request.getSession();
@@ -357,25 +359,15 @@ public class ControllerServlet extends HttpServlet {
 						operacion="messages";
 						User usuario= (User) misession.getAttribute("usuario");
 						List<Mensaje> resultado;
-						//comprobacion de admin o ususario normal
-						if(usuario.getAdmin()==1){
-							
-						}
-						else{
 						
-						//Si es admin, ejecuto find all() de usuarios.
-						
-						
-						//Si es 
-						
-						int idPropio= usuario.getId();	
-						int idAjeno=Integer.parseInt(request.getParameter("idUserChat"));
+						 idPropio= usuario.getId();	
+						 idAjeno=Integer.parseInt(request.getParameter("idUserChat"));
 						
 							// REST Client using GET Verb and Path Variable
 							client = ClientBuilder.newClient();
 							webResource = client.target("http://localhost:8030").path(operacion)
-									.path("idPropio")
-									.path("idAjeno");
+									.path(String.valueOf(idPropio))
+									.path(String.valueOf(idAjeno));
 							
 							Mensaje[] lista= webResource.request().accept("application/json").get(Mensaje[].class);
 								
@@ -390,9 +382,60 @@ public class ControllerServlet extends HttpServlet {
 
 							miR.forward(request, response);
 							break;
-						}
+							
+					case "mostrarConversaciones":
+						
+					usuario = (User) misession.getAttribute("usuario");
+					List<User> listaConversaciones= new ArrayList<User>();
+						
+					//Si es admin, ejecuto find all() de usuarios.
+					if(usuario.getAdmin()!=0){
+						// REST Client using GET Verb and Path Variable
+						
+						operacion="users";
+						client = ClientBuilder.newClient();
+						webResource = client.target("http://localhost:8010").path(operacion);
+						
+						User[] arrayConversaciones= webResource.request().accept("application/json").get(User[].class);
+							
+						listaConversaciones= Arrays.asList(arrayConversaciones);
+						
+						request.setAttribute("listaEmisores", listaConversaciones);
+								
+						System.out.println("Se muestran todas las conversaciones: ");
+
+						// Redireccionamos a la pagina de Login
+						miR = request.getRequestDispatcher("ChatsAbiertos.jsp");
+
+						miR.forward(request, response);
 						
 						
+					}else{
+						
+						operacion="messages";
+						idPropio = usuario.getId();
+						
+						System.out.println(idPropio);
+						
+						client = ClientBuilder.newClient();
+						
+						webResource = client.target("http://localhost:8030").path(operacion)
+							.path(String.valueOf(idPropio));
+						User[] arrayConversaciones= webResource.request().accept("application/json").get(User[].class);
+								
+						listaConversaciones= Arrays.asList(arrayConversaciones);
+						
+						request.setAttribute("listaEmisores", listaConversaciones);
+								
+						System.out.println("Se muestran todas las conversaciones de USUARIO: ");
+
+						// Redireccionamos a la pagina de Login
+						miR = request.getRequestDispatcher("ChatsAbiertos.jsp");
+
+						miR.forward(request, response);
+						
+					}
+					break;
 						
 					
 					

@@ -32,7 +32,7 @@
 
 											<th>
 												<form name="nombre" method="post"
-													action="/Practica-Tiw/ServletChat">
+													action="ControllerServlet">
 
 
 													<ul id="chatsActivos">
@@ -65,13 +65,13 @@
 											<td>
 
 
-												<form action="/Practica-Tiw/ServletChat" name="nombre"
+												<form action="ControllerServlet" name="nombre"
 													method="post">
 													<input type="submit" class="btn btn-info "
 														value="Iniciar chat con usuario"> <input
 														type="hidden" name="idUserChat"
 														value="<%=lista.get(i).getId()%>"> <input
-														type="hidden" name="ejecutar" value="LeerChat">
+														type="hidden" name="action" value="LeerChat">
 
 													</button>
 											</td>

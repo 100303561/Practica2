@@ -6,14 +6,13 @@ import java.util.List;
 
 import javax.persistence.*;
 
-@Entity
+
 public class Mensaje implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	@Id 
-	@GeneratedValue
-	@Column(name="idmessage")
+	
+	
 	private int idmessage;
 	private int idemisor;
 	private int iddestinatario;
@@ -71,6 +70,13 @@ public class Mensaje implements Serializable{
 	public Mensaje() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+
+	@Override
+	public String toString() {
+		return "Mensaje [idmessage=" + idmessage + ", idemisor=" + idemisor + ", iddestinatario=" + iddestinatario
+				+ ", mensaje=" + mensaje + "]";
 	}
 	
 }
