@@ -72,6 +72,7 @@ public class ControllerServlet extends HttpServlet {
 		User u = new User();
 		User a = new User();
 		User u1 = new User();
+		Mensaje mensajeSend = new Mensaje();
 
 		HttpSession misession = (HttpSession) request.getSession();
 		RequestDispatcher miR;
@@ -317,11 +318,100 @@ public class ControllerServlet extends HttpServlet {
 			case "reloadCatalogo":
 				act = new ReloadCatalogo();
 				break;
+				
+			case "enviarMensaje":
+					
+					operacion= "messages";
+					if(request.getParameter("destinoAdmin")!= null){
+						String mensaje	=  request.getParameter("mensaje");				
+						int idemisor= (((User) misession.getAttribute("usuario")).getId());
+						int iddestinatario = Integer.parseInt(request.getParameter("idDestinatario"));
+						
+						
+						mensajeSend.setIddestinatario(iddestinatario);
+						mensajeSend.setIdemisor(idemisor);
+						mensajeSend.setMensaje(mensaje);
+						
+						
+						
+						// REST Client using POST Verb and JSON
+						webResource = client.target("http://localhost:8030").path(operacion);
+						webResource.request("application/json").accept("application/json")
+						.post(Entity.entity(mensajeSend, MediaType.APPLICATION_JSON),Mensaje.class);
+								
+								
+						System.out.println("Se ha enviado el mensaje al usuario: " + iddestinatario);
+
+						// Redireccionamos a la pagina de chat para seguir hablando
+						miR = request.getRequestDispatcher("Chat.jsp");
+
+						miR.forward(request, response);
+						break;
+						
+					}
+					
+					
+					
+					case "LeerChat":
+						
+						operacion="messages";
+						User usuario= (User) misession.getAttribute("usuario");
+						List<Mensaje> resultado;
+						//comprobacion de admin o ususario normal
+						if(usuario.getAdmin()==1){
+							
+						}
+						else{
+						
+						//Si es admin, ejecuto find all() de usuarios.
+						
+						
+						//Si es 
+						
+						int idPropio= usuario.getId();	
+						int idAjeno=Integer.parseInt(request.getParameter("idUserChat"));
+						
+							// REST Client using GET Verb and Path Variable
+							client = ClientBuilder.newClient();
+							webResource = client.target("http://localhost:8030").path(operacion)
+									.path("idPropio")
+									.path("idAjeno");
+							
+							Mensaje[] lista= webResource.request().accept("application/json").get(Mensaje[].class);
+								
+							resultado= Arrays.asList(lista);
+							
+							request.setAttribute("mensajes", resultado);
+									
+							System.out.println("Se muestran los mensajes recibidos para el usuario: " + usuario.getName());
+
+							// Redireccionamos a la pagina de Login
+							miR = request.getRequestDispatcher("ChatPrivado.jsp");
+
+							miR.forward(request, response);
+							break;
+						}
+						
+						
+						
+					
+					
+					
+					
+					
+				}
+
 			}
 
-		}
+	
+	
+		
 
 		act.processAction(request, response);
-	}
 
+		}
 }
+	
+		
+	
+
