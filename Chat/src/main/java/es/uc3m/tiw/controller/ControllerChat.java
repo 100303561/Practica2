@@ -70,8 +70,11 @@ public class ControllerChat {
 			}
 		}
 
-		System.out.println("hemos ordenado bien");
-		System.out.println(conversacionOrdenada);
+		System.out.println("Hemos ordenado bien");
+		
+		while(!conversacionOrdenada.isEmpty()){
+		System.out.println((conversacionOrdenada.get(0)).getMensaje());
+		conversacionOrdenada.remove(0);}
 
 		return conversacionOrdenada;
 
