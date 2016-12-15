@@ -22,14 +22,26 @@
 			<div class="col-md-12">
 				<h3>
 					<center>
-						<img src="images/titulo.jpg"
-							style="max-height: 100px; width: 40%;">
-				</h3>
-				<div class="row">
-					<div class="col-md-4"></div>
-					<div class="col-md-4" background="white">
+					<font color="white" size=6>Chat con el usuario</font>
+					</center>
+				</h3>	
+				
+				<div class="col-md-4" value="Volver a conversaciones" style="margin-bottom:25px; border-radius:15px;">
+						
+						<form name="do3" method="post" action="ControllerServlet">
+							<input type="submit" class="btn btn-warning"
+							style="border-radius:10px; border: 1px solid black; max-width:auto; max-height:auto;" value="Volver a conversaciones">
+							<input type="hidden" name="action" value="mostrarConversaciones"> 
+								<a href="javascript:document.do3.submit()"></a>
+						</form>		
+						
+				</div>	
+						
+				
+					
+					<div class="col-md-4" background="white" style="border-radius:10px;">
 						<div class="row">
-							<div class="col-md-12" style="border: 2px, white;">
+							<div class="col-md-12" style="border: 2px, black;">
 
 								<font size=3><div class="panel panel-danger"
 										style="height: auto;">
@@ -98,8 +110,8 @@
 									
 									
 								<div style="padding: 5px;">
-									<input type="submit" class="btn btn-success btn-lg"
-										value="Responder" />
+									<input style="border-radius:10px; border: 1px solid black" type="submit" class="btn btn-success btn-lg"
+										value="Enviar" />
 								</div>
 							</form>
 
@@ -108,7 +120,9 @@
 							%>
 						
 					</div>
-					<div class="col-md-4"></div>
+					
+					
+					
 				</div>
 			</div>
 		</div>
