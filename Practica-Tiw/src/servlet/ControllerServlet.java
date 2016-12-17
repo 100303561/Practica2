@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -73,9 +74,11 @@ public class ControllerServlet extends HttpServlet {
 		User u = new User();
 		User a = new User();
 		User u1 = new User();
+		User usuario = new User();
 		Product p = new Product();
 		int idPropio;
 		int idAjeno;
+		int idemisor;
 		Mensaje mensajeSend = new Mensaje();
 		Mensaje[] listaMensaje=null;
 		User[] listaUser = null;
@@ -254,13 +257,24 @@ public class ControllerServlet extends HttpServlet {
 				p.setDescription(request.getParameter("message"));
 				p.setCategory(request.getParameter("category"));
 				p.setPrice(Double.parseDouble(request.getParameter("price")));
-				p.setImagen((request.getParameter("fileToUpload")).getBytes());
+				//p.setImagen((request.getParameter("fileToUpload")).getBytes());
+				
+				//Obtener imagen
+				Part filePart = request.getPart("fileToUpload");
+
+			    byte[] data = new byte[(int) filePart.getSize()];
+			    
+			    filePart.getInputStream().read(data, 0, data.length);
+			    
+				p.setImagen(data);
+				
+				System.out.println(data.toString());
 				
 				u1 = (User) misession.getAttribute("usuario");
 				
 				p.setUser(u1.getId());
 				
-				operacion = "upload";
+				operacion = "products";
 
 				// REST Client using POST Verb and JSON
 				webResource = client.target("http://localhost:8020").path(operacion);
@@ -390,7 +404,12 @@ public class ControllerServlet extends HttpServlet {
 					operacion= "messages";
 					
 						String mensaje	=  request.getParameter("mensaje");				
-						int idemisor= (((User) misession.getAttribute("usuario")).getId());
+						
+						if (misession.getAttribute("admin")!=null){
+							idemisor= (((User) misession.getAttribute("admin")).getId());
+						} else {
+							idemisor= (((User) misession.getAttribute("usuario")).getId());
+						}
 						int iddestinatario = Integer.parseInt(request.getParameter("idDestinatario"));
 						
 						
@@ -434,7 +453,13 @@ public class ControllerServlet extends HttpServlet {
 					case "LeerChat":
 						
 						operacion="messages";
-						User usuario= (User) misession.getAttribute("usuario");
+						if (misession.getAttribute("admin")!=null){
+							usuario = (User) misession.getAttribute("admin");
+							
+						} else {
+							usuario= (User) misession.getAttribute("usuario");
+						}
+						
 						
 						
 						 idPropio= usuario.getId();	
@@ -462,11 +487,11 @@ public class ControllerServlet extends HttpServlet {
 							
 					case "mostrarConversaciones":
 						
-					usuario = (User) misession.getAttribute("usuario");
+					
 					List<User> listaConversaciones= new ArrayList<User>();
 						
 					//Si es admin, ejecuto find all() de usuarios.
-					if(usuario.getAdmin()!=0){
+					if(misession.getAttribute("admin")!=null){
 						// REST Client using GET Verb and Path Variable
 						
 						operacion="users";
@@ -488,7 +513,7 @@ public class ControllerServlet extends HttpServlet {
 						
 						
 					}else{
-						
+						usuario = (User) misession.getAttribute("usuario");
 						operacion="messages";
 						idPropio = usuario.getId();
 						

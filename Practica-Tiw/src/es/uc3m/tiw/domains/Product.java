@@ -1,15 +1,8 @@
 package es.uc3m.tiw.domains;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
 
-@Entity
 public class Product implements Serializable{
 	private static final long serialVersionUID = 1L;
 
@@ -17,8 +10,6 @@ public class Product implements Serializable{
 		return serialVersionUID;
 	}
 	
-	@Id
-	@Column(name = "id")
 	private int id;
 
 	private String product_name;
@@ -28,7 +19,7 @@ public class Product implements Serializable{
 	private String description;
 	
 	private String city;
-	@Lob
+
 	private byte[] imagen;
 	
 	private double price;
@@ -49,7 +40,7 @@ public class Product implements Serializable{
 		this.product_name = product_name;
 		this.category = category;
 		this.description = description;
-		//this.imagen = imagen;
+		this.imagen = imagen;
 		this.price = price;
 		this.user = user;
 		this.status = status;

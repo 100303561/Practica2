@@ -21,7 +21,9 @@
 		<div class="container-fluid-md-12">
 			<div class="row">
 				<div class="col-md-12">
-					<h3 class="text-center"><font color="white" size=7>Chats abiertos con usuarios</font></h3>
+					<h3 class="text-center">
+						<font color="white" size=7>Chats abiertos con usuarios</font>
+					</h3>
 					<div class="row">
 						<center>
 							<div class="col-md-12">
@@ -31,14 +33,13 @@
 										<tr>
 
 											<th>
-												<form name="nombre" method="post"
-													action="ControllerServlet">
+												<form name="nombre" method="post" action="ControllerServlet">
 
-													
+
 													<ul id="chatsActivos">
-													<font color="white" size=5><li
-																class="nav__notification__num">Has recibido
-																	mensajes de:</li></font>
+														<font color="white" size=5><li
+															class="nav__notification__num">Has recibido mensajes
+																de:</li></font>
 														<div id="chatsActivos" class="nav__notification">
 															<%
 																List<User> lista = new ArrayList<User>();
@@ -47,7 +48,7 @@
 																	lista = (List<User>) request.getAttribute("listaEmisores");
 																	for (int i = 0; i < lista.size(); i++) {
 															%>
-															
+
 														</div>
 													</ul>
 
@@ -66,8 +67,7 @@
 											<td>
 
 
-												<form action="ControllerServlet" name="nombre"
-													method="post">
+												<form action="ControllerServlet" name="nombre" method="post">
 													<input type="submit" class="btn btn-info "
 														value="Iniciar chat con usuario"> <input
 														type="hidden" name="idUserChat"

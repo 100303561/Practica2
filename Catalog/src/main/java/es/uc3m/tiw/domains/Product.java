@@ -48,7 +48,7 @@ public class Product implements Serializable{
 		this.product_name = product_name;
 		this.category = category;
 		this.description = description;
-		//this.imagen = imagen;
+		this.imagen = imagen;
 		this.price = price;
 		this.user = user;
 		this.status = status;
@@ -86,13 +86,13 @@ public class Product implements Serializable{
 		this.description = description;
 	}
 
-	/*public byte[] getImagen() {
+	public byte[] getImagen() {
 		return imagen;
 	}
 
 	public void setImagen(byte[] imagen) {
 		this.imagen = imagen;
-	}*/
+	}
 
 	public double getPrice() {
 		return price;

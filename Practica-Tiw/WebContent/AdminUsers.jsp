@@ -30,46 +30,6 @@
 		<!-- Page Header-->
 		<header class="page-head">
 			<!-- RD Navbar-->
-			<div class="rd-navbar-wrap header_corporate">
-				<nav class="rd-navbar" data-layout="rd-navbar-fixed"
-					data-sm-layout="rd-navbar-fullwidth"
-					data-md-layout="rd-navbar-fullwidth">
-					<!--RD Navbar Panel-->
-					<div class="rd-navbar-top-panel">
-						<div class="rd-navbar-top-panel-wrap">
-
-
-
-
-
-
-							<ul class="list-inline">
-								<li><a href="#" class="fa-facebook"></a></li>
-								<li><a href="#" class="fa-twitter"></a></li>
-								<li><a href="#" class="fa-pinterest-p"></a></li>
-								<li><a href="#" class="fa-vimeo"></a></li>
-								<li><a href="#" class="fa-google"></a></li>
-								<li><a href="#" class="fa-rss"></a></li>
-							</ul>
-
-						</div>
-					</div>
-					<div class="rd-navbar-inner inner-wrap">
-						<div class="rd-navbar-panel">
-							<!-- RD Navbar Toggle-->
-							<button data-rd-navbar-toggle=".rd-navbar-nav-wrap"
-								class="rd-navbar-toggle">
-								<span></span>
-							</button>
-							<!-- RD Navbar Brand-->
-							<div class="rd-navbar-brand">
-								<a href="index.jsp" class="brand-name">Compra<br> <span>Venta</span></a>
-							</div>
-						</div>
-
-					</div>
-				</nav>
-			</div>
 		</header>
 		<!-- Page Content-->
 		<main class="page-content text-center text-lg-left"> <!-- Section Title Breadcrumbs-->
@@ -77,7 +37,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-xs-12">
-						<h1>Administración de usuarios</h1>
+						<h1>Administracion de usuarios</h1>
 						<p></p>
 						<ol class="breadcrumb">
 							<li><a href="#">Admin</a></li>
@@ -88,9 +48,15 @@
 				</div>
 			</div>
 		</section>
+		<ul class="rd-navbar-nav">
+			<li><form name="do3" method="post" action="ControllerServlet">
+					<input type="hidden" name="action" value="mostrarConversaciones">
+					<a href="javascript:document.do3.submit()" class="fa-comments ">Chat</a>
+				</form></li>
+		</ul>
 		<!--Section Tables Main Color Header-->
 		<section class="section-md">
-			<div class="container" >
+			<div class="container">
 				<h2>Usuarios registrados</h2>
 
 				<hr>
@@ -107,7 +73,7 @@
 									<col class="col-xs-3">
 								</colgroup>
 
-								<thead >
+								<thead>
 									<tr class="bg-primary">
 										<th>ID</th>
 										<th>Nombre</th>
@@ -126,7 +92,7 @@
 											lista = (List<User>) session.getAttribute("lista");
 										}
 										for (int i = 0; i < lista.size(); i++) {
-											if (lista.get(i).getAdmin()==0){
+											if (lista.get(i).getAdmin() == 0) {
 									%>
 									<tr>
 										<td><%=lista.get(i).getId()%></td>
@@ -153,7 +119,7 @@
 
 
 									<%
-											}
+										}
 										}
 									%>
 

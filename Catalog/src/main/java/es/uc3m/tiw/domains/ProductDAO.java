@@ -14,5 +14,8 @@ public interface ProductDAO extends CrudRepository<Product, Integer>{
 	
 	//Busqueda de todos los productos de un usuario
 	public List<Product> findByUser(int userID);
+	
+	//Lista de todos los productos de la bbdd
+	public List<Product> findAll();
 
 }

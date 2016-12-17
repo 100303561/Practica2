@@ -49,7 +49,13 @@
 
 											<%
 												List<Mensaje> lista = (List<Mensaje>) request.getAttribute("mensajes");
-												User u = (User) session.getAttribute("usuario");
+											User u = new User();
+											if (session.getAttribute("admin")!=null){
+												u = (User) session.getAttribute("admin");
+											} else{
+												u = (User) session.getAttribute("usuario");
+											}
+												
 
 												if (request.getAttribute("mensajes") != null) {
 
@@ -78,13 +84,7 @@
 
 											<%
 												}
-											%>
-
-											<%-- <p><%=(lista.get(i)).getMensaje()%></p> --%>
-
-
-
-											<%
+											
 													}
 												
 											%>

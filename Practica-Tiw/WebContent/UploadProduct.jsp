@@ -125,9 +125,8 @@
 					<div class="col-xs-12 col-sm-6">
 						<div class="google-search">
 							<div class="form-group">
-								<label for="address" class="small">Subir imagen</label> <input
-									id="address" type="file" name="fileToUpload"
-									placeholder="No title" src="" required>
+								<label for="address" class="small">Subir imagen</label> 
+								<input id="address" type="file" name="fileToUpload" required>
 
 
 								<div class="col-xs-12 offset-8">
