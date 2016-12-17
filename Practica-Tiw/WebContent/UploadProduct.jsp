@@ -6,7 +6,7 @@
 <html lang="en" class="wide wow-animation">
 <head>
 <!-- Site Title-->
-<title>Subir producto</title>
+<title>Perfil personal</title>
 <meta name="format-detection" content="telephone=no">
 <meta name="viewport"
 	content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -21,6 +21,27 @@
     <div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
     <script src="js/html5shiv.min.js"></script>
 		<![endif]-->
+<script type="text/javascript">
+	function ConfirmDelete() {
+		var confirmar = confirm("Are you Sure?");
+		if (!confirmar) {
+			return false;
+		} else {
+			alert("Sus datos serán eliminados")
+			return true;
+		}
+	}
+	function ConfirmModify() {
+		var confirmar = confirm("Desea Modificar su usuario?");
+		if (!confirmar) {
+			return false;
+		} else {
+			alert("Sus datos han sido modificados correctamente")
+			return true;
+		}
+	}
+</script>
+
 </head>
 <body>
 	<!-- Recogo el usuario guardado en la session -->
@@ -29,41 +50,39 @@
 		u = (User) session.getAttribute("usuario");
 	%>
 
-	
-	<!-- Page-->
 	<div class="page">
 		<!-- Page Header-->
-		<header class="page-head">
-			<!-- RD Navbar-->
-		
-		</header>
-		<section>
-
-
-
-
-			<!-- Page Content-->
-			<main class="page-content text-left"> <!-- Section Title Breadcrumbs-->
-			<section class="section-full">
-				<div class="container">
-					<div class="row">
-						<div class="col-xs-12">
-							<h1>Subir arti­culo</h1>
-							<p></p>
-							<ol class="breadcrumb">
-								<li><a href="#">Index</a></li>
-
-								<li class="active">Sube ya tu articulo</li>
-							</ol>
-						</div>
+		<header class="page-head"> </header>
+		<!-- Page Content-->
+		<main class="page-content text-left"> <!-- Section Title Breadcrumbs-->
+		<section class="section-full">
+			<div class="container">
+				<div class="row">
+					<div class="col-xs-12">
+						<h1>Perfil personal</h1>
+						<p></p>
+						<ol class="breadcrumb">
+							<li><a href="Index.jsp">Index</a></li>
+							<li class="active">Perfil personal</li>
+						</ol>
 					</div>
 				</div>
-			</section>
-			<section class="section-sm">
+			</div>
+		</section>
+		<!--Section Contact Us 1-->
+		<section class="section-sm">
+			<div class="container">
+				<div class="row" style="width: auto;">
+					<div class="col-md-8">
+						<h2>Añade tu nuevo producto</h2>
+						<hr>
+						
+
+						<div class="col-xs-12 offset-2">
+							
 
 
-				<hr>
-				<form class="inset-6" action="ControllerServlet"
+						<form class="inset-6" action="ControllerServlet"
 					method="post" enctype="multipart/form-data">
 
 					<div class="col-sm-6">
@@ -118,7 +137,7 @@
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label for="price" class="small">Precio</label> <input
-									id="price" type="text" name="price" placeholder="Precio"
+									id="price" type="number" min="0" step="any" name="price" placeholder="Precio"
 									class="form-control" required>
 							</div>
 						</div>
@@ -140,34 +159,36 @@
 						</div>
 					</div>
 				</form>
-			</section>
-			</main>
-			<!-- Page Footer-->
-			<footer class="page-foot text-center text-md-left bg-gray">
-				<div class="container-fluid">
-					<div class="footer-wrap">
-						<div class="rd-navbar-brand">
-							<a href="#" class="brand-name">Compra<br> <span>&Venta!</span></a>
-						</div>
-						<ul class="list-inline">
-							<li><a href="#" class="fa-facebook"></a></li>
-							<li><a href="#" class="fa-twitter"></a></li>
-							<li><a href="#" class="fa-pinterest-p"></a></li>
-							<li><a href="#" class="fa-vimeo"></a></li>
-							<li><a href="#" class="fa-google"></a></li>
-							<li><a href="#" class="fa-rss"></a></li>
-						</ul>
-						<div class="copyright">
-							<p>
-								&#169;<span id="copyright-year"></span> All Rights Reserved <a
-									href="#">Terms of Use and Privacy Policy</a>
-							</p>
-						</div>
 					</div>
 				</div>
-			</footer>
-	</div>
-	<!-- Java script-->
 
+			</div>
+	</div>
+	</section>
+	</main>
+	<!-- Page Footer-->
+	<footer class="page-foot text-center text-md-left bg-gray">
+		<div class="container-fluid">
+			<div class="footer-wrap">
+				<div class="rd-navbar-brand">
+					<a href="#" class="brand-name">Compra<br> <span>Venta</span></a>
+				</div>
+				<ul class="list-inline">
+					<li><a href="#" class="fa-facebook"></a></li>
+					<li><a href="#" class="fa-twitter"></a></li>
+					<li><a href="#" class="fa-pinterest-p"></a></li>
+					<li><a href="#" class="fa-vimeo"></a></li>
+					<li><a href="#" class="fa-google"></a></li>
+					<li><a href="#" class="fa-rss"></a></li>
+				</ul>
+				<div class="copyright">
+					<p>
+						&#169;<span id="copyright-year"></span> All Rights Reserved <a
+							href="#">Terms of Use and Privacy Policy</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</footer>
 </body>
 </html>
