@@ -11,5 +11,8 @@ public interface ProductDAO extends CrudRepository<Product, Integer>{
 	
 	@Query("select p from Product p WHERE ((p.product_name LIKE :search OR p.description LIKE :search OR :search IS NULL) AND (p.category=:category or :category IS NULL)) ")
 	public List<Product> advandcedSearch (@Param ("search") String search, @Param("category") String category);
+	
+	//Busqueda de todos los productos de un usuario
+	public List<Product> findByUser(int userID);
 
 }

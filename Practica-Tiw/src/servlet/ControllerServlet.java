@@ -60,6 +60,7 @@ public class ControllerServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		IAction act = null;
 		String action = request.getParameter("action");
 		System.out.println(action);
@@ -72,6 +73,7 @@ public class ControllerServlet extends HttpServlet {
 		User u = new User();
 		User a = new User();
 		User u1 = new User();
+		Product p = new Product();
 		int idPropio;
 		int idAjeno;
 		Mensaje mensajeSend = new Mensaje();
@@ -247,7 +249,30 @@ public class ControllerServlet extends HttpServlet {
 
 				break;
 			case "uploadProduct":
-				act = new UploadProduct();
+				
+				p.setProduct_name(request.getParameter("title"));
+				p.setDescription(request.getParameter("message"));
+				p.setCategory(request.getParameter("category"));
+				p.setPrice(Double.parseDouble(request.getParameter("price")));
+				p.setImagen((request.getParameter("fileToUpload")).getBytes());
+				
+				u1 = (User) misession.getAttribute("usuario");
+				
+				p.setUser(u1.getId());
+				
+				operacion = "upload";
+
+				// REST Client using POST Verb and JSON
+				webResource = client.target("http://localhost:8020").path(operacion);
+				webResource.request("application/json").accept("application/json")
+						.post(Entity.entity(p, MediaType.APPLICATION_JSON), Product.class);
+
+				System.out.println("Se ha registrado el producto: " + p.getProduct_name());
+
+				// Redireccionamos a la pagina de Login
+				miR = request.getRequestDispatcher("Index.jsp");
+				miR.forward(request, response);
+				
 				break;
 			case "adminUsers":
 				act = new AdminUsers();
@@ -488,7 +513,8 @@ public class ControllerServlet extends HttpServlet {
 						
 					}
 					break;
-						
+					
+					
 					
 					
 					

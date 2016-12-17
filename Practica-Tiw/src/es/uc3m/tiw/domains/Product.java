@@ -27,6 +27,7 @@ public class Product implements Serializable{
 	
 	private String description;
 	
+	private String city;
 	@Lob
 	private byte[] imagen;
 	
@@ -86,13 +87,22 @@ public class Product implements Serializable{
 		this.description = description;
 	}
 
-	/*public byte[] getImagen() {
+	public byte[] getImagen() {
 		return imagen;
 	}
 
 	public void setImagen(byte[] imagen) {
 		this.imagen = imagen;
-	}*/
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
 
 	public double getPrice() {
 		return price;
