@@ -12,7 +12,6 @@ public class User implements Serializable {
 	// Atributos
 
 	@Id
-	@GeneratedValue
 	@Column(name = "id")
 	private int id;
 

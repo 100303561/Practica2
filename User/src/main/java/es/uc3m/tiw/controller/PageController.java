@@ -48,6 +48,17 @@ public class PageController {
 		System.out.println("Lista: " + lista.toString());
 		return lista;
 	}
+	
+	//Encontrar un usuario
+	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+	public User findUser(@PathVariable int id) {
+		//Buscamos usuario a modificar
+		User u = userDAO.findOne(id);
+		// Redirigir a Index
+		System.out.println("Usuario encontrado");
+		return u;
+
+	}
 
 	// Modificar Usuario
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)

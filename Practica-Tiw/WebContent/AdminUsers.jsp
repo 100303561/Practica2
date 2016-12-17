@@ -28,7 +28,7 @@
 	<!-- Page-->
 	<div class="page">
 		<!-- Page Header-->
-	<header class="page-head">
+		<header class="page-head">
 			<!-- RD Navbar-->
 			<div class="rd-navbar-wrap header_corporate">
 				<nav class="rd-navbar" data-layout="rd-navbar-fixed"
@@ -37,11 +37,11 @@
 					<!--RD Navbar Panel-->
 					<div class="rd-navbar-top-panel">
 						<div class="rd-navbar-top-panel-wrap">
-							
-							
-							
-									
-								
+
+
+
+
+
 
 							<ul class="list-inline">
 								<li><a href="#" class="fa-facebook"></a></li>
@@ -90,7 +90,7 @@
 		</section>
 		<!--Section Tables Main Color Header-->
 		<section class="section-md">
-			<div class="container">
+			<div class="container" >
 				<h2>Usuarios registrados</h2>
 
 				<hr>
@@ -107,15 +107,16 @@
 									<col class="col-xs-3">
 								</colgroup>
 
-								<thead>
+								<thead >
 									<tr class="bg-primary">
 										<th>ID</th>
 										<th>Nombre</th>
 										<th>Apellidos</th>
 										<th>Email</th>
 										<th>Contraseña</th>
-										<th>Ciudad
-										<th>
+										<th>Ciudad</th>
+										<th></th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -125,6 +126,7 @@
 											lista = (List<User>) session.getAttribute("lista");
 										}
 										for (int i = 0; i < lista.size(); i++) {
+											if (lista.get(i).getAdmin()==0){
 									%>
 									<tr>
 										<td><%=lista.get(i).getId()%></td>
@@ -133,10 +135,25 @@
 										<td><%=lista.get(i).getEmail()%></td>
 										<td><%=lista.get(i).getPassword()%></td>
 										<td><%=lista.get(i).getCity()%></td>
+										<td><form action="ControllerServlet" method="post"
+												name="formadmin" align="center">
+												<input type="hidden" name="id"
+													value="<%=lista.get(i).getId()%>"> <input
+													type="hidden" name="action" value="identifyUser"><input
+													type="submit" value="Modificar Usuario" />
+											</form></td>
+										<td><form action="ControllerServlet" method="post"
+												name="formadmin" align="center">
+												<input type="hidden" name="id"
+													value="<%=lista.get(i).getId()%>"> <input
+													type="hidden" name="action" value="showProductAdmin"><input
+													type="submit" value="Ver Productos" />
+											</form></td>
 									</tr>
 
 
 									<%
+											}
 										}
 									%>
 
@@ -149,28 +166,12 @@
 				</div>
 			</div>
 
-			<form action="ControllerServlet" method="post"
-				name="formadmin" align="center">
-				<h5>Insertar id para modificar Usuario</h5>
-				<input type="number" size="2" name="id" placeholder="Id user"> <input
-					type="hidden" name="action" value="identifyUser"><input
-					type="submit" value="Modificar Usuario" />
-			</form>
-
-			<form action="ControllerServlet" method="post"
-				name="formadmin" align="center">
-				<h5>Insertar id para ver Productos de un Usuario</h5>
-				<input type="number" size="2" name="id" placeholder="Id user">
-				<input type="hidden" name="action" value="showProductAdmin">
-				<input type="submit" value="Ver Productos" />
-			</form>
 			<form data-form-type="contact" method="post"
-								action="ControllerServlet"
-								class="rd-mailform rd-mailform-mod-1">
-			<input type="hidden" name="action" value="reload">
-			<input type="submit" class="btn btn-primary btn-md"
-									value="Recargar Pagina">
-							</form>
+				action="ControllerServlet" class="rd-mailform rd-mailform-mod-1">
+				<input type="hidden" name="action" value="reload"> <input
+					type="submit" class="btn btn-primary btn-md"
+					value="Recargar Pagina">
+			</form>
 		</section>
 		<!--Section Tables Dark Header--> </main>
 		<!-- Page Footer-->
@@ -180,11 +181,10 @@
 					<div class="rd-navbar-brand">
 						<a href="#" class="brand-name">Compra<br> <span>Venta!</span></a>
 					</div>
-					<form name="do" method="post"
-										action="ControllerServlet">
-										<input type="hidden" name="action" value="logout"> <a
-											href="javascript:document.do.submit()" class="fa-sign-in ">LogOut</a>
-									</form>
+					<form name="do" method="post" action="ControllerServlet">
+						<input type="hidden" name="action" value="logout"> <a
+							href="javascript:document.do.submit()" class="fa-sign-in ">LogOut</a>
+					</form>
 					<ul class="list-inline">
 						<li><a href="#" class="fa-facebook"></a></li>
 						<li><a href="#" class="fa-twitter"></a></li>

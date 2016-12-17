@@ -78,6 +78,7 @@ public class ControllerServlet extends HttpServlet {
 		Mensaje[] listaMensaje=null;
 		User[] listaUser = null;
 		List<Mensaje> resultado;
+		int id;
 
 		HttpSession misession = (HttpSession) request.getSession();
 		RequestDispatcher miR;
@@ -278,8 +279,8 @@ public class ControllerServlet extends HttpServlet {
 
 				webResource = client.target("http://localhost:8010").path(action);
 
-				Admin ad = webResource.request("application/json").accept("application/json")
-						.post(Entity.entity(u, MediaType.APPLICATION_JSON), Admin.class);
+				User ad = webResource.request("application/json").accept("application/json")
+						.post(Entity.entity(u, MediaType.APPLICATION_JSON), User.class);
 
 				// Comprobamos que exista el usuario
 				if (ad.getEmail() != null) {
@@ -308,10 +309,45 @@ public class ControllerServlet extends HttpServlet {
 				}
 				break;
 			case "showProductAdmin":
-				act = new ShowProductAdmin();
+				//Recogemos el id del usuario que queremos mostrar sus productos.
+				id = Integer.parseInt(request.getParameter("id"));
+				
+				
+				//Realizamos la consulta para saber cuales son los productos del usuario
+				//Metodo get parecido a products/id... que devuelva una lista de productos
+				
+				//Guardamos los resultados en una lista
+//				List<Product> lista = q.getResultList();
+
+				
+
+				//Pasamos la lista de mis productos a la session
+				misession = (HttpSession) request.getSession();
+//				misession.setAttribute("productosUsuario", lista);
+				
+				//Redirigimos a la pagina que muestra productos de un usuario
+				miR = request.getRequestDispatcher("ShowProductAdmin.jsp");
+				miR.forward(request, response);
 				break;
 			case "identifyUser":
-				act = new IdentifyUser();
+				
+				id = Integer.parseInt(request.getParameter("id"));
+
+				// Llamada a microservicio para encontrar un usuario
+				operacion = "users";
+
+				client = ClientBuilder.newClient();
+				webResource = client.target("http://localhost:8010").path(operacion).path(String.valueOf(id));
+				u1 = webResource.request("application/json").accept("application/json")
+						.get(User.class);
+
+				// Pasamos el usuario a la session
+				misession = (HttpSession) request.getSession();
+				misession.setAttribute("usuario", u1);
+
+				// Redirigimos a la pagina que muestra mis productos
+				miR = request.getRequestDispatcher("ModifyUser.jsp");
+				miR.forward(request, response);
 				break;
 			// añadir demas controladores product
 			case "reload":
