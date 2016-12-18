@@ -25,8 +25,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
-import acciones.IAction;
-import acciones.*;
 import es.uc3m.tiw.domains.*;
 
 /**
@@ -61,7 +59,6 @@ public class ControllerServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		IAction act = null;
 		String action = request.getParameter("action");
 		System.out.println(action);
 		String operacion = "";
@@ -316,9 +313,6 @@ public class ControllerServlet extends HttpServlet {
 				miR = request.getRequestDispatcher("Index.jsp");
 				miR.forward(request, response);
 
-				break;
-			case "adminUsers":
-				act = new AdminUsers();
 				break;
 			case "index":
 				String city = request.getParameter("city");
@@ -580,9 +574,6 @@ public class ControllerServlet extends HttpServlet {
 				miR = request.getRequestDispatcher("Article.jsp");
 				miR.forward(request, response);
 				break;
-			case "reloadCatalogo":
-				act = new ReloadCatalogo();
-				break;
 
 			case "enviarMensaje":
 
@@ -712,8 +703,6 @@ public class ControllerServlet extends HttpServlet {
 			}
 
 		}
-
-		act.processAction(request, response);
 
 	}
 }

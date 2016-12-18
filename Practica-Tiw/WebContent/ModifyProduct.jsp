@@ -53,10 +53,11 @@
 						<h1><%=p.getProduct_name()%></h1>
 						<p></p>
 						<ol class="breadcrumb">
-							<li><form name="do3" method="post" action="ControllerServlet">
-						 <input type="hidden" name="action" value="reload"> <a
-							href="javascript:document.do3.submit()">Index</a>
-					</form></li>
+							<li><form name="do3" method="post"
+									action="ControllerServlet">
+									<input type="hidden" name="action" value="reload"> <a
+										href="javascript:document.do3.submit()">Index</a>
+								</form></li>
 							<li class="active">Producto</li>
 						</ol>
 					</div>
@@ -91,17 +92,14 @@
 									</div>
 								</div>
 								<input type="textbox" name="desc"
-									value="<%=p.getDescription()%>"> 
-									<select	id="select-2" name="category">
-										<option value="<%=p.getCategory()%>"><%=p.getCategory()%></option>
-										<option value="Hogar">Hogar</option>
-										<option value="Tecnologia">Tecnologia</option>
-										<option value="Vehiculos">Vehiculos</option>
-										<option value="Ropa">Ropa</option>
-								</select>
-									
-									
-									<select	name="status" class="rd-mailform-select" required>
+									value="<%=p.getDescription()%>"> <select id="select-2"
+									name="category">
+									<option value="<%=p.getCategory()%>"><%=p.getCategory()%></option>
+									<option value="Hogar">Hogar</option>
+									<option value="Tecnologia">Tecnologia</option>
+									<option value="Vehiculos">Vehiculos</option>
+									<option value="Ropa">Ropa</option>
+								</select> <select name="status" class="rd-mailform-select" required>
 									<option value="<%=p.getStatus()%>"><%=p.getStatus()%></option>
 									<option style="color: black" value="Disponible">Disponible</option>
 									<option style="color: black" value="Vendido">Vendido</option>
@@ -111,18 +109,19 @@
 									value="Modificar producto">
 							</form>
 						</div>
-						<form method="post" action="ControllerServlet"
-							name="borrar" onsubmit="return ConfirmDelete()">
+						<form method="post" action="ControllerServlet" name="borrar"
+							onsubmit="return ConfirmDelete()">
 							<input type="hidden" name="action" value="deleteProduct">
 
-							<input type="submit" value="Eliminar Producto" />
+							<input type="submit" value="Eliminar Producto"
+								style="background-color: #eb3751; color: white; border: 0px; border-radius: 50px; padding: 10px; font-size: 14px; font-weight: bold; padding-left: 30px; padding-right: 30px; text-transform: uppercase;">
 						</form>
-					 <div class="sidebar-module cell-sm-6 cell-md-12 cell-md-push-2">
-						
-						<div class="item" style="width: 350px; height: 350px;">
-							<img src="Image.jsp?imgID=<%=p.getId()%>"
-								style="width: 720px; height: 450px;">
-						</div>
+						<div class="sidebar-module cell-sm-6 cell-md-12 cell-md-push-2">
+
+							<div class="item" style="width: 350px; height: 350px;">
+								<img src="Image.jsp?imgID=<%=p.getId()%>"
+									style="width: 720px; height: 450px;">
+							</div>
 						</div>
 
 					</div>

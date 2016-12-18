@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -33,142 +33,16 @@
 	<!-- Page-->
 	<div class="page">
 		<!-- Page Header-->
-		<header class="page-head">
-			<!-- RD Navbar-->
-			<div class="rd-navbar-wrap header_corporate">
-				<nav class="rd-navbar" data-layout="rd-navbar-fixed"
-					data-sm-layout="rd-navbar-fullwidth"
-					data-md-layout="rd-navbar-fullwidth">
-					<!--RD Navbar Panel-->
-					<div class="rd-navbar-top-panel">
-						<div class="rd-navbar-top-panel-wrap">
-							
-							
-
-							<ul class="list-inline">
-								<li><a href="#" class="fa-facebook"></a></li>
-								<li><a href="#" class="fa-twitter"></a></li>
-								<li><a href="#" class="fa-pinterest-p"></a></li>
-								<li><a href="#" class="fa-vimeo"></a></li>
-								<li><a href="#" class="fa-google"></a></li>
-								<li><a href="#" class="fa-rss"></a></li>
-							</ul>
-
-						</div>
-					</div>
-					<div class="rd-navbar-inner inner-wrap">
-						<div class="rd-navbar-panel">
-							<!-- RD Navbar Toggle-->
-							<button data-rd-navbar-toggle=".rd-navbar-nav-wrap"
-								class="rd-navbar-toggle">
-								<span></span>
-							</button>
-							<!-- RD Navbar Brand-->
-							<div class="rd-navbar-brand">
-								<a href="index.jsp" class="brand-name">Compra<br> <span>Venta</span></a>
-							</div>
-						</div>
-
-					</div>
-				</nav>
-			</div>
-		</header>
-		<!-- Page Content-->
-		<main class="page-content text-center text-lg-left"> <!-- Section Title Breadcrumbs-->
-		<section class="section-full">
-			<div class="container">
-				<div class="row">
-					<div class="col-xs-12">
-						<h1>Administracion de productos</h1>
-						<p></p>
-						<ol class="breadcrumb">
-							<li><form name="do3" method="post" action="ControllerServlet">
-						 <input type="hidden" name="action" value="reload"> <a
-							href="javascript:document.do3.submit()">Admin</a>
-					</form></li>
-							<li><a href="AdminUsers.jsp">Administracion usuarios</a></li>
-							<li class="active">Administracion productos</li>
-						</ol>
-					</div>
-				</div>
-			</div>
-		</section>
-		<!--Section Tables Main Color Header-->
-		<section class="section-md">
-			<div class="container">
-				<h2>Productos en linea</h2>
-
-				<hr>
-				<div class="row">
-					<div class="col-lg-10">
-						<div class="table-responsive">
-							<table class="table table-primary">
-								<colgroup>
-									<col class="col-xs-2">
-									<col class="col-xs-3">
-									<col class="col-xs-4">
-									<col class="col-xs-4">
-									<col class="col-xs-3">
-									<col class="col-xs-3">
-								</colgroup>
-
-								<thead>
-									<tr class="bg-primary">
-										<th>ID</th>
-										<th>Titulo</th>
-										<th>Precio</th>
-										<th>Categoria</th>
-										<th>Estado</th>
-										<th></th>
-
-									</tr>
-								</thead>
-								<tbody>
-									<%
-										List<Product> lista = new ArrayList<Product>();
-										if (request.getAttribute("productosUsuario") != null) {
-											lista = (List<Product>) request.getAttribute("productosUsuario");
-										}
-										for (int i = 0; i < lista.size(); i++) {
-									%>
-									<tr>
-										<td><%=lista.get(i).getId()%></td>
-										<td><%=lista.get(i).getProduct_name()%></td>
-										<td><%=lista.get(i).getPrice()%></td>
-										<td><%=lista.get(i).getCategory()%></td>
-										<td><%=lista.get(i).getStatus()%></td>
-										<td><form action="ControllerServlet" method="post"
-												name="formadmin" align="center">
-												<input type="hidden" name="id"
-													value="<%=lista.get(i).getId()%>"> <input
-													type="hidden" name="action" value="modifyProduct"><input
-													type="submit" value="Modificar Producto" />
-											</form></td>
-									</tr>
+		<header class="page-head"> <!-- RD Navbar-->
+		<div class="rd-navbar-wrap header_corporate">
+			<nav class="rd-navbar" data-layout="rd-navbar-fixed"
+				data-sm-layout="rd-navbar-fullwidth"
+				data-md-layout="rd-navbar-fullwidth"> <!--RD Navbar Panel-->
+			<div class="rd-navbar-top-panel">
+				<div class="rd-navbar-top-panel-wrap">
 
 
-									<%
-										}
-									%>
 
-									
-
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-
-		</section>
-		<!--Section Tables Dark Header--> </main>
-		<!-- Page Footer-->
-		<footer class="page-foot text-center text-md-left bg-gray">
-			<div class="container-fluid">
-				<div class="footer-wrap">
-					<div class="rd-navbar-brand">
-						<a href="index.html" class="brand-name">Compra<br> <span>Venta!</span></a>
-					</div>
 					<ul class="list-inline">
 						<li><a href="#" class="fa-facebook"></a></li>
 						<li><a href="#" class="fa-twitter"></a></li>
@@ -177,14 +51,137 @@
 						<li><a href="#" class="fa-google"></a></li>
 						<li><a href="#" class="fa-rss"></a></li>
 					</ul>
-					<div class="copyright">
-						<p>
-							&#169;<span id="copyright-year"></span> All Rights Reserved <a
-								href="terms.html">Terms of Use and Privacy Policy</a>
-						</p>
+
+				</div>
+			</div>
+			<div class="rd-navbar-inner inner-wrap">
+				<div class="rd-navbar-panel">
+					<!-- RD Navbar Toggle-->
+					<button data-rd-navbar-toggle=".rd-navbar-nav-wrap"
+						class="rd-navbar-toggle">
+						<span></span>
+					</button>
+					<!-- RD Navbar Brand-->
+					<div class="rd-navbar-brand">
+						<a href="index.jsp" class="brand-name">Compra<br> <span>Venta</span></a>
+					</div>
+				</div>
+
+			</div>
+			</nav>
+		</div>
+		</header>
+		<!-- Page Content-->
+		<main class="page-content text-center text-lg-left"> <!-- Section Title Breadcrumbs-->
+		<section class="section-full">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<h1>Administracion de productos</h1>
+					<p></p>
+					<ol class="breadcrumb">
+						<li><form name="do3" method="post" action="ControllerServlet">
+								<input type="hidden" name="action" value="reload"> <a
+									href="javascript:document.do3.submit()">Admin</a>
+							</form></li>
+						<li><a href="AdminUsers.jsp">Administracion usuarios</a></li>
+						<li class="active">Administracion productos</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+		</section> <!--Section Tables Main Color Header--> <section class="section-md">
+		<div class="container">
+			<h2>Productos en linea</h2>
+
+			<hr>
+			<div class="row">
+				<div class="col-lg-10">
+					<div class="table-responsive">
+						<table class="table table-primary">
+							<colgroup>
+								<col class="col-xs-2">
+								<col class="col-xs-3">
+								<col class="col-xs-4">
+								<col class="col-xs-4">
+								<col class="col-xs-3">
+								<col class="col-xs-3">
+							</colgroup>
+
+							<thead>
+								<tr class="bg-primary">
+									<th>ID</th>
+									<th>Titulo</th>
+									<th>Precio</th>
+									<th>Categoria</th>
+									<th>Estado</th>
+									<th></th>
+
+								</tr>
+							</thead>
+							<tbody>
+								<%
+									List<Product> lista = new ArrayList<Product>();
+									if (request.getAttribute("productosUsuario") != null) {
+										lista = (List<Product>) request.getAttribute("productosUsuario");
+									}
+									for (int i = 0; i < lista.size(); i++) {
+								%>
+								<tr>
+									<td><%=lista.get(i).getId()%></td>
+									<td><%=lista.get(i).getProduct_name()%></td>
+									<td><%=lista.get(i).getPrice()%></td>
+									<td><%=lista.get(i).getCategory()%></td>
+									<td><%=lista.get(i).getStatus()%></td>
+									<td><form action="ControllerServlet" method="post"
+											name="formadmin" align="center">
+											<input type="hidden" name="id"
+												value="<%=lista.get(i).getId()%>"> <input
+												type="hidden" name="action" value="modifyProduct"><input
+												type="submit" value="Modificar Producto"
+												style="background-color: #eb3751; color: white; border: 0px; border-radius: 50px; padding: 10px; font-size: 14px; font-weight: bold; padding-left: 30px; padding-right: 30px; text-transform: uppercase;">
+
+										</form></td>
+								</tr>
+
+
+								<%
+									}
+								%>
+
+
+
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
+		</div>
+
+		</section> <!--Section Tables Dark Header--> </main>
+		<!-- Page Footer-->
+		<footer class="page-foot text-center text-md-left bg-gray">
+		<div class="container-fluid">
+			<div class="footer-wrap">
+				<div class="rd-navbar-brand">
+					<a href="index.html" class="brand-name">Compra<br> <span>Venta!</span></a>
+				</div>
+				<ul class="list-inline">
+					<li><a href="#" class="fa-facebook"></a></li>
+					<li><a href="#" class="fa-twitter"></a></li>
+					<li><a href="#" class="fa-pinterest-p"></a></li>
+					<li><a href="#" class="fa-vimeo"></a></li>
+					<li><a href="#" class="fa-google"></a></li>
+					<li><a href="#" class="fa-rss"></a></li>
+				</ul>
+				<div class="copyright">
+					<p>
+						&#169;<span id="copyright-year"></span> All Rights Reserved <a
+							href="terms.html">Terms of Use and Privacy Policy</a>
+					</p>
+				</div>
+			</div>
+		</div>
 		</footer>
 	</div>
 	<!-- Java script-->

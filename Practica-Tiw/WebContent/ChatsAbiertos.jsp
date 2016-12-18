@@ -92,7 +92,8 @@
 												}
 														} else {
 											%>
-
+							
+											
 											<td value=""><font color="white"> <%=lista.get(i).getName()%>
 											</font></td>
 
@@ -116,10 +117,12 @@
 
 											<%
 												}
-													}
+													}%>
+													</tr>
+													<%
 												}
 											%>
-										</tr>
+										
 
 
 									</tbody>

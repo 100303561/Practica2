@@ -55,7 +55,8 @@
 		<ul class="rd-navbar-nav">
 			<li><form name="do3" method="post" action="ControllerServlet">
 					<input type="hidden" name="action" value="mostrarConversaciones">
-					<input type="submit" value="Chat">
+					<input type="submit" value="Chat"
+						style="background-color: #eb3751; color: white; border: 0px; border-radius: 50px; padding: 10px; font-size: 14px; font-weight: bold; padding-left: 30px; padding-right: 30px; text-transform: uppercase;">
 				</form></li>
 		</ul>
 		<!--Section Tables Main Color Header-->
@@ -110,14 +111,16 @@
 												<input type="hidden" name="id"
 													value="<%=lista.get(i).getId()%>"> <input
 													type="hidden" name="action" value="identifyUser"><input
-													type="submit" value="Modificar Usuario" />
+													type="submit" value="Modificar Usuario"
+													style="background-color: #eb3751; color: white; border: 0px; border-radius: 50px; padding: 10px; font-size: 14px; font-weight: bold; padding-left: 30px; padding-right: 30px; text-transform: uppercase;">
 											</form></td>
 										<td><form action="ControllerServlet" method="post"
 												name="formadmin" align="center">
 												<input type="hidden" name="id"
 													value="<%=lista.get(i).getId()%>"> <input
 													type="hidden" name="action" value="showProductAdmin"><input
-													type="submit" value="Ver Productos" />
+													type="submit" value="Ver Productos"
+													style="background-color: #eb3751; color: white; border: 0px; border-radius: 50px; padding: 10px; font-size: 14px; font-weight: bold; padding-left: 30px; padding-right: 30px; text-transform: uppercase;">
 											</form></td>
 									</tr>
 
