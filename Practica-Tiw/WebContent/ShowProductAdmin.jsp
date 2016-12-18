@@ -82,7 +82,10 @@
 						<h1>Administracion de productos</h1>
 						<p></p>
 						<ol class="breadcrumb">
-							<li><a href="AdminUsers.jsp">Admin</a></li>
+							<li><form name="do3" method="post" action="ControllerServlet">
+						 <input type="hidden" name="action" value="reload"> <a
+							href="javascript:document.do3.submit()">Admin</a>
+					</form></li>
 							<li><a href="AdminUsers.jsp">Administracion usuarios</a></li>
 							<li class="active">Administracion productos</li>
 						</ol>
@@ -116,14 +119,15 @@
 										<th>Precio</th>
 										<th>Categoria</th>
 										<th>Estado</th>
+										<th></th>
 
 									</tr>
 								</thead>
 								<tbody>
 									<%
 										List<Product> lista = new ArrayList<Product>();
-										if (session.getAttribute("productosUsuario") != null) {
-											lista = (List<Product>) session.getAttribute("productosUsuario");
+										if (request.getAttribute("productosUsuario") != null) {
+											lista = (List<Product>) request.getAttribute("productosUsuario");
 										}
 										for (int i = 0; i < lista.size(); i++) {
 									%>
@@ -133,6 +137,13 @@
 										<td><%=lista.get(i).getPrice()%></td>
 										<td><%=lista.get(i).getCategory()%></td>
 										<td><%=lista.get(i).getStatus()%></td>
+										<td><form action="ControllerServlet" method="post"
+												name="formadmin" align="center">
+												<input type="hidden" name="id"
+													value="<%=lista.get(i).getId()%>"> <input
+													type="hidden" name="action" value="modifyProduct"><input
+													type="submit" value="Modificar Producto" />
+											</form></td>
 									</tr>
 
 
@@ -148,16 +159,6 @@
 					</div>
 				</div>
 			</div>
-
-			<form action="ControllerServlet" method="post" name="formadmin" align="center">
-				<h5>
-					Insertar id para modificar producto</h5> 
-					<input type="hidden" name="action" value="modifyProduct">
-					
-					<input type="number" name="id"
-						size="2" placeholder="Id product"> <input type="submit"
-						value="Modificar producto">
-			</form>
 
 		</section>
 		<!--Section Tables Dark Header--> </main>

@@ -87,7 +87,10 @@
 						<h1>Administracion de productos</h1>
 						<p></p>
 						<ol class="breadcrumb">
-							<li><a href="Index.jsp">Index</a></li>
+							<li><form name="do3" method="post" action="ControllerServlet">
+						 <input type="hidden" name="action" value="reload"> <a
+							href="javascript:document.do3.submit()">Index</a>
+					</form></li>
 
 							<li class="active">Administracion productos</li>
 						</ol>
@@ -121,14 +124,15 @@
 										<th>Precio</th>
 										<th>Categoria</th>
 										<th>Estado</th>
+										<th></th>
 
 									</tr>
 								</thead>
 								<tbody>
 									<%
 										List<Product> lista = new ArrayList<Product>();
-										if (session.getAttribute("misproductos") != null) {
-											lista = (List<Product>) session.getAttribute("misproductos");
+										if (request.getAttribute("misproductos") != null) {
+											lista = (List<Product>) request.getAttribute("misproductos");
 										}
 										for (int i = 0; i < lista.size(); i++) {
 									%>
@@ -138,6 +142,14 @@
 										<td><%=lista.get(i).getPrice()%></td>
 										<td><%=lista.get(i).getCategory()%></td>
 										<td><%=lista.get(i).getStatus()%></td>
+										<td><form action="ControllerServlet" method="post"
+												name="formadmin" align="center">
+												<input type="hidden" name="id"
+													value="<%=lista.get(i).getId()%>"> <input
+													type="hidden" name="action" value="modifyProduct"><input
+													type="submit" value="Modificar Producto" />
+											</form></td>
+										<td>
 									</tr>
 
 
@@ -145,7 +157,7 @@
 										}
 									%>
 
-									</tr>
+									
 
 								</tbody>
 							</table>

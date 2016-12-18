@@ -40,7 +40,11 @@
 						<h1>Administracion de usuarios</h1>
 						<p></p>
 						<ol class="breadcrumb">
-							<li><a href="#">Admin</a></li>
+							<li><form name="do3" method="post"
+									action="ControllerServlet">
+									<input type="hidden" name="action" value="reload"> <a
+										href="javascript:document.do3.submit()">Admin</a>
+								</form></li>
 
 							<li class="active">Administracion Usuarios</li>
 						</ol>
@@ -51,7 +55,7 @@
 		<ul class="rd-navbar-nav">
 			<li><form name="do3" method="post" action="ControllerServlet">
 					<input type="hidden" name="action" value="mostrarConversaciones">
-					<a href="javascript:document.do3.submit()" class="fa-comments ">Chat</a>
+					<input type="submit" value="Chat">
 				</form></li>
 		</ul>
 		<!--Section Tables Main Color Header-->
@@ -132,7 +136,7 @@
 				</div>
 			</div>
 
-			
+
 		</section>
 		<!--Section Tables Dark Header--> </main>
 		<!-- Page Footer-->

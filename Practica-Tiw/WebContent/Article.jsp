@@ -179,9 +179,9 @@
 										</span><span class="h6 text-darker"> </span>
 									</p>
 									<div class="btn-group-isotope">
-										<a href="Chat.jsp"
+										<a href="Chat.jsp?idUserChat=<%=p.getUser() %>"
 											class="btn btn-primary btn-primary-transparent btn-md btn-min-width-lg">Contactar</a><a
-											href="#"
+											href=""
 											class="btn btn-primary btn-primary-transparent btn-md btn-min-width-lg">Comprar</a>
 									</div>
 								</div>

@@ -136,9 +136,9 @@ public class ControllerServlet extends HttpServlet {
 						misession = request.getSession(true);
 						misession.setAttribute("admin", a);
 
-						// Guardar lista de ususarios(LLamar a microservicio
-						// lista de ususarios)
+					
 
+						//Obtener la lista de ususarios de la aplicacion
 						operacion = "users";
 						client = ClientBuilder.newClient();
 						webResource = client.target("http://localhost:8010").path(operacion);
@@ -201,6 +201,15 @@ public class ControllerServlet extends HttpServlet {
 
 				// Si eres admninistrador redirigir a AdminUsers
 				if (misession.getAttribute("admin") != null) {
+					//Devolver lista de usuarios modifcada
+					operacion = "users";
+					client = ClientBuilder.newClient();
+					webResource = client.target("http://localhost:8010").path(operacion);
+					listaUser = webResource.request().accept("application/json").get(User[].class);
+					List<User> lista2 = Arrays.asList(listaUser);
+					// Pasar atributo por request
+					request.setAttribute("lista", lista2);
+					
 					miR = request.getRequestDispatcher("AdminUsers.jsp");
 					miR.forward(request, response);
 				} else {
@@ -229,6 +238,15 @@ public class ControllerServlet extends HttpServlet {
 				System.out.println("El usuario ha sido eliminado");
 
 				if (misession.getAttribute("admin") != null) {
+					//Obtener la nueva lista de ususarios
+					operacion = "users";
+					client = ClientBuilder.newClient();
+					webResource = client.target("http://localhost:8010").path(operacion);
+					listaUser = webResource.request().accept("application/json").get(User[].class);
+					List<User> lista2 = Arrays.asList(listaUser);
+					// Pasar atributo por request
+					request.setAttribute("lista", lista2);
+					
 					miR = request.getRequestDispatcher("AdminUsers.jsp");
 					miR.forward(request, response);
 				} else {
@@ -362,14 +380,10 @@ public class ControllerServlet extends HttpServlet {
 				client = ClientBuilder.newClient();
 				webResource = client.target("http://localhost:8020").path(operacion).path(String.valueOf(id));
 				listaProduct = webResource.request().accept("application/json").get(Product[].class);
-
-				// Guardamos los resultados en una lista
-				// List<Product> lista = q.getResultList();
-
-				// Pasamos la lista de mis productos a la session
-				misession = (HttpSession) request.getSession();
 				catalogo = Arrays.asList(listaProduct);
-				misession.setAttribute("misproductos", catalogo);
+				
+				//Pasar el catalogo por request
+				request.setAttribute("misproductos", catalogo);
 
 				// Redirigimos a la pagina que muestra productos de un usuario
 				miR = request.getRequestDispatcher("ShowProduct.jsp");
@@ -402,60 +416,100 @@ public class ControllerServlet extends HttpServlet {
 				p.setPrice(Double.parseDouble(request.getParameter("price")));
 				p.setStatus(request.getParameter("status"));
 			
+				//Modificamos el producto
 				operacion = "products";
 				client = ClientBuilder.newClient();
 				webResource = client.target("http://localhost:8020").path(operacion).path(String.valueOf(p.getId()));
 				webResource.request("application/json").accept("application/json")
 					.put(Entity.entity(p, MediaType.APPLICATION_JSON), Product.class);
+				
+				if(misession.getAttribute("admin")!=null){
+					// Guardar lista de ususarios
+					operacion = "users";
+					//Recojo la lista de ususarios
+					client = ClientBuilder.newClient();
+					webResource = client.target("http://localhost:8010").path(operacion);
+					listaUser = webResource.request().accept("application/json").get(User[].class);
+					List<User> lista2 = Arrays.asList(listaUser);
+					// Pasar atributo por request
+					request.setAttribute("lista", lista2);
+
+					miR = request.getRequestDispatcher("AdminUsers.jsp");
+					miR.forward(request, response);
+					
+				} else {
+					//Obtenemos el nuevo catalago
+					client = ClientBuilder.newClient();
+					webResource = client.target("http://localhost:8020").path(operacion);
+					listaProduct = webResource.request().accept("application/json").get(Product[].class);
+					catalogo = Arrays.asList(listaProduct);
+					
+					//Pasar el catalogo por request
+					request.setAttribute("catalogo", catalogo);
+					
+					// Redirigimos a la pagina catalogo
+					miR = request.getRequestDispatcher("Index.jsp");
+					miR.forward(request, response);
+				}
 			
 				
-				webResource = client.target("http://localhost:8020").path(operacion);
-				listaProduct = webResource.request().accept("application/json").get(Product[].class);
-	
-				misession = (HttpSession) request.getSession();
-				misession.setAttribute("catalogo", listaProduct);
-				// Redirigimos a la pagina catalogo
-	
-				miR = request.getRequestDispatcher("Index.jsp");
-				miR.forward(request, response);
 				break;
 			case "deleteProduct":
 				p =(Product) misession.getAttribute("productoModificar"); 
 				
 			
 				operacion = "products";
+				//Borrar el producto
 				client = ClientBuilder.newClient();
-				webResource = client.target("http://localhost:8020").path(operacion).path(String.valueOf(p.getId()));
-				
-			
-				
 				webResource = client.target("http://localhost:8020").path(operacion).path(String.valueOf(p.getId()));
 				webResource.request().accept("application/json").delete();
 				
-				misession = (HttpSession) request.getSession();
-				misession.setAttribute("catalogo", listaProduct);
-				// Redirigimos a la pagina catalogo
+				if(misession.getAttribute("admin")!=null){
+					// Guardar lista de ususarios
+					operacion = "users";
+					//Recojo la lista de ususarios
+					client = ClientBuilder.newClient();
+					webResource = client.target("http://localhost:8010").path(operacion);
+					listaUser = webResource.request().accept("application/json").get(User[].class);
+					List<User> lista2 = Arrays.asList(listaUser);
+					// Pasar atributo por request
+					request.setAttribute("lista", lista2);
+
+					miR = request.getRequestDispatcher("AdminUsers.jsp");
+					miR.forward(request, response);
+					
+				} else {
+				
+				//Obtenemos el nuevo catalago
+				client = ClientBuilder.newClient();
+				webResource = client.target("http://localhost:8020").path(operacion);
+				listaProduct = webResource.request().accept("application/json").get(Product[].class);
+				catalogo = Arrays.asList(listaProduct);
+				
+				//Pasar el catalogo por request
+				request.setAttribute("catalogo", catalogo);
 	
 				miR = request.getRequestDispatcher("Index.jsp");
 				miR.forward(request, response);
+				
+				}
+				
 				break;
 			case "showProductAdmin":
 				// Recogemos el id del usuario que queremos mostrar sus
 				// productos.
 				id = Integer.parseInt(request.getParameter("id"));
 
+				// Realizamos la consulta para saber cuales son los productos
+				// del usuario
 				operacion = "userProducts";
 				client = ClientBuilder.newClient();
 				webResource = client.target("http://localhost:8020").path(operacion).path(String.valueOf(id));
 				listaProduct = webResource.request().accept("application/json").get(Product[].class);
-
-				// Guardamos los resultados en una lista
-				// List<Product> lista = q.getResultList();
-
-				// Pasamos la lista de mis productos a la session
-				misession = (HttpSession) request.getSession();
 				catalogo = Arrays.asList(listaProduct);
-				misession.setAttribute("misproductos", catalogo);
+				
+				//Pasar el catalogo por request
+				request.setAttribute("productosUsuario", catalogo);
 
 				// Redirigimos a la pagina que muestra productos de un usuario
 				miR = request.getRequestDispatcher("ShowProductAdmin.jsp");
@@ -487,6 +541,7 @@ public class ControllerServlet extends HttpServlet {
 				if (misession.getAttribute("admin") != null) {
 					// Guardar lista de ususarios
 					operacion = "users";
+					//Recojo la lista de ususarios
 					client = ClientBuilder.newClient();
 					webResource = client.target("http://localhost:8010").path(operacion);
 					listaUser = webResource.request().accept("application/json").get(User[].class);

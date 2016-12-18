@@ -53,7 +53,10 @@
 						<h1><%=p.getProduct_name()%></h1>
 						<p></p>
 						<ol class="breadcrumb">
-							<li><a href="Index.jsp">Index</a></li>
+							<li><form name="do3" method="post" action="ControllerServlet">
+						 <input type="hidden" name="action" value="reload"> <a
+							href="javascript:document.do3.submit()">Index</a>
+					</form></li>
 							<li class="active">Producto</li>
 						</ol>
 					</div>
@@ -105,7 +108,7 @@
 									<option style="color: black" value="Reservado">Reservado</option>
 
 								</select> <input type="submit" class="btn btn-primary btn-md"
-									value="Modificar-producto">
+									value="Modificar producto">
 							</form>
 						</div>
 						<form method="post" action="ControllerServlet"
