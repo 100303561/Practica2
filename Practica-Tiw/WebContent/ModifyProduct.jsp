@@ -2,8 +2,6 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page session="true"%>
 <%@ page import="es.uc3m.tiw.domains.*"%>
-<%@ page import="clases.Product"%>
-
 
 <!DOCTYPE html>
 <html lang="en" class="wide wow-animation">
@@ -52,7 +50,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-xs-12">
-						<h1><%=p.getProduct_Name()%></h1>
+						<h1><%=p.getProduct_name()%></h1>
 						<p></p>
 						<ol class="breadcrumb">
 							<li><a href="Index.jsp">Index</a></li>
@@ -83,7 +81,7 @@
 									<div class="col-sm-6">
 										<input type="hidden" name="action" value="updateProduct">
 										<input type="text" name="name"
-											Value="<%=p.getProduct_Name()%>">
+											Value="<%=p.getProduct_name()%>">
 									</div>
 									<div class="col-sm-6 input-mod-1">
 										<input type="number" name="price" value="<%=p.getPrice()%>">
@@ -100,12 +98,11 @@
 								</select>
 									
 									
-									<select
-									name="status" class="rd-mailform-select" required>
-									<option value="<%=p.getStatus().getID()%>"><%=p.getStatus().getStatus()%></option>
-									<option style="color: black" value="1">Disponible</option>
-									<option style="color: black" value="2">Vendido</option>
-									<option style="color: black" value="3">Reservado</option>
+									<select	name="status" class="rd-mailform-select" required>
+									<option value="<%=p.getStatus()%>"><%=p.getStatus()%></option>
+									<option style="color: black" value="Disponible">Disponible</option>
+									<option style="color: black" value="Vendido">Vendido</option>
+									<option style="color: black" value="Reservado">Reservado</option>
 
 								</select> <input type="submit" class="btn btn-primary btn-md"
 									value="Modificar-producto">
@@ -120,7 +117,7 @@
 					 <div class="sidebar-module cell-sm-6 cell-md-12 cell-md-push-2">
 						
 						<div class="item" style="width: 350px; height: 350px;">
-							<img src="Image.jsp?imgID=<%=p.getID()%>"
+							<img src="Image.jsp?imgID=<%=p.getId()%>"
 								style="width: 720px; height: 450px;">
 						</div>
 						</div>

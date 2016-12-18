@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
-<%@ page import="clases.Product"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@ page session="true"%>
@@ -134,11 +133,11 @@
 										for (int i = 0; i < lista.size(); i++) {
 									%>
 									<tr>
-										<td><%=lista.get(i).getID()%></td>
-										<td><%=lista.get(i).getProduct_Name()%></td>
+										<td><%=lista.get(i).getId()%></td>
+										<td><%=lista.get(i).getProduct_name()%></td>
 										<td><%=lista.get(i).getPrice()%></td>
 										<td><%=lista.get(i).getCategory()%></td>
-										<td><%=lista.get(i).getStatus().getStatus()%></td>
+										<td><%=lista.get(i).getStatus()%></td>
 									</tr>
 
 

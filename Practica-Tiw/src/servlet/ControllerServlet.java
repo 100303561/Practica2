@@ -61,7 +61,6 @@ public class ControllerServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		IAction act = null;
 		String action = request.getParameter("action");
 		System.out.println(action);
@@ -77,6 +76,7 @@ public class ControllerServlet extends HttpServlet {
 		User usuario = new User();
 		Product p = new Product();
 		Product[] listaProduct = null;
+		List<Product> catalogo = null;
 		int idPropio;
 		int idAjeno;
 		int idemisor;
@@ -124,7 +124,7 @@ public class ControllerServlet extends HttpServlet {
 						listaProduct = webResource.request().accept("application/json").get(Product[].class);
 
 						// Convertimos el array de productos en una lista
-						List<Product> catalogo = Arrays.asList(listaProduct);
+						catalogo = Arrays.asList(listaProduct);
 
 						// Guardar el catalogo en session
 						request.setAttribute("catalogo", catalogo);
@@ -285,18 +285,16 @@ public class ControllerServlet extends HttpServlet {
 				System.out.println("Se ha registrado el producto: " + p.getProduct_name());
 
 				// Obtenemos los productos disponibles
-				/*
-				 * webResource =
-				 * client.target("http://localhost:8020").path(operacion);
-				 * listaProduct =
-				 * webResource.request().accept("application/json").get(Product[
-				 * ].class);
-				 * 
-				 * misession = (HttpSession) request.getSession();
-				 * misession.setAttribute("catalogo", listaProduct);
-				 */
+				operacion = "products";
+				webResource = client.target("http://localhost:8020").path(operacion);
+				listaProduct = webResource.request().accept("application/json").get(Product[].class);
 
-				// Redireccionamos a la pagina de Login
+				// Convertimos el array de productos en una lista
+				catalogo = Arrays.asList(listaProduct);
+
+				// Guardar el catalogo en session
+				request.setAttribute("catalogo", catalogo);
+
 				miR = request.getRequestDispatcher("Index.jsp");
 				miR.forward(request, response);
 
@@ -325,6 +323,7 @@ public class ControllerServlet extends HttpServlet {
 				// Si se ha introducido algun campo de busqueda la realizamos
 				// con esos criterios, sino mostramos productos de la forma
 				// normal
+				client = ClientBuilder.newClient();
 				if (city != null || category != null || search != null || owner != null) {
 					if (owner != null)
 						owner = "%" + owner + "%";
@@ -352,39 +351,116 @@ public class ControllerServlet extends HttpServlet {
 
 				break;
 			case "showProduct":
-				act = new ShowProduct();
-				break;
-
-			case "modifyProduct":
-				act = new ModifyProduct();
-				break;
-
-			case "updateProduct":
-				act = new UpdateProduct();
-				break;
-			case "deleteProduct":
-				act = new DeleteProduct();
-				break;
-			case "showProductAdmin":
 				// Recogemos el id del usuario que queremos mostrar sus
 				// productos.
-				id = Integer.parseInt(request.getParameter("id"));
+				u1 = (User) misession.getAttribute("usuario");
+				id = u1.getId();
 
 				// Realizamos la consulta para saber cuales son los productos
 				// del usuario
-				// Metodo get parecido a products/id... que devuelva una lista
-				// de productos
+				operacion = "userProducts";
+				client = ClientBuilder.newClient();
+				webResource = client.target("http://localhost:8020").path(operacion).path(String.valueOf(id));
+				listaProduct = webResource.request().accept("application/json").get(Product[].class);
 
 				// Guardamos los resultados en una lista
 				// List<Product> lista = q.getResultList();
 
 				// Pasamos la lista de mis productos a la session
 				misession = (HttpSession) request.getSession();
-				// misession.setAttribute("productosUsuario", lista);
+				catalogo = Arrays.asList(listaProduct);
+				misession.setAttribute("misproductos", catalogo);
+
+				// Redirigimos a la pagina que muestra productos de un usuario
+				miR = request.getRequestDispatcher("ShowProduct.jsp");
+				miR.forward(request, response);
+				break;
+
+			case "modifyProduct":
+				
+				
+				operacion = "products";
+				client = ClientBuilder.newClient();
+				webResource = client.target("http://localhost:8020").path(operacion).path(request.getParameter("id"));
+				p= webResource.request().accept("application/json").get(Product.class);
+
+				misession = (HttpSession) request.getSession();
+				misession.setAttribute("productoModificar", p);
+				
+				miR = request.getRequestDispatcher("ModifyProduct.jsp");
+				miR.forward(request, response);
+				
+				break;
+
+			case "updateProduct":
+				misession = (HttpSession) request.getSession();
+				
+				p =(Product) misession.getAttribute("productoModificar"); 
+				p.setProduct_name(request.getParameter("name"));
+				p.setDescription(request.getParameter("desc"));
+				p.setCategory(request.getParameter("category"));
+				p.setPrice(Double.parseDouble(request.getParameter("price")));
+				p.setStatus(request.getParameter("status"));
+			
+				operacion = "products";
+				client = ClientBuilder.newClient();
+				webResource = client.target("http://localhost:8020").path(operacion).path(String.valueOf(p.getId()));
+				webResource.request("application/json").accept("application/json")
+					.put(Entity.entity(p, MediaType.APPLICATION_JSON), Product.class);
+			
+				
+				webResource = client.target("http://localhost:8020").path(operacion);
+				listaProduct = webResource.request().accept("application/json").get(Product[].class);
+	
+				misession = (HttpSession) request.getSession();
+				misession.setAttribute("catalogo", listaProduct);
+				// Redirigimos a la pagina catalogo
+	
+				miR = request.getRequestDispatcher("Index.jsp");
+				miR.forward(request, response);
+				break;
+			case "deleteProduct":
+				p =(Product) misession.getAttribute("productoModificar"); 
+				
+			
+				operacion = "products";
+				client = ClientBuilder.newClient();
+				webResource = client.target("http://localhost:8020").path(operacion).path(String.valueOf(p.getId()));
+				
+			
+				
+				webResource = client.target("http://localhost:8020").path(operacion).path(String.valueOf(p.getId()));
+				webResource.request().accept("application/json").delete();
+				
+				misession = (HttpSession) request.getSession();
+				misession.setAttribute("catalogo", listaProduct);
+				// Redirigimos a la pagina catalogo
+	
+				miR = request.getRequestDispatcher("Index.jsp");
+				miR.forward(request, response);
+				break;
+			case "showProductAdmin":
+				// Recogemos el id del usuario que queremos mostrar sus
+				// productos.
+				id = Integer.parseInt(request.getParameter("id"));
+
+				operacion = "userProducts";
+				client = ClientBuilder.newClient();
+				webResource = client.target("http://localhost:8020").path(operacion).path(String.valueOf(id));
+				listaProduct = webResource.request().accept("application/json").get(Product[].class);
+
+				// Guardamos los resultados en una lista
+				// List<Product> lista = q.getResultList();
+
+				// Pasamos la lista de mis productos a la session
+				misession = (HttpSession) request.getSession();
+				catalogo = Arrays.asList(listaProduct);
+				misession.setAttribute("misproductos", catalogo);
 
 				// Redirigimos a la pagina que muestra productos de un usuario
 				miR = request.getRequestDispatcher("ShowProductAdmin.jsp");
 				miR.forward(request, response);
+
 				break;
 			case "identifyUser":
 
@@ -428,7 +504,7 @@ public class ControllerServlet extends HttpServlet {
 					listaProduct = webResource.request().accept("application/json").get(Product[].class);
 
 					// Convertimos el array de productos en una lista
-					List<Product> catalogo = Arrays.asList(listaProduct);
+					catalogo = Arrays.asList(listaProduct);
 
 					// Guardar el catalogo en session
 					request.setAttribute("catalogo", catalogo);
@@ -446,8 +522,6 @@ public class ControllerServlet extends HttpServlet {
 				
 				webResource = client.target("http://localhost:8020").path(operacion).path(String.valueOf(id));
 			    Product pr = webResource.request().accept("application/json").get(Product.class);
-
-				
 
 				request.setAttribute("productShow", pr);
 				// Redirigir a la pagina para modificar el producto
