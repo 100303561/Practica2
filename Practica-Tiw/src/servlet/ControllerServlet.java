@@ -329,26 +329,21 @@ public class ControllerServlet extends HttpServlet {
 
 				// Comprobamos los valores introducidos por el usuario
 				if (city.equals(""))
-					city = null;
+					city = "-1";
 				if (category.equals(""))
-					category = null;
+					category = "-1";
 				if (search.equals(""))
-					search = null;
+					search = "-1";
 				if (owner.equals("")) {
-					owner = null;
+					owner = "-1";
 				}
 
 				// Si se ha introducido algun campo de busqueda la realizamos
 				// con esos criterios, sino mostramos productos de la forma
 				// normal
 				client = ClientBuilder.newClient();
-				if (city != null || category != null || search != null || owner != null) {
-					if (owner != null)
-						owner = "%" + owner + "%";
-
-					if (search != null)
-						search = "%" + search + "%";
-
+				if (city != "-1" || category != "-1" || search != "-1" || owner != "-1"){
+					
 					// REST Client using POST Verb and JSON
 					webResource = client.target("http://localhost:8020").path(operacion).path(search).path(category)
 							.path(city).path(owner);
@@ -359,9 +354,10 @@ public class ControllerServlet extends HttpServlet {
 					webResource = client.target("http://localhost:8020").path(operacion);
 					listaProduct = webResource.request().accept("application/json").get(Product[].class);
 				}
-
-				misession = (HttpSession) request.getSession();
-				misession.setAttribute("catalogo", listaProduct);
+				
+				catalogo = Arrays.asList(listaProduct);
+				
+				request.setAttribute("catalogo", catalogo);
 				// Redirigimos a la pagina catalogo
 
 				miR = request.getRequestDispatcher("Index.jsp");

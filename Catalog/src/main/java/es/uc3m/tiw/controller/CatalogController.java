@@ -55,12 +55,24 @@ public class CatalogController {
 		productDAO.delete(p);
 	}
 
-	/*@RequestMapping(value = "/products/{search}/{category}/{city}/{owner}", method = RequestMethod.GET)
+	@RequestMapping(value = "/products/{search}/{category}/{city}/{owner}", method = RequestMethod.GET)
 	public List<Product> getProducts(@PathVariable("search") String search, @PathVariable("category") String category, @PathVariable("city") String city, @PathVariable("owner") String owner) {
+		
+		//Si hemos tenido que cambiar algun valor antes lo volvemos a dejar como null
+		//para usarlo en la consulta
+		if (city.equals("-1"))
+			city = null;
+		if (category.equals("-1"))
+			category = null;
+		if (search.equals("-1"))
+			search = null;
+		if (owner.equals("-1"))
+			owner = null;
+		
 		List<Product> list = productDAO.advandcedSearch(search, category, city, owner);
 		System.out.println("Lista: " + list.toString());
 		return list;
-	}*/
+	}
 
 //	Devuelve todos los productos de un usuario
 	@RequestMapping(value = "/userProducts/{userID}", method = RequestMethod.GET)
