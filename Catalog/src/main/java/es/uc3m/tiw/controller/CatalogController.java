@@ -57,7 +57,7 @@ public class CatalogController {
 
 	@RequestMapping(value = "/products/{search}/{category}/{city}/{owner}", method = RequestMethod.GET)
 	public List<Product> getProducts(@PathVariable("search") String search, @PathVariable("category") String category, @PathVariable("city") String city, @PathVariable("owner") String owner) {
-		
+		System.out.println(city);
 		//Si hemos tenido que cambiar algun valor antes lo volvemos a dejar como null
 		//para usarlo en la consulta
 		if (city.equals("-1"))

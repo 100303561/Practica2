@@ -202,9 +202,9 @@
 											<option value="">Elija su Comunidad Autonoma</option>
 											<option style="color: black" value="Madrid">Madrid</option>
 											<option style="color: black" value="Barcelona">Barcelona</option>
-											<option style="color: black" value="Sevilla">Valencia</option>
+											<option style="color: black" value="Valencia">Valencia</option>
 											<option style="color: black" value="Galicia">Galicia</option>
-											<option style="color: black" value="Valencia">Sevilla</option>
+											<option style="color: black" value="Sevilla">Sevilla</option>
 											<option style="color: black" value="Extremadura">Extremadura</option>
 
 									</select></li>
