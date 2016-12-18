@@ -2,21 +2,25 @@
 <%@ page import = "javax.persistence.*" %>
 <%@ page import="es.uc3m.tiw.domains.*"%>
 <%@ page import = "clases.Product" %>
+<%@ page import ="javax.ws.rs.client.*"%>;
 <jsp:useBean id="photo" class="clases.Product" scope="session" />
 <%
  
 	int idProduct;
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("Ejemplo");
-	EntityManager em = emf.createEntityManager();
+	Client client = ClientBuilder.newClient();
+	WebTarget webResource;
+	
 	
 	if (request.getParameter("imgID") != null )
 	{	 
-		idProduct = Integer.parseInt(request.getParameter("imgID")) ;   
+		idProduct = Integer.parseInt(request.getParameter("imgID")) ;
+		String operacion = "products";
 		
 		try
 		{
 		    // get the image from the database
-		    Product pr = em.find(Product.class, idProduct);
+		    webResource = client.target("http://localhost:8020").path(operacion).path(String.valueOf(idProduct));
+		    Product pr = webResource.request().accept("application/json").get(Product.class);
 		    byte[] imgData = pr.getImagen();
 		    // display the image
 		    response.setContentType("image/jpeg");
@@ -30,10 +34,7 @@
 		  e.printStackTrace();
 		  throw e;
 		}
-		finally
-		{
-		    em.close();
-		}
+		
 	}
 
 %>

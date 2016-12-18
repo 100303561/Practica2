@@ -76,6 +76,7 @@ public class ControllerServlet extends HttpServlet {
 		User u1 = new User();
 		User usuario = new User();
 		Product p = new Product();
+		Product[] listaProduct = null;
 		int idPropio;
 		int idAjeno;
 		int idemisor;
@@ -120,6 +121,13 @@ public class ControllerServlet extends HttpServlet {
 						// Guardar el catalogo en session(LLamar a microservicio
 						// catalogo)
 						// ses.setAttribute("catalogo", catalogo);
+						
+						//Obtenemos los productos disponibles
+						/*webResource = client.target("http://localhost:8020").path(operacion);
+						listaProduct = webResource.request().accept("application/json").get(Product[].class);
+						
+						misession = (HttpSession) request.getSession();
+						misession.setAttribute("catalogo", listaProduct);*/
 
 						miR = request.getRequestDispatcher("Index.jsp");
 						miR.forward(request, response);
@@ -258,6 +266,7 @@ public class ControllerServlet extends HttpServlet {
 				p.setCategory(request.getParameter("category"));
 				p.setPrice(Double.parseDouble(request.getParameter("price")));
 				//p.setImagen((request.getParameter("fileToUpload")).getBytes());
+				p.setStatus("Disponible");
 				
 				//Obtener imagen
 				Part filePart = request.getPart("fileToUpload");
@@ -273,6 +282,7 @@ public class ControllerServlet extends HttpServlet {
 				u1 = (User) misession.getAttribute("usuario");
 				
 				p.setUser(u1.getId());
+				p.setUserName(u1.getName());
 				
 				operacion = "products";
 
@@ -282,7 +292,14 @@ public class ControllerServlet extends HttpServlet {
 						.post(Entity.entity(p, MediaType.APPLICATION_JSON), Product.class);
 
 				System.out.println("Se ha registrado el producto: " + p.getProduct_name());
-
+				
+				//Obtenemos los productos disponibles
+				/*webResource = client.target("http://localhost:8020").path(operacion);
+				listaProduct = webResource.request().accept("application/json").get(Product[].class);
+				
+				misession = (HttpSession) request.getSession();
+				misession.setAttribute("catalogo", listaProduct);*/
+				
 				// Redireccionamos a la pagina de Login
 				miR = request.getRequestDispatcher("Index.jsp");
 				miR.forward(request, response);
@@ -292,7 +309,50 @@ public class ControllerServlet extends HttpServlet {
 				act = new AdminUsers();
 				break;
 			case "index":
-				act = new Index();
+				String city = request.getParameter("city");
+				String owner = request.getParameter("owner");
+				String category = request.getParameter("category");
+				String search = request.getParameter("search");
+				operacion = "products";
+
+				//Comprobamos los valores introducidos por el usuario
+				if (city.equals(""))
+					city = null;
+				if (category.equals(""))
+					category = null;
+				if (search.equals(""))
+					search = null;
+				if(owner.equals("")){
+					owner =null;
+				}
+
+				//Si se ha introducido algun campo de busqueda la realizamos con esos criterios, sino mostramos productos de la forma normal
+				if (city != null || category != null || search != null|| owner !=null){
+					if (owner != null)
+						owner = "%"+owner+"%";
+					
+					if (search != null)
+						search = "%"+search+"%";
+					
+					// REST Client using POST Verb and JSON
+					webResource = client.target("http://localhost:8020").path(operacion).path(search).path(category).path(city).path(owner);
+					listaProduct = webResource.request().accept("application/json").get(Product[].class);
+
+				}
+				else{
+					
+					webResource = client.target("http://localhost:8020").path(operacion);
+					listaProduct = webResource.request().accept("application/json").get(Product[].class);	
+				}
+				
+				misession = (HttpSession) request.getSession();
+				misession.setAttribute("catalogo", listaProduct);
+				// Redirigimos a la pagina catalogo
+
+				miR = request.getRequestDispatcher("Index.jsp");
+				miR.forward(request, response);
+				
+				
 				break;
 			case "showProduct":
 				act = new ShowProduct();

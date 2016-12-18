@@ -26,6 +26,16 @@ public class CatalogController {
 		System.out.println(product);
 		productDAO.save(product);
 	}
+	
+	@RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
+	public Product getSingle(@PathVariable int id) {
+		return (productDAO.findOne(id));
+	}
+	
+	@RequestMapping(value = "/products", method = RequestMethod.GET)
+	public List<Product> getAll(@PathVariable int id) {
+		return (productDAO.findAll());
+	}
 
 	@RequestMapping(value = "/products/{id}", method = RequestMethod.PUT)
 	public void updateProduct(@PathVariable int id, @RequestBody Product product) {
@@ -45,12 +55,12 @@ public class CatalogController {
 		productDAO.delete(p);
 	}
 
-	@RequestMapping(value = "/products/{search}/{category}", method = RequestMethod.GET)
-	public List<Product> getProducts(@PathVariable("search") String search, @PathVariable("category") String category) {
-		List<Product> list = productDAO.advandcedSearch(search, category);
+	/*@RequestMapping(value = "/products/{search}/{category}/{city}/{owner}", method = RequestMethod.GET)
+	public List<Product> getProducts(@PathVariable("search") String search, @PathVariable("category") String category, @PathVariable("city") String city, @PathVariable("owner") String owner) {
+		List<Product> list = productDAO.advandcedSearch(search, category, city, owner);
 		System.out.println("Lista: " + list.toString());
 		return list;
-	}
+	}*/
 
 	@RequestMapping(value = "/products/{user}", method = RequestMethod.GET)
 	public List<Product> getProductcByUser(@PathVariable("userID") int userID) {

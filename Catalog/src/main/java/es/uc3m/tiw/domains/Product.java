@@ -33,7 +33,11 @@ public class Product implements Serializable{
 	private double price;
 
 	private int user;
+	
+	private String userName;
 
+	private String city;
+	
 	private String status;
 	
 	public Product() {
@@ -42,7 +46,7 @@ public class Product implements Serializable{
 	}
 
 	public Product(int id, String product_name, String category, String description, byte[] imagen, double price,
-			int user, String status) {
+			int user, String userName, String status) {
 		super();
 		this.id = id;
 		this.product_name = product_name;
@@ -51,6 +55,8 @@ public class Product implements Serializable{
 		this.imagen = imagen;
 		this.price = price;
 		this.user = user;
+		this.userName = userName;
+		this.city = city;
 		this.status = status;
 	}
 
@@ -101,6 +107,14 @@ public class Product implements Serializable{
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
 
 	public int getUser() {
 		return user;
@@ -118,11 +132,19 @@ public class Product implements Serializable{
 		this.status = status;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", product_name=" + product_name + ", category=" + category + ", description="
 				+ description + ", price=" + price + ", user=" + user
-				+ ", status=" + status + "]";
+				+ ", status=" + status + ", user_name=" + userName + "]";
 	}
 
 }

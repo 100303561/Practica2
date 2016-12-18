@@ -25,6 +25,8 @@ public class Product implements Serializable{
 	private double price;
 
 	private int user;
+	
+	private String userName;
 
 	private String status;
 	
@@ -34,7 +36,7 @@ public class Product implements Serializable{
 	}
 
 	public Product(int id, String product_name, String category, String description, byte[] imagen, double price,
-			int user, String status) {
+			int user, String city, String status) {
 		super();
 		this.id = id;
 		this.product_name = product_name;
@@ -43,7 +45,9 @@ public class Product implements Serializable{
 		this.imagen = imagen;
 		this.price = price;
 		this.user = user;
+		this.userName = userName;
 		this.status = status;
+		this.city = city;
 	}
 
 	public int getId() {
@@ -117,6 +121,13 @@ public class Product implements Serializable{
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	@Override
