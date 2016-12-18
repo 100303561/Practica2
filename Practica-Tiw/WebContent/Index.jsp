@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-
-<%@ page import="clases.Product"%>
 <%@ page session="true"%>
 <%@ page import="es.uc3m.tiw.domains.*"%>
 <%@page import="java.util.ArrayList"%>
@@ -87,7 +85,8 @@
 							<ul class="rd-navbar-nav">
 								<li><form name="do3" method="post"
 										action="ControllerServlet">
-										<input type="hidden" name="action" value="mostrarConversaciones"> <a
+										<input type="hidden" name="action"
+											value="mostrarConversaciones"> <a
 											href="javascript:document.do3.submit()" class="fa-comments ">Chat</a>
 									</form></li>
 
@@ -104,8 +103,7 @@
 											class="fa-newspaper-o ">Mis Anuncios</a>
 									</form></li>
 								<li>
-									<form name="do" method="post"
-										action="ControllerServlet">
+									<form name="do" method="post" action="ControllerServlet">
 										<input type="hidden" name="action" value="logout"> <a
 											href="javascript:document.do.submit()" class="fa-sign-in ">LogOut</a>
 									</form>
@@ -132,8 +130,9 @@
 					<div data-slide-bg="images/slide-1.jpg" class="swiper-slide">
 						<div class="swiper-slide-caption">
 							<div class="container">
-								<p data-caption-animate="fadeInDown" class="h1">Veces visitados hoy :
-                          <%=application.getAttribute("contador")%></p>
+								<p data-caption-animate="fadeInDown" class="h1">
+									Veces visitados hoy :
+									<%=application.getAttribute("contador")%></p>
 
 								<a href="#" data-caption-animate="fadeInUp"
 									data-caption-delay="400" class="btn btn-sm btn-transparent">CATALOGO</a>
@@ -175,8 +174,8 @@
 					<div class="search-form-wrap bg-white container-shadow">
 
 						<h3>Encuentra lo que necesites aqui</h3>
-						<form action="ControllerServlet" method="post"
-							name="search-form" class="form-variant-1">
+						<form action="ControllerServlet" method="post" name="search-form"
+							class="form-variant-1">
 							<input type="hidden" name="action" value="index"> <label
 								for="keyword">Introduzca su busqueda aqui</label> <input
 								id="search" type="text" size="50" name="search"
@@ -187,15 +186,14 @@
 								<a href="" onclick="return false" class="btn-features"><span></span>Busqueda
 									avanzada</a>
 								<ul class="checkbox list-inline">
-									<li><label for="select-7">Categoria</label> 
-										<select	id="select-2" name="category">
-										<option value="">Elige categoria</option>
-										<option value="Hogar">Hogar</option>
-										<option value="Tecnologia">Tecnologia</option>
-										<option value="Vehiculos">Vehiculos</option>
-										<option value="Ropa">Ropa</option>
-								</select>
-									</li>
+									<li><label for="select-7">Categoria</label> <select
+										id="select-2" name="category">
+											<option value="">Elige categoria</option>
+											<option value="Hogar">Hogar</option>
+											<option value="Tecnologia">Tecnologia</option>
+											<option value="Vehiculos">Vehiculos</option>
+											<option value="Ropa">Ropa</option>
+									</select></li>
 									<li><label for="range-1">Dueño<br></label> <input
 										id="owner" type="text" name="owner"
 										class="rd-range-input-value rd-range-input-value-2"></li>
@@ -224,33 +222,26 @@
 				class="section-sm section-sm-mod-3 bg-dark text-center text-sm-left">
 				<div class="shell">
 					<h2>Catalogo</h2>
-					<form data-form-type="contact" method="post"
-								action="ControllerServlet">
-			<input type="hidden" name="action" value="reloadCatalogo"> <input type="submit" class="btn btn-sm btn-transparent"
-							value="Actualizar catalogo">
-					</form>
 					<hr>
 					<div class="row clearleft-custom-3">
-<%-- 						<%
+						<%
 							List<Product> lista = new ArrayList<Product>();
-							lista = (List<Product>) session.getAttribute("catalogo");
+							lista = (List<Product>) request.getAttribute("catalogo");
 
-							if (session.getAttribute("catalogo") != null) {
-								//System.oudivt.println("entro");
-								lista = (List<Product>) session.getAttribute("catalogo");
-							}
-							for (int i = 0; i < lista.size(); i++) {
+							if (request.getAttribute("catalogo") != null) {
+								lista = (List<Product>) request.getAttribute("catalogo");
+
+								for (int i = 0; i < lista.size(); i++) {
 						%>
 						<div class="col-xs-12 col-md-4 col-sm-6">
 							<div class="category">
-								<img src="Image.jsp?imgID=<%=lista.get(i).getID()%>" alt=""
+								<img src="Image.jsp?imgID=<%=lista.get(i).getId()%>" alt=""
 									width="370" height="250" />
-								<form action="ControllerServlet" name="form"
-									method="post">
+								<form action="ControllerServlet" name="form" method="post">
 									<input type="hidden" name="action" value="product"> <input
-										type="hidden" name="id" value="<%=lista.get(i).getID()%>">
+										type="hidden" name="id" value="<%=lista.get(i).getId()%>">
 									<div class="category-content">
-										<h4><%=lista.get(i).getProduct_Name()%></h4>
+										<h4><%=lista.get(i).getProduct_name()%></h4>
 										<input type="submit" value="ver articulo"
 											class="btn btn-sm btn-primary">
 									</div>
@@ -260,7 +251,8 @@
 
 						<%
 							}
-						%> --%>
+							}
+						%>
 
 					</div>
 

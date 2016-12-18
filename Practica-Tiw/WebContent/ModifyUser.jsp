@@ -62,7 +62,10 @@
 						<h1>Perfil personal</h1>
 						<p></p>
 						<ol class="breadcrumb">
-							<li><a href="Index.jsp">Index</a></li>
+							<li><form name="do3" method="post" action="ControllerServlet">
+						 <input type="hidden" name="action" value="reload"> <a
+							href="javascript:document.do3.submit()">Index</a>
+					</form></li>
 							<li class="active">Perfil personal</li>
 						</ol>
 					</div>

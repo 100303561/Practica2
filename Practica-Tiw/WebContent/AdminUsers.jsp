@@ -88,8 +88,8 @@
 								<tbody>
 									<%
 										List<User> lista = new ArrayList<User>();
-										if (session.getAttribute("lista") != null) {
-											lista = (List<User>) session.getAttribute("lista");
+										if (request.getAttribute("lista") != null) {
+											lista = (List<User>) request.getAttribute("lista");
 										}
 										for (int i = 0; i < lista.size(); i++) {
 											if (lista.get(i).getAdmin() == 0) {
@@ -132,12 +132,7 @@
 				</div>
 			</div>
 
-			<form data-form-type="contact" method="post"
-				action="ControllerServlet" class="rd-mailform rd-mailform-mod-1">
-				<input type="hidden" name="action" value="reload"> <input
-					type="submit" class="btn btn-primary btn-md"
-					value="Recargar Pagina">
-			</form>
+			
 		</section>
 		<!--Section Tables Dark Header--> </main>
 		<!-- Page Footer-->

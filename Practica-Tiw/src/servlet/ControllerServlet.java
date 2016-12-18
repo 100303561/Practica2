@@ -81,7 +81,7 @@ public class ControllerServlet extends HttpServlet {
 		int idAjeno;
 		int idemisor;
 		Mensaje mensajeSend = new Mensaje();
-		Mensaje[] listaMensaje=null;
+		Mensaje[] listaMensaje = null;
 		User[] listaUser = null;
 		List<Mensaje> resultado;
 		int id;
@@ -105,7 +105,7 @@ public class ControllerServlet extends HttpServlet {
 
 				// REST Client using POST Verb and JSON
 
-				webResource = client.target("http://localhost:8010").path(action);
+				webResource = client.target("http://localhost:8010").path(operacion);
 
 				a = webResource.request("application/json").accept("application/json")
 						.post(Entity.entity(u, MediaType.APPLICATION_JSON), User.class);
@@ -118,16 +118,16 @@ public class ControllerServlet extends HttpServlet {
 						HttpSession ses = request.getSession(true);
 						ses.setAttribute("usuario", a);
 
-						// Guardar el catalogo en session(LLamar a microservicio
-						// catalogo)
-						// ses.setAttribute("catalogo", catalogo);
-						
-						//Obtenemos los productos disponibles
-						/*webResource = client.target("http://localhost:8020").path(operacion);
+						// Obtenemos los productos disponibles
+						operacion = "products";
+						webResource = client.target("http://localhost:8020").path(operacion);
 						listaProduct = webResource.request().accept("application/json").get(Product[].class);
-						
-						misession = (HttpSession) request.getSession();
-						misession.setAttribute("catalogo", listaProduct);*/
+
+						// Convertimos el array de productos en una lista
+						List<Product> catalogo = Arrays.asList(listaProduct);
+
+						// Guardar el catalogo en session
+						request.setAttribute("catalogo", catalogo);
 
 						miR = request.getRequestDispatcher("Index.jsp");
 						miR.forward(request, response);
@@ -143,18 +143,9 @@ public class ControllerServlet extends HttpServlet {
 						client = ClientBuilder.newClient();
 						webResource = client.target("http://localhost:8010").path(operacion);
 						listaUser = webResource.request().accept("application/json").get(User[].class);
-
-						// webresource =
-						// client.target("http://localhost:8010").path("users");
-						// user[] lista = null;
-						// lista =
-						// webresource.request("application/json").accept("application/json")
-						// .post(entity.entity(u, mediatype.application_json),
-						// user[].class);
-
 						List<User> lista2 = Arrays.asList(listaUser);
 						// Pasar atributo por request
-						misession.setAttribute("lista", lista2);
+						request.setAttribute("lista", lista2);
 
 						miR = request.getRequestDispatcher("AdminUsers.jsp");
 						miR.forward(request, response);
@@ -260,30 +251,30 @@ public class ControllerServlet extends HttpServlet {
 
 				break;
 			case "uploadProduct":
-				
+
 				p.setProduct_name(request.getParameter("title"));
 				p.setDescription(request.getParameter("message"));
 				p.setCategory(request.getParameter("category"));
 				p.setPrice(Double.parseDouble(request.getParameter("price")));
-				//p.setImagen((request.getParameter("fileToUpload")).getBytes());
+				p.setCity(request.getParameter("city"));
 				p.setStatus("Disponible");
-				
-				//Obtener imagen
+
+				// Obtener imagen
 				Part filePart = request.getPart("fileToUpload");
 
-			    byte[] data = new byte[(int) filePart.getSize()];
-			    
-			    filePart.getInputStream().read(data, 0, data.length);
-			    
+				byte[] data = new byte[(int) filePart.getSize()];
+
+				filePart.getInputStream().read(data, 0, data.length);
+
 				p.setImagen(data);
-				
+
 				System.out.println(data.toString());
-				
+
 				u1 = (User) misession.getAttribute("usuario");
-				
+
 				p.setUser(u1.getId());
 				p.setUserName(u1.getName());
-				
+
 				operacion = "products";
 
 				// REST Client using POST Verb and JSON
@@ -292,18 +283,23 @@ public class ControllerServlet extends HttpServlet {
 						.post(Entity.entity(p, MediaType.APPLICATION_JSON), Product.class);
 
 				System.out.println("Se ha registrado el producto: " + p.getProduct_name());
-				
-				//Obtenemos los productos disponibles
-				/*webResource = client.target("http://localhost:8020").path(operacion);
-				listaProduct = webResource.request().accept("application/json").get(Product[].class);
-				
-				misession = (HttpSession) request.getSession();
-				misession.setAttribute("catalogo", listaProduct);*/
-				
+
+				// Obtenemos los productos disponibles
+				/*
+				 * webResource =
+				 * client.target("http://localhost:8020").path(operacion);
+				 * listaProduct =
+				 * webResource.request().accept("application/json").get(Product[
+				 * ].class);
+				 * 
+				 * misession = (HttpSession) request.getSession();
+				 * misession.setAttribute("catalogo", listaProduct);
+				 */
+
 				// Redireccionamos a la pagina de Login
 				miR = request.getRequestDispatcher("Index.jsp");
 				miR.forward(request, response);
-				
+
 				break;
 			case "adminUsers":
 				act = new AdminUsers();
@@ -315,44 +311,45 @@ public class ControllerServlet extends HttpServlet {
 				String search = request.getParameter("search");
 				operacion = "products";
 
-				//Comprobamos los valores introducidos por el usuario
+				// Comprobamos los valores introducidos por el usuario
 				if (city.equals(""))
 					city = null;
 				if (category.equals(""))
 					category = null;
 				if (search.equals(""))
 					search = null;
-				if(owner.equals("")){
-					owner =null;
+				if (owner.equals("")) {
+					owner = null;
 				}
 
-				//Si se ha introducido algun campo de busqueda la realizamos con esos criterios, sino mostramos productos de la forma normal
-				if (city != null || category != null || search != null|| owner !=null){
+				// Si se ha introducido algun campo de busqueda la realizamos
+				// con esos criterios, sino mostramos productos de la forma
+				// normal
+				if (city != null || category != null || search != null || owner != null) {
 					if (owner != null)
-						owner = "%"+owner+"%";
-					
+						owner = "%" + owner + "%";
+
 					if (search != null)
-						search = "%"+search+"%";
-					
+						search = "%" + search + "%";
+
 					// REST Client using POST Verb and JSON
-					webResource = client.target("http://localhost:8020").path(operacion).path(search).path(category).path(city).path(owner);
+					webResource = client.target("http://localhost:8020").path(operacion).path(search).path(category)
+							.path(city).path(owner);
 					listaProduct = webResource.request().accept("application/json").get(Product[].class);
 
-				}
-				else{
-					
+				} else {
+
 					webResource = client.target("http://localhost:8020").path(operacion);
-					listaProduct = webResource.request().accept("application/json").get(Product[].class);	
+					listaProduct = webResource.request().accept("application/json").get(Product[].class);
 				}
-				
+
 				misession = (HttpSession) request.getSession();
 				misession.setAttribute("catalogo", listaProduct);
 				// Redirigimos a la pagina catalogo
 
 				miR = request.getRequestDispatcher("Index.jsp");
 				miR.forward(request, response);
-				
-				
+
 				break;
 			case "showProduct":
 				act = new ShowProduct();
@@ -368,68 +365,29 @@ public class ControllerServlet extends HttpServlet {
 			case "deleteProduct":
 				act = new DeleteProduct();
 				break;
-			case "loginAdmin":
-				// Recogemos los parametros de la request para consultar la bbdd
-
-				u.setEmail(request.getParameter("email"));
-				u.setPassword(request.getParameter("password"));
-
-				// REST Client using POST Verb and JSON
-
-				webResource = client.target("http://localhost:8010").path(action);
-
-				User ad = webResource.request("application/json").accept("application/json")
-						.post(Entity.entity(u, MediaType.APPLICATION_JSON), User.class);
-
-				// Comprobamos que exista el usuario
-				if (ad.getEmail() != null) {
-
-					// Guardamos el usuario en la session
-					misession = request.getSession(true);
-					misession.setAttribute("admin", a);
-
-					// Guardar lista de ususarios(LLamar a microservicio
-					// lista de ususarios)
-					webResource = client.target("http://localhost:8010").path("listaUser");
-					listaUser = null;
-					listaUser = webResource.request("application/json").accept("application/json")
-							.post(Entity.entity(u, MediaType.APPLICATION_JSON), User[].class);
-					List<User> lista2 = Arrays.asList(listaUser);
-					// Pasar atributo por request
-					misession.setAttribute("lista", lista2);
-
-					miR = request.getRequestDispatcher("AdminUsers.jsp");
-					miR.forward(request, response);
-
-				} else {
-
-					miR = request.getRequestDispatcher("LoginAdmin.jsp");
-					miR.forward(request, response);
-				}
-				break;
 			case "showProductAdmin":
-				//Recogemos el id del usuario que queremos mostrar sus productos.
+				// Recogemos el id del usuario que queremos mostrar sus
+				// productos.
 				id = Integer.parseInt(request.getParameter("id"));
-				
-				
-				//Realizamos la consulta para saber cuales son los productos del usuario
-				//Metodo get parecido a products/id... que devuelva una lista de productos
-				
-				//Guardamos los resultados en una lista
-//				List<Product> lista = q.getResultList();
 
-				
+				// Realizamos la consulta para saber cuales son los productos
+				// del usuario
+				// Metodo get parecido a products/id... que devuelva una lista
+				// de productos
 
-				//Pasamos la lista de mis productos a la session
+				// Guardamos los resultados en una lista
+				// List<Product> lista = q.getResultList();
+
+				// Pasamos la lista de mis productos a la session
 				misession = (HttpSession) request.getSession();
-//				misession.setAttribute("productosUsuario", lista);
-				
-				//Redirigimos a la pagina que muestra productos de un usuario
+				// misession.setAttribute("productosUsuario", lista);
+
+				// Redirigimos a la pagina que muestra productos de un usuario
 				miR = request.getRequestDispatcher("ShowProductAdmin.jsp");
 				miR.forward(request, response);
 				break;
 			case "identifyUser":
-				
+
 				id = Integer.parseInt(request.getParameter("id"));
 
 				// Llamada a microservicio para encontrar un usuario
@@ -437,8 +395,7 @@ public class ControllerServlet extends HttpServlet {
 
 				client = ClientBuilder.newClient();
 				webResource = client.target("http://localhost:8010").path(operacion).path(String.valueOf(id));
-				u1 = webResource.request("application/json").accept("application/json")
-						.get(User.class);
+				u1 = webResource.request("application/json").accept("application/json").get(User.class);
 
 				// Pasamos el usuario a la session
 				misession = (HttpSession) request.getSession();
@@ -450,174 +407,188 @@ public class ControllerServlet extends HttpServlet {
 				break;
 			// añadir demas controladores product
 			case "reload":
-				act = new Reload();
+				// Si soy administrador devuelvo a la pagina adminuser.jsp
+				if (misession.getAttribute("admin") != null) {
+					// Guardar lista de ususarios
+					operacion = "users";
+					client = ClientBuilder.newClient();
+					webResource = client.target("http://localhost:8010").path(operacion);
+					listaUser = webResource.request().accept("application/json").get(User[].class);
+					List<User> lista2 = Arrays.asList(listaUser);
+					// Pasar atributo por request
+					request.setAttribute("lista", lista2);
+
+					miR = request.getRequestDispatcher("AdminUsers.jsp");
+					miR.forward(request, response);
+				} else {
+
+					// Obtenemos los productos disponibles
+					operacion = "products";
+					webResource = client.target("http://localhost:8020").path(operacion);
+					listaProduct = webResource.request().accept("application/json").get(Product[].class);
+
+					// Convertimos el array de productos en una lista
+					List<Product> catalogo = Arrays.asList(listaProduct);
+
+					// Guardar el catalogo en session
+					request.setAttribute("catalogo", catalogo);
+
+					miR = request.getRequestDispatcher("Index.jsp");
+					miR.forward(request, response);
+				}
+
 				break;
 			case "product":
-				act = new Article();
+				id = Integer.parseInt(request.getParameter("id"));
+
+
+				operacion = "products";
+				
+				webResource = client.target("http://localhost:8020").path(operacion).path(String.valueOf(id));
+			    Product pr = webResource.request().accept("application/json").get(Product.class);
+
+				
+
+				request.setAttribute("productShow", pr);
+				// Redirigir a la pagina para modificar el producto
+
+				miR = request.getRequestDispatcher("Article.jsp");
+				miR.forward(request, response);
 				break;
 			case "reloadCatalogo":
 				act = new ReloadCatalogo();
 				break;
-				
+
 			case "enviarMensaje":
-					
-					operacion= "messages";
-					
-						String mensaje	=  request.getParameter("mensaje");				
-						
-						if (misession.getAttribute("admin")!=null){
-							idemisor= (((User) misession.getAttribute("admin")).getId());
-						} else {
-							idemisor= (((User) misession.getAttribute("usuario")).getId());
-						}
-						int iddestinatario = Integer.parseInt(request.getParameter("idDestinatario"));
-						
-						
-						mensajeSend.setIddestinatario(iddestinatario);
-						mensajeSend.setIdemisor(idemisor);
-						mensajeSend.setMensaje(mensaje);
-						
-						
-						
-						// REST Client using POST Verb and JSON
-						webResource = client.target("http://localhost:8030").path(operacion);
-						webResource.request("application/json").accept("application/json")
-						.post(Entity.entity(mensajeSend, MediaType.APPLICATION_JSON),Mensaje.class);
-						
-						//Consulto de nuevo la conversacion
-						client = ClientBuilder.newClient();
-						webResource = client.target("http://localhost:8030").path(operacion)
-								.path(String.valueOf(idemisor))
-								.path(String.valueOf(iddestinatario));
-						
-						listaMensaje= webResource.request().accept("application/json").get(Mensaje[].class);
-							
-						resultado= Arrays.asList(listaMensaje);
-						
-						request.setAttribute("mensajes", resultado);
-						request.setAttribute("idUserChat", iddestinatario);
-								
-								
-						System.out.println("Se ha enviado el mensaje al usuario: " + iddestinatario);
 
-						// Redireccionamos a la pagina de chat para seguir hablando
-						miR = request.getRequestDispatcher("ChatPrivado.jsp");
+				operacion = "messages";
 
-						miR.forward(request, response);
-						break;
-						
-					
-					
-					
-					
-					case "LeerChat":
-						
-						operacion="messages";
-						if (misession.getAttribute("admin")!=null){
-							usuario = (User) misession.getAttribute("admin");
-							
-						} else {
-							usuario= (User) misession.getAttribute("usuario");
-						}
-						
-						
-						
-						 idPropio= usuario.getId();	
-						 idAjeno=Integer.parseInt(request.getParameter("idUserChat"));
-						
-							// REST Client using GET Verb and Path Variable
-							client = ClientBuilder.newClient();
-							webResource = client.target("http://localhost:8030").path(operacion)
-									.path(String.valueOf(idPropio))
-									.path(String.valueOf(idAjeno));
-							
-							listaMensaje= webResource.request().accept("application/json").get(Mensaje[].class);
-								
-							resultado= Arrays.asList(listaMensaje);
-							
-							request.setAttribute("mensajes", resultado);
-									
-							System.out.println("Se muestran los mensajes recibidos para el usuario: " + usuario.getName());
+				String mensaje = request.getParameter("mensaje");
 
-							// Redireccionamos a la pagina de Login
-							miR = request.getRequestDispatcher("ChatPrivado.jsp");
-
-							miR.forward(request, response);
-							break;
-							
-					case "mostrarConversaciones":
-						
-					
-					List<User> listaConversaciones= new ArrayList<User>();
-						
-					//Si es admin, ejecuto find all() de usuarios.
-					if(misession.getAttribute("admin")!=null){
-						// REST Client using GET Verb and Path Variable
-						
-						operacion="users";
-						client = ClientBuilder.newClient();
-						webResource = client.target("http://localhost:8010").path(operacion);
-						
-						User[] arrayConversaciones= webResource.request().accept("application/json").get(User[].class);
-							
-						listaConversaciones= Arrays.asList(arrayConversaciones);
-						
-						request.setAttribute("listaEmisores", listaConversaciones);
-								
-						System.out.println("Se muestran todas las conversaciones: ");
-
-						// Redireccionamos a la pagina de Login
-						miR = request.getRequestDispatcher("ChatsAbiertos.jsp");
-
-						miR.forward(request, response);
-						
-						
-					}else{
-						usuario = (User) misession.getAttribute("usuario");
-						operacion="messages";
-						idPropio = usuario.getId();
-						
-						System.out.println(idPropio);
-						
-						client = ClientBuilder.newClient();
-						
-						webResource = client.target("http://localhost:8030").path(operacion)
-							.path(String.valueOf(idPropio));
-						User[] arrayConversaciones= webResource.request().accept("application/json").get(User[].class);
-								
-						listaConversaciones= Arrays.asList(arrayConversaciones);
-						
-						request.setAttribute("listaEmisores", listaConversaciones);
-								
-						System.out.println("Se muestran todas las conversaciones de USUARIO: ");
-
-						// Redireccionamos a la pagina de Login
-						miR = request.getRequestDispatcher("ChatsAbiertos.jsp");
-
-						miR.forward(request, response);
-						
-					}
-					break;
-					
-					
-					
-					
-					
-					
-					
+				if (misession.getAttribute("admin") != null) {
+					idemisor = (((User) misession.getAttribute("admin")).getId());
+				} else {
+					idemisor = (((User) misession.getAttribute("usuario")).getId());
 				}
+				int iddestinatario = Integer.parseInt(request.getParameter("idDestinatario"));
+
+				mensajeSend.setIddestinatario(iddestinatario);
+				mensajeSend.setIdemisor(idemisor);
+				mensajeSend.setMensaje(mensaje);
+
+				// REST Client using POST Verb and JSON
+				webResource = client.target("http://localhost:8030").path(operacion);
+				webResource.request("application/json").accept("application/json")
+						.post(Entity.entity(mensajeSend, MediaType.APPLICATION_JSON), Mensaje.class);
+
+				// Consulto de nuevo la conversacion
+				client = ClientBuilder.newClient();
+				webResource = client.target("http://localhost:8030").path(operacion).path(String.valueOf(idemisor))
+						.path(String.valueOf(iddestinatario));
+
+				listaMensaje = webResource.request().accept("application/json").get(Mensaje[].class);
+
+				resultado = Arrays.asList(listaMensaje);
+
+				request.setAttribute("mensajes", resultado);
+				request.setAttribute("idUserChat", iddestinatario);
+
+				System.out.println("Se ha enviado el mensaje al usuario: " + iddestinatario);
+
+				// Redireccionamos a la pagina de chat para seguir hablando
+				miR = request.getRequestDispatcher("ChatPrivado.jsp");
+
+				miR.forward(request, response);
+				break;
+
+			case "LeerChat":
+
+				operacion = "messages";
+				if (misession.getAttribute("admin") != null) {
+					usuario = (User) misession.getAttribute("admin");
+
+				} else {
+					usuario = (User) misession.getAttribute("usuario");
+				}
+
+				idPropio = usuario.getId();
+				idAjeno = Integer.parseInt(request.getParameter("idUserChat"));
+
+				// REST Client using GET Verb and Path Variable
+				client = ClientBuilder.newClient();
+				webResource = client.target("http://localhost:8030").path(operacion).path(String.valueOf(idPropio))
+						.path(String.valueOf(idAjeno));
+
+				listaMensaje = webResource.request().accept("application/json").get(Mensaje[].class);
+
+				resultado = Arrays.asList(listaMensaje);
+
+				request.setAttribute("mensajes", resultado);
+
+				System.out.println("Se muestran los mensajes recibidos para el usuario: " + usuario.getName());
+
+				// Redireccionamos a la pagina de Login
+				miR = request.getRequestDispatcher("ChatPrivado.jsp");
+
+				miR.forward(request, response);
+				break;
+
+			case "mostrarConversaciones":
+
+				List<User> listaConversaciones = new ArrayList<User>();
+
+				// Si es admin, ejecuto find all() de usuarios.
+				if (misession.getAttribute("admin") != null) {
+					// REST Client using GET Verb and Path Variable
+
+					operacion = "users";
+					client = ClientBuilder.newClient();
+					webResource = client.target("http://localhost:8010").path(operacion);
+
+					User[] arrayConversaciones = webResource.request().accept("application/json").get(User[].class);
+
+					listaConversaciones = Arrays.asList(arrayConversaciones);
+
+					request.setAttribute("listaEmisores", listaConversaciones);
+
+					System.out.println("Se muestran todas las conversaciones: ");
+
+					// Redireccionamos a la pagina de Login
+					miR = request.getRequestDispatcher("ChatsAbiertos.jsp");
+
+					miR.forward(request, response);
+
+				} else {
+					usuario = (User) misession.getAttribute("usuario");
+					operacion = "messages";
+					idPropio = usuario.getId();
+
+					System.out.println(idPropio);
+
+					client = ClientBuilder.newClient();
+
+					webResource = client.target("http://localhost:8030").path(operacion).path(String.valueOf(idPropio));
+					User[] arrayConversaciones = webResource.request().accept("application/json").get(User[].class);
+
+					listaConversaciones = Arrays.asList(arrayConversaciones);
+
+					request.setAttribute("listaEmisores", listaConversaciones);
+
+					System.out.println("Se muestran todas las conversaciones de USUARIO: ");
+
+					// Redireccionamos a la pagina de Login
+					miR = request.getRequestDispatcher("ChatsAbiertos.jsp");
+
+					miR.forward(request, response);
+
+				}
+				break;
 
 			}
 
-	
-	
-		
+		}
 
 		act.processAction(request, response);
 
-		}
+	}
 }
-	
-		
-	
-

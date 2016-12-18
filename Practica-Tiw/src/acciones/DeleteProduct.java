@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import clases.Product;
-import clases.User;
 
+import clases.User;
+import es.uc3m.tiw.domains.*;
 public class DeleteProduct implements IAction {
 
 	@Override
@@ -32,7 +32,7 @@ public class DeleteProduct implements IAction {
 		em.getTransaction().begin();
 
 		Query q = em.createNamedQuery("DeleteProduct", Product.class);
-		q.setParameter("id", p.getID());
+		q.setParameter("id", p.getId());
 		q.executeUpdate();
 
 		em.getTransaction().commit();

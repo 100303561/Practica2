@@ -1,9 +1,8 @@
 <%@ page import = "java.io.*" %>
 <%@ page import = "javax.persistence.*" %>
 <%@ page import="es.uc3m.tiw.domains.*"%>
-<%@ page import = "clases.Product" %>
 <%@ page import ="javax.ws.rs.client.*"%>;
-<jsp:useBean id="photo" class="clases.Product" scope="session" />
+<%-- <jsp:useBean id="photo" class="clases.Product" scope="session" /> --%>
 <%
  
 	int idProduct;

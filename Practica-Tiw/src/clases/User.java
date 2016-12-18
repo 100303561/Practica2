@@ -49,8 +49,8 @@ public class User implements Serializable {
 	@Column(name="City")
 	private String city;
 	
-	@OneToMany(cascade={CascadeType.ALL}, mappedBy = "user")
-	private List<Product> product;
+//	@OneToMany(cascade={CascadeType.ALL}, mappedBy = "user")
+//	private List<Product> product;
 	
 	
 	
@@ -100,12 +100,12 @@ public class User implements Serializable {
 				+ password + ", city=" + city + "]";
 	}
 
-	public List<Product> getProduct() {
-		return product;
-	}
-
-	public void setProduct(List<Product> product) {
-		this.product = product;
-	}
+//	public List<Product> getProduct() {
+//		return product;
+//	}
+//
+//	public void setProduct(List<Product> product) {
+//		this.product = product;
+//	}
 	
 }

@@ -29,12 +29,12 @@ public class CatalogController {
 	
 	@RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
 	public Product getSingle(@PathVariable int id) {
-		return (productDAO.findOne(id));
+		return productDAO.findOne(id);
 	}
 	
 	@RequestMapping(value = "/products", method = RequestMethod.GET)
-	public List<Product> getAll(@PathVariable int id) {
-		return (productDAO.findAll());
+	public List<Product> getAll() {
+		return productDAO.findAll();
 	}
 
 	@RequestMapping(value = "/products/{id}", method = RequestMethod.PUT)
@@ -62,10 +62,11 @@ public class CatalogController {
 		return list;
 	}*/
 
-	@RequestMapping(value = "/products/{user}", method = RequestMethod.GET)
-	public List<Product> getProductcByUser(@PathVariable("userID") int userID) {
-		List<Product> list = productDAO.findByUser(userID);
-		System.out.println("Lista: " + list.toString());
-		return list;
-	}
+//	Devuelve todos los productos de un usuario
+//	@RequestMapping(value = "/products/{user}", method = RequestMethod.GET)
+//	public List<Product> getProductcByUser(@PathVariable("userID") int userID) {
+//		List<Product> list = productDAO.findByUser(userID);
+//		System.out.println("Lista: " + list.toString());
+//		return list;
+//	}
 }

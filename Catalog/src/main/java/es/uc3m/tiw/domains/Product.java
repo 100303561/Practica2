@@ -45,8 +45,10 @@ public class Product implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
+
+
 	public Product(int id, String product_name, String category, String description, byte[] imagen, double price,
-			int user, String userName, String status) {
+			int user, String userName, String city, String status) {
 		super();
 		this.id = id;
 		this.product_name = product_name;
@@ -59,6 +61,8 @@ public class Product implements Serializable{
 		this.city = city;
 		this.status = status;
 	}
+
+
 
 	public int getId() {
 		return id;

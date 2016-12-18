@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-import clases.Product;
+import es.uc3m.tiw.domains.*;
 import clases.Status;
 import clases.User;
 
@@ -29,7 +29,7 @@ public class UploadProduct implements IAction {
 
 		p.setCategory(request.getParameter("category"));
 		p.setDescription(request.getParameter("message"));
-		p.setProduct_Name(request.getParameter("title"));
+		p.setProduct_name(request.getParameter("title"));
 		p.setPrice(Double.parseDouble(request.getParameter("price")));
 		
 		
@@ -60,7 +60,7 @@ public class UploadProduct implements IAction {
 		User u1 = (User) misession.getAttribute("usuario");
 
 		// Poner el id_user de la sesion
-		p.setUser(u1);
+//		p.setUser(u1);
 
 		// Guardamos en el nuevo usuario la id que se encuentra en sesion
 	
@@ -72,7 +72,7 @@ public class UploadProduct implements IAction {
 		// Si los nombres son distintos los modifico
 		
 		Status st = em.find(Status.class, 1);
-		p.setStatus(st);
+//		p.setStatus(st);
 		
 		em.getTransaction().begin();
 		em.persist(p);

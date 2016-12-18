@@ -24,6 +24,18 @@
 					<h3 class="text-center">
 						<font color="white" size=7>Chats abiertos con usuarios</font>
 					</h3>
+					<div class="col-md-4" value="Volver a conversaciones"
+					style="margin-bottom: 25px; border-radius: 15px;">
+
+					<form name="do3" method="post" action="ControllerServlet">
+						<input type="submit" class="btn btn-warning"
+							style="border-radius: 10px; border: 1px solid black; max-width: auto; max-height: auto;"
+							value="Volver a Index"> <input type="hidden"
+							name="action" value="reload"> <a
+							href="javascript:document.do3.submit()"></a>
+					</form>
+
+				</div>
 					<div class="row">
 						<center>
 							<div class="col-md-12">
@@ -38,18 +50,8 @@
 
 													<ul id="chatsActivos">
 														<font color="white" size=5><li
-															class="nav__notification__num">Has recibido mensajes
-																de:</li></font>
-														<div id="chatsActivos" class="nav__notification">
-															<%
-																List<User> lista = new ArrayList<User>();
-
-																if (request.getAttribute("listaEmisores") != null) {
-																	lista = (List<User>) request.getAttribute("listaEmisores");
-																	for (int i = 0; i < lista.size(); i++) {
-															%>
-
-														</div>
+															class="nav__notification__num">Contactar con:</li></font>
+														<div id="chatsActivos" class="nav__notification"></div>
 													</ul>
 
 												</form>
@@ -59,6 +61,15 @@
 									</thead>
 									<tbody>
 										<tr>
+											<%
+												List<User> lista = new ArrayList<User>();
+
+												if (request.getAttribute("listaEmisores") != null) {
+													lista = (List<User>) request.getAttribute("listaEmisores");
+													for (int i = 0; i < lista.size(); i++) {
+														if (session.getAttribute("admin") != null) {
+															if (lista.get(i).getAdmin() == 0) {
+											%>
 											<td value=""><font color="white"> <%=lista.get(i).getName()%>
 											</font></td>
 
@@ -79,6 +90,33 @@
 											</form>
 											<%
 												}
+														} else {
+											%>
+
+											<td value=""><font color="white"> <%=lista.get(i).getName()%>
+											</font></td>
+
+
+
+											<td>
+
+
+												<form action="ControllerServlet" name="nombre" method="post">
+													<input type="submit" class="btn btn-info "
+														value="Iniciar chat con usuario"> <input
+														type="hidden" name="idUserChat"
+														value="<%=lista.get(i).getId()%>"> <input
+														type="hidden" name="action" value="LeerChat">
+
+													</button>
+											</td>
+											</form>
+
+
+
+											<%
+												}
+													}
 												}
 											%>
 										</tr>

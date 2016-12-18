@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import clases.Product;
+import es.uc3m.tiw.domains.*;
 import clases.Status;
 import clases.User;
 
@@ -27,7 +27,7 @@ public class UpdateProduct implements IAction {
 
 		// Parametros obtenidos en el formulario para modificar
 
-		p1.setProduct_Name(request.getParameter("name"));
+		p1.setProduct_name(request.getParameter("name"));
 		p1.setCategory(request.getParameter("category"));
 		//Ñapa de ultima hora
 		if (!(String.valueOf(p1.getPrice()).equals(request.getParameter("price")))){

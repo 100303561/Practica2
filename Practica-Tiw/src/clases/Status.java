@@ -31,7 +31,7 @@ public class Status implements Serializable {
 	private String Status;
 	
 	@OneToMany(cascade={CascadeType.ALL}, mappedBy = "status")
-	private List<Product> product;
+//	private List<Product> product;
 
 	public int getID() {
 		return ID;

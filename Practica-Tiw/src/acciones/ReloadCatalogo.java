@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import clases.Product;
+import es.uc3m.tiw.domains.*;
 
 public class ReloadCatalogo implements IAction{
 

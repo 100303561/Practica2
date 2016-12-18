@@ -2,7 +2,6 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ page session="true"%>
 <%@ page import="es.uc3m.tiw.domains.*"%>
-<%@ page import="clases.Product"%>
 <!DOCTYPE html>
 <html lang="en" class="wide wow-animation">
 <head>
@@ -26,7 +25,7 @@
 <body>
 	<%!Product p = new Product();%>
 	<%
-		p = (Product) session.getAttribute("productShow");
+		p = (Product) request.getAttribute("productShow");
 	%>
 	<!-- Page-->
 	<div class="page">
@@ -77,13 +76,19 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-xs-12">
-						<input type="hidden" name="ProductID" value=<%=p.getID()%>>
-						<h1><%=p.getProduct_Name()%></h1>
+						<input type="hidden" name="ProductID" value=<%=p.getId()%>>
+						<h1><%=p.getProduct_name()%></h1>
 						<p></p>
 						<ol class="breadcrumb">
-							<li><a href="Index.jsp">Index</a></li>
+							<li><form name="do3" method="post" action="ControllerServlet">
+						 <input type="hidden" name="action" value="reload"> <a
+							href="javascript:document.do3.submit()">Index</a>
+					</form></li>
+							
+							
+							
 							<li>Ver articulo</li>
-							<li class="active"><%=p.getProduct_Name()%></li>
+							<li class="active"><%=p.getProduct_name()%></li>
 						</ol>
 					</div>
 				</div>
@@ -92,7 +97,7 @@
 		<!-- Section Catalog Single Left-->
 		<section class="section-sm section-sm-mod-2">
 			<div class="container">
-				<h2><%=p.getProduct_Name()%></h2>
+				<h2><%=p.getProduct_name()%></h2>
 				<hr>
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-8">
@@ -100,7 +105,7 @@
 							<!-- Slick Carousel-->
 							<div class="carousel-slider slider">
 								<div class="item" style="width: 450px; height: 450px;">
-									<img src="Image.jsp?imgID=<%=p.getID()%>"
+									<img src="Image.jsp?imgID=<%=p.getId()%>"
 										style="width: 720px; height: 450px;">
 								</div>
 
@@ -137,7 +142,7 @@
 							<div class="sidebar-module cell-sm-6 cell-md-12 cell-md-push-2">
 								<ul class="describe-1 list-unstyled">
 
-									<li><span class="fa fa-check-circle"></span>Estado <%=p.getStatus().getStatus()%></li>
+									<li><span class="fa fa-check-circle"></span>Estado <%=p.getStatus()%></li>
 								</ul>
 								<ul class="describe-2 list-unstyled preffix-2">
 									<li><span class="fa fa-reorder"></span>Categoria <%=p.getCategory()%></li>
